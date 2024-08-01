@@ -1,0 +1,43 @@
+.navigate-products {
+    padding: 20px;
+    background-color: #fff;
+    transition: width 0.3s ease, margin 0.3s ease;
+}
+
+.navigate-products__header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.navigate-products__categories {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.navigate-products__category {
+    background-color: #f0f0f0;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #333;
+    transition: background-color 0.3s;
+}
+
+.navigate-products__category:hover {
+    background-color: #ddd;
+}
+
+.navigate-products__category.active {
+    background-color: #25D366;
+    color: #fff;
+}
+
+@media (max-width: 768px) {
+    .navigate-products {
+        width: 90%;
+        margin: auto;
+    }
+}

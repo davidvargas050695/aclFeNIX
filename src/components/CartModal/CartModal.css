@@ -1,0 +1,64 @@
+.cart-modal {
+    width: 300px;
+    border: 1px solid gray;
+    background-color: white;
+    padding: 10px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.cart-modal__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.cart-modal__close-button {
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+.cart-modal__body {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.cart-modal__image {
+    max-width: 50px;
+    max-height: 50px;
+    margin-right: 10px;
+}
+
+.cart-modal__price, 
+.cart-modal__size, 
+.cart-modal__color {
+    margin: 0 5px;
+}
+
+.cart-modal__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.cart-modal__checkout-button {
+    width: 100%;
+    background-color: black;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.cart-modal__quantity, 
+.cart-modal__name, 
+.cart-modal__subtotal-label, 
+.cart-modal__subtotal-value {
+    margin: 0;
+}
