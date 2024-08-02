@@ -1,0 +1,106 @@
+body {
+    background-image: url('https://dynamopymes.com/wp-content/uploads/2022/08/Sistemas-de-contabilidad.jpg');
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+    align-items: center;
+}
+.login{
+
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 10px 10px 10px 20px;
+    background-color: rgba(64, 59, 80, 0.425);
+    width: 500px; 
+    height: 610px; 
+}
+
+.login__info-container{
+    margin: 20px 20px 20px 20px;
+    text-align: center;
+}
+
+.login__info{
+    margin: 30px 30px 50px 30px;
+    text-align: center;
+}
+
+.login__info-title{
+
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 50px;
+    font-weight: bold;
+    color: #0076a0;
+    margin-bottom: 5px;
+
+}
+
+.login__info-wellcome{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 25px;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 5px;
+}
+
+.login__info-text{
+    font-family:  Arial;
+    font-size: 15px;
+    color: #ffffff;
+    margin: 0 0 10px 0;
+}
+
+
+.login__access_info-container {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px; 
+    margin: 10px 0 30px 10px;
+}
+
+.login__access_info-user, .login__access_info-password {
+    list-style: none;
+    padding-left: 5px;
+}
+
+.access_button {
+    padding: 10px 20px;
+    background-color: #0f5535;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-right: 10px; 
+    margin-left : 10px;
+}
+
+.login__access_buttons-container {
+    display: flex;
+    align-items: center;
+    margin: 50px 50px 50px 50px;
+  }
+
+.login__access_buttons-container a {
+    margin-right: 20px; 
+    margin-left : 20px;
+    color: #12374c;
+  }
+
+.text-box
+{
+    background-color: rgba(0, 0, 0, 0.603);
+    border: 0;
+    color: #ffffff;
+    width: 200px; 
+    height: 30px; 
+}
+
+.icono{
+    color: #ffffff;
+    margin: 0 10px 0 0;
+}
