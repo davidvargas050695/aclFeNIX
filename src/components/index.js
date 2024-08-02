@@ -12,3 +12,5 @@ export { default as Whatshapp } from './Watshapp';
 export { default as Notification  } from './Notification';
 export { default as ProductModalAdd  } from './ProductModalAdd';
 export { default as NotificationMessage  } from './NotificationMessage';
+export { default as PrivateRoute  } from './PrivateRoute';
+export { default as Layout  } from './Layout';
