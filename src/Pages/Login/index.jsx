@@ -1,22 +1,32 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faKey} from '@fortawesome/free-solid-svg-icons';
+import { faUser, faKey } from '@fortawesome/free-solid-svg-icons';
+import apiClient from '../../axios';
 import './Login.css';
 
 function Login({ onLogin }) {
-    const [username, setUsername] = useState("");
+    const [code, setCode] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (username === "user" && password === "password") {
-            onLogin();
-            navigate("/Home");  
-            console.log("Redirigiendo a Home"); 
-        } else {
-            alert("Credenciales inválidas");
+        try {
+            // Hacer la solicitud POST al endpoint /login
+            const response = await apiClient.post('/licensing/login', {
+                code,
+                password
+            });
+            if (response.status === 200) {
+                // Si la autenticación es exitosa
+                onLogin();
+                navigate("/Home");
+            } else {
+                alert("Credenciales inválidas");
+            }
+        } catch (error) {
+            alert("Hubo un problema al iniciar sesión");
         }
     };
 
@@ -39,7 +49,7 @@ function Login({ onLogin }) {
                     <div className="login__access_info-container">
                         <label className="login__access_info-user">
                             <FontAwesomeIcon icon={faUser} className='icono'/>
-                            <input className="text-box" type="text" value={username} onChange={(e) => setUsername(e.target.value)}  placeholder="Usuario"/>
+                            <input className="text-box" type="text" value={code} onChange={(e) => setCode(e.target.value)}  placeholder="Usuario"/>
                         </label>
                         <div className="separator"></div>
                         <label className="login__access_info-password">
@@ -48,8 +58,10 @@ function Login({ onLogin }) {
                         </label>
                     </div>
                     <div className="login__access_buttons-container">
-                        <a href="#" onClick={handleForgotPassword}>¿Olvidaste tu contraseña?</a>
-                        <button className="access_button"type="submit">INGRESAR</button>
+                        <button onClick={handleForgotPassword} className="link-button">
+                            ¿Olvidaste tu contraseña?
+                        </button>
+                        <button className="access_button" type="submit">INGRESAR</button>
                     </div>
                 </form>
             </div>
