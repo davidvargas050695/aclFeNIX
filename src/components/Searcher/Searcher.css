@@ -16,7 +16,7 @@
 }
 
 .searcher__button {
-    background-color: #25D366;
+    background-color: #003471;
     color: white;
     border: none;
     padding: 15px 20px;
@@ -26,7 +26,7 @@
 }
 
 .searcher__button:hover {
-    background-color: #128C7E;
+    background-color: #0c5a77;
 }
 
 .searcher__input:focus {

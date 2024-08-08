@@ -1,9 +1,12 @@
-body {
+.login-container {
+    display: flex; 
     background-image: url('https://dynamopymes.com/wp-content/uploads/2022/08/Sistemas-de-contabilidad.jpg');
     background-size: cover; 
     background-position: center; 
     background-repeat: no-repeat; 
-    align-items: center;
+    width: 100vw; 
+    height: 100vh; 
+    padding: 20px; 
 }
 .login{
 
@@ -29,7 +32,7 @@ body {
 
 .login__info-title{
 
-    font-family: 'Courier New', Courier, monospace;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     font-size: 50px;
     font-weight: bold;
     color: #0076a0;
@@ -45,13 +48,36 @@ body {
     margin-bottom: 5px;
 }
 
+.text-box {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.text-box:focus {
+    border-color: #2f4761;
+    background-color: #3e525c;
+}
+
+.text-box:not(:placeholder-shown) {
+    background-color: #3e525c;
+}
+
+.text-box:-webkit-autofill {
+    border-color: #2f4761;
+    background-color: #0423aa; 
+
+}
+
 .login__info-text{
     font-family:  Arial;
     font-size: 15px;
     color: #ffffff;
     margin: 0 0 10px 0;
 }
-
 
 .login__access_info-container {
 
@@ -113,4 +139,42 @@ body {
     cursor: pointer;
     padding: 0;
     font-size: inherit;
+}
+
+@media (min-width: 600px) {
+    .login {
+        width: 500px;
+        height: 610px;
+        margin: 10px 10px 10px 20px;
+    }
+}
+
+@media (max-width: 599px) {
+    .login {
+        width: 100%;
+        height: auto;
+        margin: 10px;
+    }
+}
+
+@media (max-width: 400px) {
+    .login {
+        flex-direction: column;
+        align-items: center;
+        margin: 5px;
+    }
+}
+
+@media (max-width: 768px) {
+    .login-container {
+        height: auto; 
+        padding: 10px; 
+    }
+}
+
+@media (max-width: 480px) {
+    .login-container {
+        flex-direction: column; 
+        padding: 5px; 
+    }
 }
