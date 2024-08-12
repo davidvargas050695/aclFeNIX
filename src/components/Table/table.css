@@ -1,0 +1,166 @@
+.sales-table-container {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 100%;
+  margin: auto;
+}
+
+.sales-table-header {
+  display: flex;
+  justify-content: space-between; /* Espacio entre los elementos de la cabecera */
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.icon-container-table {
+  width: 40px;
+  height: 40px;
+  background-color: #12509B; /* Color del ícono */
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+}
+
+.icon {
+  color: white;
+  font-size: 24px;
+}
+
+h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: normal;
+  color: #3d4a5c;
+  font-family: "Poppins", sans-serif;
+  text-transform: uppercase;
+  flex-direction: column;
+}
+
+.header-right .search-input {
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ced4da;
+  font-size: 12px;
+  color: #495057;
+}
+
+.sales-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.sales-table thead {
+  background-color: #f9f9f9; /* Fondo claro para los encabezados */
+}
+
+.sales-table th {
+  padding: 15px;
+  text-align: left;
+  font-weight: normal;
+  color: #6c757d; /* Color de texto más claro */
+  text-transform: uppercase; /* Texto en mayúsculas */
+  font-size: 10px; /* Tamaño de letra más pequeño */
+}
+
+.sales-table tbody tr {
+  border-bottom: 1px solid #dee2e6;
+}
+
+.sales-table td {
+  padding: 15px;
+  font-size: 12px; /* Tamaño de letra estándar */
+  color: #495057; /* Color de texto más oscuro */
+}
+
+.flag-column {
+  font-size: 24px;
+}
+
+.label {
+  font-weight: bold;
+  color: #3d4a5c;
+}
+
+/* Estilo adicional para que se vea más parecido a la imagen */
+.sales-table td {
+  vertical-align: middle; /* Alinea verticalmente el contenido de las celdas */
+}
+
+.sales-table .product-column {
+  display: flex;
+  align-items: center;
+}
+
+.sales-table .product-column img {
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+.button-container {
+  display: flex;
+  gap: 10px; /* Espacio entre los botones */
+}
+
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #d4edda; /* Color de fondo similar al de la imagen */
+  border: none;
+  border-radius: 50%; /* Bordes redondeados */
+  padding: 12px 12px; /* Espaciado interno */
+  color: #155724; /* Color del icono */
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.icon-button:hover {
+  background-color: #c3e6cb; /* Color al pasar el mouse */
+}
+
+.edit-button {
+  background-color: #c3e6cb; /* Color específico para el botón de editar */
+}
+
+.delete-button {
+  background-color: #f8d7da; /* Color específico para el botón de eliminar */
+  color: #721c24;
+}
+
+.delete-button:hover {
+  background-color: #f5c6cb;
+}
+
+.company-button {
+  background-color: #bee5eb; /* Color específico para el botón de compañía */
+  color: #0c5460;
+}
+
+.company-button:hover {
+  background-color: #abdde5;
+}
+
+.custom-tooltip {
+  background-color: #4b5563 !important; /* Cambia el color de fondo del tooltip */
+  color: white !important; /* Cambia el color del texto del tooltip */
+  padding: 5px 10px; /* Ajusta el padding según sea necesario */
+  border-radius: 5px; /* Añade bordes redondeados si lo deseas */
+  font-size: 10px !important; /* Tamaño de fuente del tooltip */
+  font-family: "Poppins", sans-serif;
+  font-weight: normal;
+}
+
+/* Opcional: Cambia el color de la flecha del tooltip */
+.custom-tooltip .react-tooltip-arrow {
+  color: #4caf50 !important;
+}

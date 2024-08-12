@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { Login, Home, Shop, Contact, CartShop } from "./Pages";
-import Layout from './components/Layout';
-// import PrivateRoute from './components/PrivateRoute';
+import { Login, Home } from "./Pages";
+import Layout from './components/LayoutSidebar'; // Importa el componente Layout
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -42,7 +41,7 @@ function App() {
           path="/Shop"
           element={
             isAuthenticated ? (
-              <Layout><Shop onLogout={handleLogout} /></Layout>
+              <Layout><Home onLogout={handleLogout} /></Layout>
             ) : (
               <Navigate to="/" />
             )
@@ -52,7 +51,7 @@ function App() {
           path="/Contact"
           element={
             isAuthenticated ? (
-              <Layout><Contact onLogout={handleLogout} /></Layout>
+              <Layout><Home onLogout={handleLogout} /></Layout>
             ) : (
               <Navigate to="/" />
             )
@@ -62,7 +61,7 @@ function App() {
           path="/CartShop"
           element={
             isAuthenticated ? (
-              <Layout><CartShop onLogout={handleLogout} /></Layout>
+              <Layout><Home onLogout={handleLogout} /></Layout>
             ) : (
               <Navigate to="/" />
             )

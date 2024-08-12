@@ -1,0 +1,14 @@
+/* Layout.css */
+
+.app-container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .content {
+    background-color: #F0F2F5; /* Color de fondo para el content */
+    flex: 1; /* Para que el content ocupe el espacio restante */
+    padding: 20px; /* Opcional: puedes ajustar el padding según sea necesario */
+    overflow-y: auto; /* Permite el scroll si el contenido es demasiado grande */
+  }
+  

@@ -1,0 +1,147 @@
+.sidebar {
+  width: 110px;
+  height: calc(98vh - 50px); /* Altura ajustada dinámicamente restando el espacio superior e inferior */
+  background-color: #12509B; /* Color de fondo */
+  padding: 10px;
+  position: fixed;
+  top: 20px; /* Baja un poco el sidebar desde la parte superior */
+  left: 20px; /* Añade un margen desde la izquierda */
+  border-radius: 15px; /* Añade bordes redondeados */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Alinea todo el contenido en el centro horizontalmente */
+  box-shadow: 0px 4px 8px 4px rgba(0, 0, 0, 0.3); /* Añade una sombra para darle un efecto flotante */
+  overflow-y: auto;
+}
+/* Estilos para el scrollbar */
+.sidebar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background-color: #12509B;
+  border-radius: 10px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: #12509B;
+  border-radius: 10px;
+  border: 2px solid #12509B; /* Da un espacio entre la barra y el track */
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background-color: #12509B;
+}
+
+/* Firefox */
+.sidebar {
+  scrollbar-width: thin;
+  scrollbar-color: white #12509B;
+}
+
+.logo img {
+  width: 90px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+nav ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+nav ul li {
+  margin: 15px 0;
+  width: 100%;
+  text-align: center;
+}
+
+.menu-item {
+  color: white;
+  text-decoration: none;
+  font-size: 8px;
+  display: flex;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif;
+  text-transform: uppercase; 
+  flex-direction: column;
+  align-items: center; /* Centra el icono y el texto */
+}
+
+.icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 65px;
+  height: 65px;
+  border-radius: 50%; /* Hace que el contenedor del icono sea circular */
+  margin-right: 10px; /* Espacio entre el icono y el texto */
+  transition: all 0.3s ease;
+  background-color: rgba(10, 50, 100, 0.7);
+  
+}
+.icon-container:hover {
+  animation: pulse 0.6s infinite; /* Aplica la animación de palpitación */
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: translateY(0); /* Posición inicial */
+  }
+  50% {
+    transform: translateY(-5px); /* Desplazamiento hacia arriba */
+  }
+}
+.icon {
+  color: white; /* Color del icono */
+  font-size: 26px; /* Tamaño del icono */
+}
+
+/* Estilos para la flecha */
+/* Ya no es necesario ya que eliminamos la flecha */
+
+/* Agrupando el texto y flecha juntos */
+.menu-text-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Espacio entre el texto y la flecha */
+  width: 100%;
+  margin-top: 5px;
+}
+
+.menu-text {
+  flex-grow: 1;
+  text-align: center;
+  color: white;
+}
+
+.menu-item:hover {
+  color: #f1c40f; /* Color al pasar el mouse */
+}
+
+.submenu {
+  margin-top: 10px;
+  padding-left: 5px;
+}
+
+.submenu-item {
+  color: white; /* Color del texto inicialmente */
+  text-decoration: none;
+  font-size: 8px;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif;
+  text-transform: uppercase; 
+  flex-direction: column;
+  display: block;
+  padding: 5px 10px;
+  border-radius: 8px; /* Bordes redondeados */
+  background-color: transparent; /* Fondo transparente inicialmente */
+}
+.submenu-item:hover {
+  background-color:  rgba(10, 50, 100, 0.7); /* Color de fondo verde al pasar el mouse */
+  color: white; /* Color de las letras blancas */
+  border-radius: 8px; /* Asegura que los bordes redondeados se mantengan al hacer hover */
+  transition: background-color 0.3s ease, color 0.3s ease; /* Transición suave */
+}

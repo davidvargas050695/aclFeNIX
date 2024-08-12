@@ -1,20 +1,30 @@
-body {
-    background-image: url('https://dynamopymes.com/wp-content/uploads/2022/08/Sistemas-de-contabilidad.jpg');
+.login-container {
+    background-image: url('https://maki-acl.s3.amazonaws.com/ACL/fenix.png');
     background-size: cover; 
     background-position: center; 
     background-repeat: no-repeat; 
-    align-items: center;
-}
-.login{
-
     display: flex;
-    justify-content: space-between;
+    justify-content: center; /* Centra horizontalmente el contenedor principal */
+    align-items: center;    /* Centra verticalmente el contenedor principal */
+    height: 100vh;          /* Asegura que cubra toda la ventana */
+    width: 100%;
+}
+
+.login-wrapper {
+    width: 100%;            /* Asegura que el wrapper ocupe todo el ancho */
+    display: flex;
+    justify-content: flex-start;  /* Alinea el contenido hacia la izquierda */
+}
+
+.login {
+    display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
-    max-width: 1200px;
-    margin: 10px 10px 10px 20px;
+    margin-left: 20px;      /* Ajusta el margen izquierdo para darle un espacio desde el borde */
     background-color: rgba(64, 59, 80, 0.425);
-    width: 500px; 
-    height: 610px; 
+    width: 500px;           /* Ancho fijo */
+    height: 610px;          /* Altura fija */
+    padding: 20px;          /* Añade un padding si es necesario */
 }
 
 .login__info-container{

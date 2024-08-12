@@ -1,30 +1,21 @@
-import React, { useState } from 'react';
-import { Carousel, Products, Searcher } from "../../components";
-import slides from "../../data/sliderData";
-import productsData from '../../data/productsData';
+import React from 'react';
 import './Home.css';
+import Header from '../../components/Header';
+import Table from '../../components/Table';
 
-const Home = ({ setItemCount, setTotalPrice }) => {
-    const [products] = useState(productsData);
-    const [filteredProducts, setFilteredProducts] = useState(productsData);
-    const handleSearch = (searchTerm) => {
-        const filtered = products.filter(product => 
-            product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            product.description.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-        setFilteredProducts(filtered);
-    };
-
-    return (
-        <div>
-            <Carousel slides={slides} />
-            <div className="home__products-header">
-                <h2 className="home__products-title">Productos destacados</h2>
-            </div>
-            <Searcher onSearch={handleSearch} />
-            <Products products={filteredProducts} setItemCount={setItemCount} setTotalPrice={setTotalPrice} />
-        </div>
-    );
+const Home = () => {
+  return (
+    <div className="home-container">
+      {/* Renderiza el Header */}
+      <Header />
+      
+      {/* Aquí va el resto del contenido de tu Home */}
+      <div className="home-content">
+        {/* Agrega tu contenido aquí */}
+        <Table isEdit={true} isDelete={true} isCompany={true}  />
+      </div>
+    </div>
+  );
 };
 
 export default Home;
