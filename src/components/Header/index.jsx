@@ -1,22 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faBars } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faBars, faPlus } from '@fortawesome/free-solid-svg-icons';
+import Logout from './logout'; // Asegúrate de que Logout está bien importado
+import ShortcutsModal from './shortcutsModal'; // Importa el nuevo componente de modal
 import './Header.css'; // Asegúrate de tener el archivo de estilos
 
-const Header = () => {
+const Header = ({ onLogout, title }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isShortcutsOpen, setIsShortcutsOpen] = useState(false); // Estado para controlar el modal de atajos
+
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
+  const toggleShortcutsModal = () => {
+    setIsShortcutsOpen(!isShortcutsOpen);
+  };
+
   return (
     <div className="header">
       <div className="breadcrumbs">
-      <FontAwesomeIcon icon={faBars} className="icons" />
-        <span className="breadcrumb-item">Dashboards</span> /
-        <span className="breadcrumb-item">Sales</span>
+        <FontAwesomeIcon icon={faBars} className="icons" />
+        <span className="breadcrumb-item">{title}</span>
       </div>
       <div className="header-content">
-        <h2>Sales</h2>
         <div className="header-actions">
-          <input type="text" placeholder="Buscar" className="search-input" />
-          <FontAwesomeIcon icon={faUser} className="icons" />
+        <button className="shortcut-button" onClick={toggleShortcutsModal}>
+          <FontAwesomeIcon icon={faPlus} className="shortcut-icon" />
+          Atajos
+        </button>
+          <FontAwesomeIcon icon={faUser} className="icons" onClick={toggleModal} />
         </div>
+        <Logout isOpen={isModalOpen} onClose={toggleModal} onLogout={onLogout} />
+        <ShortcutsModal isOpen={isShortcutsOpen} onClose={toggleShortcutsModal} />
       </div>
     </div>
   );

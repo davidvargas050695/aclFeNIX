@@ -1,0 +1,85 @@
+/* ModalProfile.css */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal-container {
+    background-color: white;
+    border-radius: 20px;
+    padding: 20px;
+    text-align: center;
+    max-width: 350px;
+    width: 100%;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .modal-header {
+    margin-bottom: 20px;
+  }
+  
+  .profile-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #12509B; /* Color de fondo */
+    padding: 25px;
+    margin-bottom: 10px;
+  }
+  
+  .profile-name {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .profile-role {
+    font-size: 14px;
+    color: #6c757d;
+    font-family: 'Poppins', sans-serif;
+    text-transform: uppercase;
+  }
+  
+  .modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px; /* Espacio entre los botones */
+  }
+  
+  .modal-button {
+    flex: 1; /* Esto asegura que todos los botones ocupen el mismo espacio */
+    padding: 10px;
+    margin: 0; /* Eliminamos el margen interno */
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 12px;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    text-transform: uppercase;
+    text-align: center; /* Centra el texto horizontalmente */
+    display: flex;
+    align-items: center; /* Centra el contenido verticalmente */
+    justify-content: center; /* Centra el contenido horizontalmente */
+  }
+  
+  .modal-button .fa-icon {
+    margin-right: 8px; /* Espacio entre el icono y el texto */
+  }
+  
+  .profile-button {
+    background-color: #12509B;
+  }
+  
+  .logout-button {
+    background-color: #ED645E;
+  }

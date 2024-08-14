@@ -14,7 +14,7 @@ function Login({ onLogin }) {
     e.preventDefault();
     try {
       // Hacer la solicitud POST al endpoint /login
-      const response = await apiClient.post("/licensing/login", {
+      const response = await apiClient.post("/login", {
         code,
         password,
       });

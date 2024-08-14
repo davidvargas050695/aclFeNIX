@@ -41,10 +41,10 @@ const Sidebar = () => {
             {openMenu === 'dashboard' && (
               <ul className="submenu">
                 <li>
-                  <Link to="/dashboard1" className="submenu-item">Dashboard 1</Link>
+                  <Link to="/Home" className="submenu-item">Inicio</Link>
                 </li>
                 <li>
-                  <Link to="/dashboard2" className="submenu-item">Dashboard 2</Link>
+                  <Link to="/Contract" className="submenu-item">Contratos</Link>
                 </li>
                 <li>
                   <Link to="/dashboard3" className="submenu-item">Dashboard 3</Link>
@@ -54,7 +54,7 @@ const Sidebar = () => {
           </li>
           <li 
             className="menu-item"
-            onMouseEnter={() => handleMouseEnter('usuarios')}
+            onMouseEnter={() => handleMouseEnter('Módulos')}
             onMouseLeave={handleMouseLeave}
           >
             <div className="menu-item">
@@ -64,13 +64,13 @@ const Sidebar = () => {
                 <FontAwesomeIcon icon={faUser} className="icon" />
               </div>
               <div className="menu-text-arrow">
-                <span className="menu-text">Usuarios</span>
+                <span className="menu-text">Módulos</span>
               </div>
             </div>
-            {openMenu === 'usuarios' && (
+            {openMenu === 'Módulos' && (
               <ul className="submenu">
                 <li>
-                  <Link to="/dashboard1" className="submenu-item">Dashboard 1</Link>
+                  <Link to="/Module" className="submenu-item">Lista de Módulos</Link>
                 </li>
                 <li>
                   <Link to="/dashboard2" className="submenu-item">Dashboard 2</Link>
