@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { Login, Home } from "./Pages";
+import { Login, Home, Contract, Module } from "./Pages";
 import Layout from './components/LayoutSidebar'; // Importa el componente Layout
 
 function App() {
@@ -31,27 +31,27 @@ function App() {
           path="/Home"
           element={
             isAuthenticated ? (
-              <Layout><Home setItemCount={() => {}} setTotalPrice={() => {}} /></Layout>
+              <Layout><Home handleLogout={handleLogout} /></Layout>
             ) : (
               <Navigate to="/" />
             )
           }
         />
         <Route
-          path="/Shop"
+          path="/Contract"
           element={
             isAuthenticated ? (
-              <Layout><Home onLogout={handleLogout} /></Layout>
+              <Layout><Contract  handleLogout={handleLogout} /></Layout>
             ) : (
               <Navigate to="/" />
             )
           }
         />
         <Route
-          path="/Contact"
+          path="/Module"
           element={
             isAuthenticated ? (
-              <Layout><Home onLogout={handleLogout} /></Layout>
+              <Layout><Module  handleLogout={handleLogout} /></Layout>
             ) : (
               <Navigate to="/" />
             )
@@ -61,7 +61,7 @@ function App() {
           path="/CartShop"
           element={
             isAuthenticated ? (
-              <Layout><Home onLogout={handleLogout} /></Layout>
+              <Layout><Home  handleLogout={handleLogout} /></Layout>
             ) : (
               <Navigate to="/" />
             )

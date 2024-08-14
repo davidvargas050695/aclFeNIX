@@ -53,6 +53,11 @@ h3 {
   color: #495057;
 }
 
+.header-right .search-input::placeholder {
+  color: #adb5bd; /* Color más claro para el placeholder */
+  opacity: 1; /* Asegura que el placeholder sea completamente visible */
+}
+
 .sales-table {
   width: 100%;
   border-collapse: collapse;
@@ -163,4 +168,15 @@ h3 {
 /* Opcional: Cambia el color de la flecha del tooltip */
 .custom-tooltip .react-tooltip-arrow {
   color: #4caf50 !important;
+}
+
+.no-data {
+  text-align: center; /* Centra el texto horizontalmente */
+  vertical-align: middle; /* Centra el texto verticalmente */
+  height: 100px; /* Altura suficiente para centrar verticalmente */
+  font-weight: bold; /* Opcional: Hace el texto más visible */
+  color: #6c757d; /* Opcional: Añade un color gris al texto */
+  font-family: "Poppins", sans-serif;
+  font-weight: normal;
+  text-transform: uppercase; /* Texto en mayúsculas */
 }
