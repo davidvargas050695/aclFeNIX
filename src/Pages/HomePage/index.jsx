@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import Header from '../../components/Header';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBuilding, faFileContract, faPuzzlePiece } from "@fortawesome/free-solid-svg-icons";
 import "./HomePage.css";
 
-const HomePage = () => {
+const HomePage = ({ handleLogout }) => {
     return (
         <div className="home-container">
             {/* Renderiza el Header */}
-            <Header />
+            <Header title="Inicio" onLogout={handleLogout} />
 
             <div className="home_modules-container">
                 <div className="module_item-container">

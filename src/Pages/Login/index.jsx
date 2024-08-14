@@ -21,7 +21,7 @@ function Login({ onLogin }) {
       if (response.status === 200) {
         // Si la autenticación es exitosa
         onLogin();
-        navigate("/Home");
+        navigate("/HomePage");
       } else {
         alert("Credenciales inválidas");
       }
@@ -58,8 +58,8 @@ function Login({ onLogin }) {
                     onChange={(e) => setCode(e.target.value)}
                     placeholder="Usuario"
                   />
+                  <hr className="line"/> 
                 </label>
-                <div className="separator"></div>
                 <label className="login__access_info-password">
                   <FontAwesomeIcon icon={faKey} className="icono" />
                   <input
