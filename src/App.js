@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { Login, Home, Contract, Module } from "./Pages";
+import { Login, Home, Contract, Module, HomePage } from "./Pages";
 import Layout from './components/LayoutSidebar'; // Importa el componente Layout
 
 function App() {
@@ -23,7 +23,7 @@ function App() {
             !isAuthenticated ? (
               <Login onLogin={handleLogin} />
             ) : (
-              <Navigate to="/Home" />
+              <Navigate to="/HomePage" />
             )
           }
         />
@@ -31,7 +31,7 @@ function App() {
           path="/Home"
           element={
             isAuthenticated ? (
-              <Layout><Home handleLogout={handleLogout} /></Layout>
+              <Layout><HomePage handleLogout={handleLogout} /></Layout>
             ) : (
               <Navigate to="/" />
             )
