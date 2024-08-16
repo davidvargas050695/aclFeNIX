@@ -58,7 +58,6 @@ function Login({ onLogin }) {
                     onChange={(e) => setCode(e.target.value)}
                     placeholder="Usuario"
                   />
-                  <hr className="line"/> 
                 </label>
                 <label className="login__access_info-password">
                   <FontAwesomeIcon icon={faKey} className="icono" />

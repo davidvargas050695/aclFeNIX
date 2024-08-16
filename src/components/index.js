@@ -3,3 +3,7 @@ export { default as Products } from './Products';
 export { default as PrivateRoute  } from './PrivateRoute';
 export { default as Sidebar  } from './Sidebar';
 export { default as LayoutSidebar  } from './LayoutSidebar';
+export { default as SuccessNotification  } from './Notifications/SuccessNotification';
+export { default as ErrorNotification  } from './Notifications/ErrorNotification';
+export { default as WarningNotification  } from './Notifications/WarningNotification';
+export { default as InfoNotification  } from './Notifications/InfoNotification';

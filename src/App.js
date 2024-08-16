@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { Login, Home, Contract, Module, HomePage } from "./Pages";
+import { Login, Home, Contract, Module, HomePage, UserForm,Client,ClientForm } from "./Pages";
 import Layout from './components/LayoutSidebar'; // Importa el componente Layout
 
 function App() {
@@ -42,6 +42,36 @@ function App() {
           element={
             isAuthenticated ? (
               <Layout><Contract  handleLogout={handleLogout} /></Layout>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+         <Route
+          path="/Client"
+          element={
+            isAuthenticated ? (
+              <Layout><Client  handleLogout={handleLogout} /></Layout>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+        <Route
+          path="/ClientForm"
+          element={
+            isAuthenticated ? (
+              <Layout><ClientForm  handleLogout={handleLogout} /></Layout>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+        <Route
+          path="/UserForm"
+          element={
+            isAuthenticated ? (
+              <Layout><UserForm  handleLogout={handleLogout} /></Layout>
             ) : (
               <Navigate to="/" />
             )
