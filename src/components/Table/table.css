@@ -119,41 +119,42 @@ h3 {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background-color: #d4edda; /* Color de fondo similar al de la imagen */
-  border: none;
+  background-color: #ffffff;
+  border: 2px solid #0d47a1; /* Ajusta el color del borde */
   border-radius: 50%; /* Bordes redondeados */
   padding: 12px 12px; /* Espaciado interno */
-  color: #155724; /* Color del icono */
+  color: #0d47a1; /* Color del icono */
   font-size: 12px;
+  z-index: 100;
   cursor: pointer;
+  width: 40px;
   transition: background-color 0.3s ease;
 }
 
-.icon-button:hover {
-  background-color: #c3e6cb; /* Color al pasar el mouse */
-}
+/*.icon-button:hover {
+  background-color: red;
+} */
 
-.edit-button {
-  background-color: #c3e6cb; /* Color específico para el botón de editar */
-}
+/*.edit-button {
+  background-color: #c3e6cb;
+} */
 
-.delete-button {
-  background-color: #f8d7da; /* Color específico para el botón de eliminar */
-  color: #721c24;
-}
+/*.delete-button {
+  background-color: #f8d7da;
+} */
 
-.delete-button:hover {
+/* .delete-button:hover {
   background-color: #f5c6cb;
-}
+} */
 
-.company-button {
-  background-color: #bee5eb; /* Color específico para el botón de compañía */
+/*.company-button {
+  background-color: #bee5eb;
   color: #0c5460;
-}
+} */
 
-.company-button:hover {
+/*.company-button:hover {
   background-color: #abdde5;
-}
+} */
 
 .custom-tooltip {
   background-color: #4b5563 !important; /* Cambia el color de fondo del tooltip */
@@ -180,3 +181,28 @@ h3 {
   font-weight: normal;
   text-transform: uppercase; /* Texto en mayúsculas */
 }
+
+.sales-table tbody tr:hover {
+  background-color: #f1f3f5; /* Cambia el color de fondo al pasar el mouse */
+  cursor: pointer; /* Cambia el cursor al pasar sobre la fila */
+}
+
+.sales-table td {
+  transition: background-color 0.3s ease; /* Añade una transición suave para el cambio de color */
+}
+
+.shortcut-icon-actually {
+  background-color: #12509B; /* Fondo del ícono */
+  color: white; /* Color del ícono */
+  border-radius: 50%;
+  padding: 8px; /* Ajusta el tamaño del ícono */
+  margin: 15px; /* Espacio entre el ícono y el texto */
+  font-size: 14px; /* Tamaño del ícono */
+}
+
+/* Estilo para la fila seleccionada */
+.selected-row {
+  background-color: #f1f3f5; /* Color de fondo para la fila seleccionada */
+  border-left: 4px solid #12509B; /* Añade un borde a la izquierda para resaltar más la fila */
+}
+

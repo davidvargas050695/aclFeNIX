@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import imgFenix from '../../../src/static/fenix.png';
-import { faUser, faTools, faFileAlt, faClipboard, faHome } from '@fortawesome/free-solid-svg-icons'; // Importa los iconos
+import { faThLarge, faUser, faFileAlt, faClipboard, faHome } from '@fortawesome/free-solid-svg-icons'; // Importa los iconos
 import './sidebar.css'; // Importa los estilos
 
 const Sidebar = () => {
@@ -61,7 +61,7 @@ const Sidebar = () => {
               <div 
                 className="icon-container" 
               >
-                <FontAwesomeIcon icon={faUser} className="icon" />
+                <FontAwesomeIcon icon={faThLarge} className="icon" />
               </div>
               <div className="menu-text-arrow">
                 <span className="menu-text">Módulos</span>
@@ -82,14 +82,14 @@ const Sidebar = () => {
             )}
           </li>
           <li>
-            <Link to="/ui-elements" className="menu-item">
+            <Link to="/Customers" className="menu-item">
               <div 
                 className="icon-container"
               >
-                <FontAwesomeIcon icon={faTools} className="icon" />
+                <FontAwesomeIcon icon={faUser} className="icon" />
               </div>
               <div className="menu-text-arrow">
-                <span className="menu-text">UI Elements</span>
+                <span className="menu-text">Clientes</span>
               </div>
             </Link>
           </li>
