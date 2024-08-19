@@ -11,7 +11,7 @@ const ModulesForm = ({ handleLogout }) => {
   const { modules } = location.state || {};
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedRow, setSelectedRow] = useState(null);
-  const [data, setData] = useState(modules); // Estado para almacenar los datos
+  const [data] = useState(modules); // Estado para almacenar los datos
 
   const columns = [
     { title: "Descripción", key: "descripcion" },

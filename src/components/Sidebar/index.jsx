@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import imgFenix from '../../../src/static/fenix.png';
-import { faUser, faTools, faFileAlt, faClipboard, faHome , faCubes, faThLarge} from '@fortawesome/free-solid-svg-icons'; // Importa los iconos
+import { faUser, faFileAlt, faClipboard, faHome , faCubes, faThLarge} from '@fortawesome/free-solid-svg-icons'; // Importa los iconos
 import './sidebar.css'; // Importa los estilos
 
 const Sidebar = () => {
