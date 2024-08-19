@@ -5,3 +5,5 @@ export { default as Module } from './Module/Module';
 export { default as HomePage } from './HomePage';
 export { default as UserForm } from './UserForm';
 export { default as ModulesForm } from './ModulesForm';
+export { default as Client } from './Client';
+export { default as ClientForm } from './ClientForm';

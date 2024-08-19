@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import imgFenix from '../../../src/static/fenix.png';
-import { faThLarge, faUser, faFileAlt, faClipboard, faHome } from '@fortawesome/free-solid-svg-icons'; // Importa los iconos
+import { faUser, faTools, faFileAlt, faClipboard, faHome , faCubes, faThLarge} from '@fortawesome/free-solid-svg-icons'; // Importa los iconos
 import './sidebar.css'; // Importa los estilos
 
 const Sidebar = () => {
@@ -54,7 +54,7 @@ const Sidebar = () => {
           </li>
           <li 
             className="menu-item"
-            onMouseEnter={() => handleMouseEnter('Módulos')}
+            onMouseEnter={() => handleMouseEnter('Clientes')}
             onMouseLeave={handleMouseLeave}
           >
             <div className="menu-item">
@@ -62,6 +62,32 @@ const Sidebar = () => {
                 className="icon-container" 
               >
                 <FontAwesomeIcon icon={faThLarge} className="icon" />
+              </div>
+              <div className="menu-text-arrow">
+                <span className="menu-text">Clientes</span>
+              </div>
+            </div>
+            {openMenu === 'Clientes' && (
+              <ul className="submenu">
+                <li>
+                  <Link to="/Client" className="submenu-item">Lista de Clientes</Link>
+                </li>
+                <li>
+                  <Link to="/dashboard2" className="submenu-item">Dashboard 2</Link>
+                </li>
+              </ul>
+            )}
+          </li>
+          <li 
+            className="menu-item"
+            onMouseEnter={() => handleMouseEnter('Módulos')}
+            onMouseLeave={handleMouseLeave}
+          >
+            <div className="menu-item">
+              <div 
+                className="icon-container" 
+              >
+                <FontAwesomeIcon icon={faCubes} className="icon" />
               </div>
               <div className="menu-text-arrow">
                 <span className="menu-text">Módulos</span>
