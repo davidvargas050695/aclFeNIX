@@ -1,0 +1,38 @@
+.home-container-form {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  margin-left: 145px;
+  width: calc(100% - 180px);
+}
+
+.actions-container-form {
+  display: flex;
+  justify-content: flex-end; /* Alinea los elementos a la izquierda */
+  gap: 1px; /* Añade espacio entre los elementos */
+  flex-grow: 1;
+  padding: 10px;
+  width: 101%;
+}
+
+
+.main-content {
+  display: flex;
+  justify-content: space-between; /* Espacio entre los dos contenedores */
+  align-items: flex-start;
+  padding: 15px;
+  width: 101%;
+  height: 100vh;
+}
+
+.home-content-form {
+  width: 43%; /* Ajusta el ancho del primer contenedor */
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.additional-info-container {
+  width: 50%; /* Ajusta el ancho del segundo contenedor */
+  padding: 1px;
+}

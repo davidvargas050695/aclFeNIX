@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { Login, Home, Contract, Module, HomePage, UserForm,Client,ClientForm } from "./Pages";
-import Layout from './components/LayoutSidebar'; // Importa el componente Layout
+import { LayoutSidebar } from './components'; // Importa el componente Layout
+import { Login, Home, Contract, Module, HomePage, UserForm,Client,ClientForm, ModulesForm, Customers } from "./Pages";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -31,7 +31,7 @@ function App() {
           path="/Home"
           element={
             isAuthenticated ? (
-              <Layout><HomePage handleLogout={handleLogout} /></Layout>
+              <LayoutSidebar><HomePage handleLogout={handleLogout} /></LayoutSidebar>
             ) : (
               <Navigate to="/" />
             )
@@ -41,7 +41,7 @@ function App() {
           path="/Contract"
           element={
             isAuthenticated ? (
-              <Layout><Contract  handleLogout={handleLogout} /></Layout>
+              <LayoutSidebar><Contract  handleLogout={handleLogout} /></LayoutSidebar>
             ) : (
               <Navigate to="/" />
             )
@@ -81,17 +81,27 @@ function App() {
           path="/Module"
           element={
             isAuthenticated ? (
-              <Layout><Module  handleLogout={handleLogout} /></Layout>
+              <LayoutSidebar><Module  handleLogout={handleLogout} /></LayoutSidebar>
             ) : (
               <Navigate to="/" />
             )
           }
         />
         <Route
-          path="/CartShop"
+          path="/Customers"
           element={
             isAuthenticated ? (
-              <Layout><Home  handleLogout={handleLogout} /></Layout>
+              <LayoutSidebar><Customers  handleLogout={handleLogout} /></LayoutSidebar>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+        <Route
+          path="/ModulesForm"
+          element={
+            isAuthenticated ? (
+              <LayoutSidebar><ModulesForm  handleLogout={handleLogout} /></LayoutSidebar>
             ) : (
               <Navigate to="/" />
             )

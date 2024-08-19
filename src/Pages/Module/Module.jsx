@@ -35,6 +35,7 @@ const Module = ({ handleLogout }) => {
     { title: "descripcion", key: "descripcion" },
     { title: "origen", key: "origen" },
     { title: "codigo", key: "codigo" },
+    { title: "Acciones", key: "acciones" },
   ];
 
   const itemsPerPage = 50;

@@ -1,0 +1,106 @@
+.basic-info-form-container {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 0 auto;
+    font-weight: normal;
+    font-family: 'Poppins', sans-serif;
+    text-transform: uppercase; 
+}
+
+.basic-info-form-title {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.basic-info-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.basic-info-form-group {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    align-items: flex-start;
+}
+
+.basic-info-form-group label {
+    font-size: 14px;
+    color: #6c757d;
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+.basic-info-form-group input,
+.basic-info-form-group select {
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #495057;
+    width: 100%;
+}
+
+.basic-info-date-picker {
+    display: flex;
+    gap: 10px;
+}
+
+.basic-info-date-picker select {
+    flex: 1;
+}
+
+/* Estilo del botón personalizado */
+.basic-form-footer {
+    display: flex;
+    justify-content: flex-end; /* Alinea el botón al lado derecho */
+    margin-top: 20px;
+}
+
+.basic-custom-button {
+    display: inline-flex;
+    align-items: center;
+    background-color: #ffffff;
+    border: 2px solid #0d47a1; /* Ajusta el color del borde */
+    border-radius: 12px;
+    padding: 10px 20px;
+    color: #0d47a1; /* Ajusta el color del texto */
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.basic-custom-button:hover {
+    background-color: #0d47a1;
+    color: #ffffff;
+}
+
+.basic-button-icon {
+    margin-right: 8px; /* Espacio entre el icono y el texto */
+    font-size: 16px; /* Tamaño del icono */
+}
+
+.custom-date-picker {
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #0d47a1;
+    width: 100%;
+}
+
+.basic-shortcut-icon {
+    background-color: #12509B; /* Fondo del ícono */
+    color: white; /* Color del ícono */
+    border-radius: 50%;
+    padding: 4px; /* Ajusta el tamaño del ícono */
+    margin-right: 5px; /* Espacio entre el ícono y el texto */
+    font-size: 10px; /* Tamaño del ícono */
+}

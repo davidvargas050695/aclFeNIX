@@ -1,42 +1,34 @@
 import React, { useState, useEffect } from 'react';
-import './Contract.css';
-import { useLocation, useNavigate } from 'react-router-dom';
+import './Customer.css';
 import Header from '../../components/Header';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faEdit, faTrashAlt, faBuilding, faFileContract } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faEdit, faTrashAlt, faUser, faFileContract } from '@fortawesome/free-solid-svg-icons';
 import Table from '../../components/Table'; // Asegúrate de que el path sea correcto
 import Section from '../../components/Section';
 import apiClient from "../../axios"; // Asegúrate de tener configurado tu cliente API
 import { Tooltip } from "react-tooltip";
+import { useNavigate } from 'react-router-dom'
 
-const Contract = ({ handleLogout }) => {
+const Customer = ({ handleLogout }) => {
   const [data, setData] = useState([]);
-  const [contract, setContract] = useState('');
   const [search, setSearch] = useState('');
-  const location = useLocation();
-  const { customer } = location.state || {};
-  console.log('customer::: ', customer);
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
 
-  
   const handleSearch = async () => {
     try {
       // Construir la URL con los query params
       const params = new URLSearchParams();
-       if (search) params.append('search', search);
-      if (customer) params.append('customer', customer);
-      const endpoint = customer ? '/contracts/1' : `/contracts/${contract}`;
-      const response = await apiClient.get(`${endpoint}?${params.toString()}`);
+      if (search) params.append('search', search);
+
+      const response = await apiClient.get(`/clients?${params.toString()}`);
       
       if (Array.isArray(response.data)) {
         setData(response.data); // Si es un array, lo dejamos tal cual
       } else {
         setData([response.data]); // Si es un objeto, lo encapsulamos en un array
       }
-      if (customer) {
-        navigate(location.pathname, { replace: true, state: { ...location.state, customer: null } });
-      }
+      
     } catch (error) {
       console.error("Error al obtener los datos del servicio", error);
     }
@@ -47,18 +39,20 @@ const Contract = ({ handleLogout }) => {
   }, []); // El array vacío asegura que solo se ejecute una vez al montar el componente
 
   const columns = [
-    { title: "Número de contrato", key: "numCont" },
-    { title: "Cliente", key: "razonSocial" },
+    { title: "Código", key: "code" },
+    { title: "Rázon Social", key: "socialReason" },
     { title: "Cédula", key: "cif" },
+    { title: "Creado", key: "created" },
     { title: "Acciones", key: "acciones" },
   ];
   const itemsPerPage = 50;
   const paginatedData = data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
   const renderRow = (item, index) => (
     <>
-      <td>{item.numCont}</td>
-      <td>{item.razonSocial}</td>
+      <td>{item.code}</td>
+      <td>{item.socialReason}</td>
       <td>{item.cif}</td>
+      <td>{item.created}</td>
       <td>
         <div className="button-container">
           <Tooltip id="edit-tooltip" className="custom-tooltip" />
@@ -68,8 +62,7 @@ const Contract = ({ handleLogout }) => {
             data-tooltip-content="Editar"
             onClick={(e) => {
               e.stopPropagation();
-              // Aquí va tu lógica para editar
-              console.log('Editar', item.numCont);
+              handleSearch();
             }}
           >
             <FontAwesomeIcon icon={faEdit} />
@@ -92,18 +85,21 @@ const Contract = ({ handleLogout }) => {
             className="icon-button company-button"
             onClick={(e) => {
               e.stopPropagation();
-              navigate('/ModulesForm', { state: { modules: item.modules } });
+              navigate('/Contract', { state: { customer: item.code } });
             }}
             data-tooltip-id="contract-tooltip"
-            data-tooltip-content="Módulos"
+            data-tooltip-content="Contratos"
           >
-            <FontAwesomeIcon icon={faBuilding} />
+            <FontAwesomeIcon icon={faFileContract} />
           </button>
         </div>
       </td>
     </>
   );
   
+  const handleRefresh = () => {
+    handleSearch();
+  };
 
   return (
     <div className="home-container">
@@ -112,16 +108,6 @@ const Contract = ({ handleLogout }) => {
       <div className="home-content">
         <Section>
           <div className="filter-form">
-            <div className="form-group">
-              <label htmlFor="contract">Contrato</label>
-              <input
-                type="text"
-                id="contract"
-                value={contract}
-                onChange={(e) => setContract(e.target.value)}
-                placeholder="Contrato"
-              />
-            </div>
             <div className="form-group">
               <label htmlFor="customer">Cliente</label>
               <input
@@ -139,19 +125,20 @@ const Contract = ({ handleLogout }) => {
           </div>
         </Section>
         <Table 
-          title='Lista de Contratos' 
+          title='Lista de Clientes' 
           rows={paginatedData} 
           columns={columns} 
-          icon={faFileContract}
+          icon={faUser}
           renderRow={renderRow}
           currentPage={currentPage}
           totalItems={data.length}
           itemsPerPage={itemsPerPage}
           onPageChange={(page) => setCurrentPage(page)}
+          onRefresh={handleRefresh}
         />
       </div>
     </div>
   );
 };
 
-export default Contract;
+export default Customer;
