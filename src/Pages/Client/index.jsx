@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Client.css';
 import Header from '../../components/Header';
@@ -6,11 +6,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrashAlt, faBuilding, faUser } from '@fortawesome/free-solid-svg-icons';
 import Table from '../../components/Table'; // Asegúrate de que el path sea correcto
 import Section from '../../components/Section';
-import apiClient from "../../axios"; // Asegúrate de tener configurado tu cliente API
+// import apiClient from "../../axios"; // Asegúrate de tener configurado tu cliente API
 import { Tooltip } from "react-tooltip";
 
 const Client = ({ handleLogout }) => {
-    const [data, setData] = useState([]);
+    const [data] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
 
     const columns = [

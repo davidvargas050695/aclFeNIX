@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './Customer.css';
 import Header from '../../components/Header';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,7 +15,7 @@ const Customer = ({ handleLogout }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
 
-  const handleSearch = async () => {
+  const handleSearch = useCallback(async () => {
     try {
       // Construir la URL con los query params
       const params = new URLSearchParams();
@@ -32,11 +32,11 @@ const Customer = ({ handleLogout }) => {
     } catch (error) {
       console.error("Error al obtener los datos del servicio", error);
     }
-  };
+  }, [search]);
 
   useEffect(() => {
     handleSearch(); // Llama a la función handleSearch cuando se carga el componente
-  }, []); // El array vacío asegura que solo se ejecute una vez al montar el componente
+  }, [handleSearch]); // Añade handleSearch como dependencia
 
   const columns = [
     { title: "Código", key: "code" },
@@ -45,8 +45,10 @@ const Customer = ({ handleLogout }) => {
     { title: "Creado", key: "created" },
     { title: "Acciones", key: "acciones" },
   ];
+
   const itemsPerPage = 50;
   const paginatedData = data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  
   const renderRow = (item, index) => (
     <>
       <td>{item.code}</td>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './Contract.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Header from '../../components/Header';
@@ -19,20 +19,19 @@ const Contract = ({ handleLogout }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
 
-  
-  const handleSearch = async () => {
+  // Memoiza la función handleSearch
+  const handleSearch = useCallback(async () => {
     try {
-      // Construir la URL con los query params
       const params = new URLSearchParams();
-       if (search) params.append('search', search);
+      if (search) params.append('search', search);
       if (customer) params.append('customer', customer);
       const endpoint = customer ? '/contracts/1' : `/contracts/${contract}`;
       const response = await apiClient.get(`${endpoint}?${params.toString()}`);
       
       if (Array.isArray(response.data)) {
-        setData(response.data); // Si es un array, lo dejamos tal cual
+        setData(response.data);
       } else {
-        setData([response.data]); // Si es un objeto, lo encapsulamos en un array
+        setData([response.data]);
       }
       if (customer) {
         navigate(location.pathname, { replace: true, state: { ...location.state, customer: null } });
@@ -40,11 +39,12 @@ const Contract = ({ handleLogout }) => {
     } catch (error) {
       console.error("Error al obtener los datos del servicio", error);
     }
-  };
+  }, [search, contract, customer, navigate, location.pathname, location.state]);
 
+  // Ejecuta handleSearch cuando el componente se monta
   useEffect(() => {
-    handleSearch(); // Llama a la función handleSearch cuando se carga el componente
-  }, []); // El array vacío asegura que solo se ejecute una vez al montar el componente
+    handleSearch();
+  }, [handleSearch]); // Incluye handleSearch en el array de dependencias
 
   const columns = [
     { title: "Número de contrato", key: "numCont" },
@@ -52,8 +52,10 @@ const Contract = ({ handleLogout }) => {
     { title: "Cédula", key: "cif" },
     { title: "Acciones", key: "acciones" },
   ];
+
   const itemsPerPage = 50;
   const paginatedData = data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
   const renderRow = (item, index) => (
     <>
       <td>{item.numCont}</td>
@@ -68,7 +70,6 @@ const Contract = ({ handleLogout }) => {
             data-tooltip-content="Editar"
             onClick={(e) => {
               e.stopPropagation();
-              // Aquí va tu lógica para editar
               console.log('Editar', item.numCont);
             }}
           >
@@ -81,7 +82,6 @@ const Contract = ({ handleLogout }) => {
             className="icon-button delete-button"
             onClick={(e) => {
               e.stopPropagation();
-              // Aquí va tu lógica para eliminar
               console.log('Eliminar', item.numCont);
             }}
           >
@@ -103,12 +103,10 @@ const Contract = ({ handleLogout }) => {
       </td>
     </>
   );
-  
 
   return (
     <div className="home-container">
       <Header onLogout={handleLogout} title='Contratos' />
-      
       <div className="home-content">
         <Section>
           <div className="filter-form">

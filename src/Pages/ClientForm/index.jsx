@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSave } from '@fortawesome/free-solid-svg-icons';
 import Header from '../../components/Header';
@@ -7,7 +7,8 @@ import WarningNotification from '../../components/Notifications/WarningNotificat
 import './ClientForm.css';
 
 const ClientForm = ({ handleLogout }) => {
-    const [formData, setFormData] = useState({
+    // const [formData, setFormData] = useState({
+    const [formData] = useState({
         firstName: '',
         lastName: '',
         emailConfirm: '',
@@ -23,23 +24,23 @@ const ClientForm = ({ handleLogout }) => {
         address: ''
     });
 
-    const handleChange = (e) => {
+    /* const handleChange = (e) => {
         setFormData({
             ...formData,
             [e.target.name]: e.target.value
         });
-    };
+    }; */
 
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log('Datos del formulario:', formData);
     };
 
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
-    const handleCancel = () => {
+    /*  const handleCancel = () => {
         navigate(-1); // Esto te lleva a la página anterior
-    };
+    }; */
 
     const [isNotificationVisible, setIsNotificationVisible] = useState(false);
 
