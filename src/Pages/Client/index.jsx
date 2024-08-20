@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import './Client.css';
 import Header from '../../components/Header';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrashAlt, faBuilding, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrashAlt, faBuilding, faUser, faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import Table from '../../components/Table'; // Asegúrate de que el path sea correcto
 import Section from '../../components/Section';
 // import apiClient from "../../axios"; // Asegúrate de tener configurado tu cliente API
@@ -57,7 +57,9 @@ const Client = ({ handleLogout }) => {
             <div className="home-content">
                 <Section>
                     <div className="filter-form">
+
                         <Link to="/ClientForm" className="add-client-button">
+                            <FontAwesomeIcon icon={faUserPlus} className="shortcut-icon" />
                             Crear Nuevo Cliente
                         </Link>
                     </div>

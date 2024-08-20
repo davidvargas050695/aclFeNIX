@@ -24,23 +24,10 @@ const ClientForm = ({ handleLogout }) => {
         address: ''
     });
 
-    /* const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
-    }; */
-
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log('Datos del formulario:', formData);
     };
-
-    // const navigate = useNavigate();
-
-    /*  const handleCancel = () => {
-        navigate(-1); // Esto te lleva a la página anterior
-    }; */
 
     const [isNotificationVisible, setIsNotificationVisible] = useState(false);
 
@@ -48,7 +35,7 @@ const ClientForm = ({ handleLogout }) => {
         setIsNotificationVisible(true);
         setTimeout(() => {
             setIsNotificationVisible(false);
-        }, 3000);
+        }, 90000);
     };
 
 
@@ -61,22 +48,22 @@ const ClientForm = ({ handleLogout }) => {
                 </div>
                 <div className="form-row">
                     <div className="form-group">
-                        <label>RAZÓN SOCIAL</label>
-                        <input type="text" placeholder="Alec" />
+                        <label className="clientForm-label">RAZÓN SOCIAL</label>
+                        <input className="clientForm-input" type="text" placeholder="Alex Torres" />
                     </div>
                     <div className="form-group">
-                        <label>NOMBRE COMERCIAL</label>
-                        <input type="text" placeholder="Nombre Comercial" />
+                        <label className="clientForm-label">NOMBRE COMERCIAL</label>
+                        <input className="clientForm-input" type="text" placeholder="Nombre Comercial" />
                     </div>
                 </div>
 
                 <div className="form-row">
                     <div className="form-group">
-                        <label>CÉDULA/RUC</label>
-                        <input type="text" />
+                        <label className="clientForm-label">CÉDULA/RUC</label>
+                        <input className="clientForm-input" type="text" placeholder="9999999999" />
                     </div>
                     <div className="form-group">
-                        <label>TIPO DOCUMENTO DE IDENTIFICACIÓN</label>
+                        <label className="clientForm-label">TIPO DOCUMENTO DE IDENTIFICACIÓN</label>
                         <select>
                             <option value="1">Cédula</option>
                             <option value="2">RUC</option>
@@ -87,23 +74,23 @@ const ClientForm = ({ handleLogout }) => {
 
                 <div className="form-row">
                     <div className="form-group">
-                        <label>EMAIL</label>
-                        <input type="email" placeholder="email@example.com" />
+                        <label className="clientForm-label">EMAIL</label>
+                        <input className="clientForm-input" type="email" placeholder="email@example.com" />
                     </div>
                     <div className="form-group">
-                        <label>CONFIRMATION EMAIL</label>
-                        <input type="email" placeholder="Confirm Email" />
+                        <label>CONFIRMACIÓN DE EMAIL</label>
+                        <input className="clientForm-input" type="email" placeholder="Confoirmación Email" />
                     </div>
                 </div>
 
                 <div className="form-row">
                     <div className="form-group">
-                        <label>DIRECCIÓN</label>
-                        <input type="text" placeholder="Location" />
+                        <label className="clientForm-label">DIRECCIÓN</label>
+                        <input className="clientForm-input" type="text" placeholder="Dirección" />
                     </div>
                     <div className="form-group">
-                        <label>NÚMERO DE TELÉFONO</label>
-                        <input type="tel" placeholder="123-456-7890" />
+                        <label className="clientForm-label">NÚMERO DE TELÉFONO</label>
+                        <input className="clientForm-input" type="tel" placeholder="0999999999" />
                     </div>
                 </div>
                 <div className="button-action">

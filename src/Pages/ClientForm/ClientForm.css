@@ -34,17 +34,17 @@
   flex-direction: column;
 }
 
-.form-group label {
+.form-group .clientForm-label {
   margin-bottom: 5px;
 }
 
-.form-group input{
+.form-group .clientForm-input{
   padding: 10px;
   border: 1px solid #ced4da;
   border-radius: 4px;
   font-size: 14px;
   color: #495057;
-  width: 1000px;
+  width: 100%;
 }
 .form-group select {
   padding: 10px;

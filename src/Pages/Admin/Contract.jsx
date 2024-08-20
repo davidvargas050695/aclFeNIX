@@ -27,7 +27,7 @@ const Contract = ({ handleLogout }) => {
       if (customer) params.append('customer', customer);
       const endpoint = customer ? '/contracts/1' : `/contracts/${contract}`;
       const response = await apiClient.get(`${endpoint}?${params.toString()}`);
-      
+
       if (Array.isArray(response.data)) {
         setData(response.data);
       } else {
@@ -113,6 +113,7 @@ const Contract = ({ handleLogout }) => {
             <div className="form-group">
               <label htmlFor="contract">Contrato</label>
               <input
+                className="contract-input"
                 type="text"
                 id="contract"
                 value={contract}
@@ -123,6 +124,7 @@ const Contract = ({ handleLogout }) => {
             <div className="form-group">
               <label htmlFor="customer">Cliente</label>
               <input
+                className="contract-input"
                 type="text"
                 id="customer"
                 value={search}
@@ -136,10 +138,10 @@ const Contract = ({ handleLogout }) => {
             </button>
           </div>
         </Section>
-        <Table 
-          title='Lista de Contratos' 
-          rows={paginatedData} 
-          columns={columns} 
+        <Table
+          title='Lista de Contratos'
+          rows={paginatedData}
+          columns={columns}
           icon={faFileContract}
           renderRow={renderRow}
           currentPage={currentPage}

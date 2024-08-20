@@ -6,15 +6,15 @@ import './SuccessNotification.css';
 const SuccessNotification = ({ message, isVisible, onClose }) => {
     return (
         isVisible && (
-            <div className="success-notification">
-                <div className="icon-container-noti">
+            <div className="success-notification-success">
+                <div className="icon-container-noti-success">
                     <FontAwesomeIcon icon={faCircleCheck} className="icon-noti" />
                 </div>
-                <div className="message-container">
+                <div className="message-container-success">
                     <h4>Éxito</h4>
                     <p>{message}</p>
                 </div>
-                <div className="close-container" onClick={onClose}>
+                <div className="close-container-success" onClick={onClose}>
                     X
                 </div>
             </div>

@@ -113,6 +113,7 @@ const Customer = ({ handleLogout }) => {
             <div className="form-group">
               <label htmlFor="customer">Cliente</label>
               <input
+                className="customer-input"
                 type="text"
                 id="customer"
                 value={search}

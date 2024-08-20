@@ -1,199 +1,248 @@
 .login-container {
-    background-image: url('https://maki-acl.s3.amazonaws.com/ACL/fenix.png');
-    background-size: cover; 
-    background-position: center; 
-    background-repeat: no-repeat; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px;
+  background-image: url('https://maki-acl.s3.amazonaws.com/ACL/fenix.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
 }
 
 .login-wrapper {
-    width: 100%;            /* Asegura que el wrapper ocupe todo el ancho */
-    display: flex;
-    justify-content: flex-start;  /* Alinea el contenido hacia la izquierda */
+  width: 100%;
+  /* Asegura que el wrapper ocupe todo el ancho */
+  display: flex;
+  justify-content: flex-start;
+  /* Alinea el contenido hacia la izquierda */
 }
 
 .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #f0f2f5;
-    padding: 20px;
-  }
-  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f0f2f5;
+  padding: 20px;
+}
+
 
 .login {
-    border-radius: 10%;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    margin: 50px;      /* Ajusta el margen izquierdo para darle un espacio desde el borde */
-    background-color: rgba(207, 205, 212, 0.377);
-    width: 500px;           /* Ancho fijo */
-    height: 610px;          /* Altura fija */
-    padding: 20px;          /* Añade un padding si es necesario */
+  border-radius: 10%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  margin: 50px;
+  /* Ajusta el margen izquierdo para darle un espacio desde el borde */
+  background-color: rgba(207, 205, 212, 0.377);
+  width: 500px;
+  /* Ancho fijo */
+  height: 610px;
+  /* Altura fija */
+  padding: 20px;
+  /* Añade un padding si es necesario */
 }
 
-.login__info-container{
-    margin: 20px 20px 20px 20px;
-    text-align: center;
+.login__info-container {
+  margin: 20px 20px 20px 20px;
+  text-align: center;
 }
 
-.login__info{
-    margin: 30px 30px 50px 30px;
-    text-align: center;
+.login__info {
+  margin: 30px 30px 50px 30px;
+  text-align: center;
 }
 
-.login__info-title{
+.login__info-title {
 
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 60px;
-    font-weight: bold;
-    color: #123865;
-    margin-bottom: 10px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 60px;
+  font-weight: bold;
+  color: #123865;
+  margin-bottom: 10px;
 
 }
 
-.login__info-wellcome{
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    font-size: 25px;
-    font-weight: bold;
-    color: #ffffff;
-    margin-bottom: 5px;
+.login__info-wellcome {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-size: 25px;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 5px;
 }
 
-.login__info-text{
-    font-family:  Arial;
-    font-size: 15px;
-    color: #ffffff;
-    margin: 0 0 10px 0;
+.login__info-text {
+  font-family: Arial;
+  font-size: 15px;
+  color: #ffffff;
+  margin: 0 0 10px 0;
 }
 
 
 .login__access_info-container {
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px; 
-    margin: 10px
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  margin: 10px
 }
 
-.login__access_info-user, .login__access_info-password {
-    list-style: none;
-    padding-left: 5px;
-    margin: 5px;
+.login__access_info-user {
+  list-style: none;
+  padding-left: 5px;
+  margin: 5px;
 }
 
 .access_button {
-    padding: 10px 20px;
-    background-color: #0f5535;
-    color: white;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    margin: 20px;
+  display: inline-flex;
+  align-items: center;
+  background-color: #ffffff;
+  border: 2px solid #0d47a1;
+  border-radius: 12px;
+  padding: 10px 20px;
+  color: #0d47a1;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, color 0.3s;
+  margin-left: auto;
 }
+
 .access_button:hover {
-    background-color: #32614c;
+  background-color: #0d47a1;
+  color: #ffffff;
 }
 
 .login__access_buttons-container {
-    display: flex;
-    align-items: center;
-    margin: 50px 50px 50px 50px;
-  }
+  display: flex;
+  align-items: center;
+  margin: 50px 50px 50px 50px;
+}
 
 .login__access_buttons-container a {
-    margin-right: 20px; 
-    margin-left : 20px;
-    color: #5dbce1;
-  }
-
-.text-box
-{
-    background-color: rgba(0, 0, 0, 0.603);
-    border: 0;
-    color: #ffffff;
-    width: 200px; 
-    height: 30px; 
-    
-}
-.text-box:focus {
-  background-color: #1d444e73; 
+  margin-right: 20px;
+  margin-left: 20px;
+  color: #5dbce1;
 }
 
-.icono{
-    color: #ffffff;
-    margin: 0 10px 0 0;
+.text-box-login {
+  background-color: rgba(0, 0, 0, 0.603);
+  border: 0;
+  color: #ffffff;
+  width: 200px;
+  height: 30px;
+
+}
+
+.text-box-login:focus {
+  background-color: #1d444e73;
+}
+
+.icono {
+  color: #ffffff;
+  margin: 0 10px 0 0;
 }
 
 .link-button {
-    background: none;
-    border: none;
-    color: #122455;
-    text-decoration: underline;
-    cursor: pointer;
-    padding: 0;
-    font-size: inherit;
+  background: none;
+  border: none;
+  color: #122455;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+  font-size: inherit;
 }
+
 .line {
   border: 0;
   height: 2px;
-  background-color: #021526; 
-  margin-top: 15px; 
+  background-color: #021526;
+  margin-top: 15px;
   margin-bottom: 1px;
   width: 100%;
 }
 
+.login__access_info-password,
+.login__access_info-user {
+  margin: 10px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-input-container,
+.user-input-container {
+  position: relative;
+  width: 100%;
+}
+
+.text-box-login {
+  width: 100%;
+  padding-right: 40px;
+  /* Espacio para el ícono */
+  box-sizing: border-box;
+}
+
+.password-toggle-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #666;
+}
+
+
 @media (max-width: 768px) {
-    .login-wrapper {
-      max-width: 100%;
-      margin: 0 10px;
-    }
-  
-    .login__info-container, .login__access-container {
-      padding: 10px;
-    }
-  
-    .login__info-title {
-      font-size: 20px;
-    }
-  
-    .login__info-wellcome {
-      font-size: 18px;
-    }
-  
-    .login__access_buttons-container {
-      flex-direction: column;
-      gap: 10px;
-    }
-  
-    .access_button {
-      width: 100%;
-    }
+  .login-wrapper {
+    max-width: 100%;
+    margin: 0 10px;
   }
-  
-  /* Media queries para pantallas muy pequeñas (móviles) */
-  @media (max-width: 480px) {
-    .login-wrapper {
-      box-shadow: none;
-      border-radius: 0;
-    }
-  
-    .login__info-title, .login__info-wellcome {
-      font-size: 20%;
-    }
-  
-    .text-box {
-      padding: 8px;
-    }
-  
-    .access_button {
-      padding: 8px 15px;
-    }
+
+  .login__info-container,
+  .login__access-container {
+    padding: 10px;
   }
+
+  .login__info-title {
+    font-size: 20px;
+  }
+
+  .login__info-wellcome {
+    font-size: 18px;
+  }
+
+  .login__access_buttons-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .access_button {
+    width: 100%;
+  }
+}
+
+/* Media queries para pantallas muy pequeñas (móviles) */
+@media (max-width: 480px) {
+  .login-wrapper {
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  .login__info-title,
+  .login__info-wellcome {
+    font-size: 20%;
+  }
+
+  .text-box {
+    padding: 8px;
+  }
+
+  .access_button {
+    padding: 8px 15px;
+  }
+}

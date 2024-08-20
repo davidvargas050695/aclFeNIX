@@ -7,14 +7,14 @@ const ErrorNotification = ({ message, isVisible, onClose }) => {
     return (
         isVisible && (
             <div className="error-notification">
-                <div className="icon-container-noti">
+                <div className="icon-container-noti-error">
                     <FontAwesomeIcon icon={faCircleXmark} className="icon-noti" />
                 </div>
-                <div className="message-container">
+                <div className="message-container-error">
                     <h4>Error</h4>
                     <p>{message}</p>
                 </div>
-                <div className="close-container" onClick={onClose}>
+                <div className="close-container-error" onClick={onClose}>
                     X
                 </div>
             </div>
