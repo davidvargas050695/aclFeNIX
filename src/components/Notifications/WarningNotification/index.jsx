@@ -7,14 +7,14 @@ const WarningNotification = ({ message, isVisible, onClose }) => {
     return (
         isVisible && (
             <div className="warning-notification">
-                <div className="icon-container-noti">
+                <div className="icon-container-noti-warnning">
                     <FontAwesomeIcon icon={faCircleExclamation} className="icon-noti" />
                 </div>
-                <div className="message-container">
+                <div className="message-container-warnning">
                     <h4>Advertencia</h4>
                     <p>{message}</p>
                 </div>
-                <div className="close-container" onClick={onClose}>
+                <div className="close-container-warnning" onClick={onClose}>
                     X
                 </div>
             </div>

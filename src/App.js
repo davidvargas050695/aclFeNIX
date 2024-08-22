@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { LayoutSidebar } from './components'; // Importa el componente Layout
-import { Login, Contract, Module, HomePage, UserForm,Client,ClientForm, ModulesForm, Customers } from "./Pages";
+import { Login, Contract, Module, HomePage, Client, ClientForm, ModulesForm, Customers, ModuleNew } from "./Pages";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -41,17 +41,17 @@ function App() {
           path="/Contract"
           element={
             isAuthenticated ? (
-              <LayoutSidebar><Contract  handleLogout={handleLogout} /></LayoutSidebar>
+              <LayoutSidebar><Contract handleLogout={handleLogout} /></LayoutSidebar>
             ) : (
               <Navigate to="/" />
             )
           }
         />
-         <Route
+        <Route
           path="/Client"
           element={
             isAuthenticated ? (
-              <LayoutSidebar><Client  handleLogout={handleLogout} /></LayoutSidebar>
+              <LayoutSidebar><Client handleLogout={handleLogout} /></LayoutSidebar>
             ) : (
               <Navigate to="/" />
             )
@@ -61,17 +61,17 @@ function App() {
           path="/ClientForm"
           element={
             isAuthenticated ? (
-              <LayoutSidebar><ClientForm  handleLogout={handleLogout} /></LayoutSidebar>
+              <LayoutSidebar><ClientForm handleLogout={handleLogout} /></LayoutSidebar>
             ) : (
               <Navigate to="/" />
             )
           }
         />
         <Route
-          path="/UserForm"
+          path="/ClientForm"
           element={
             isAuthenticated ? (
-              <LayoutSidebar><UserForm  handleLogout={handleLogout} /></LayoutSidebar>
+              <LayoutSidebar><ClientForm handleLogout={handleLogout} /></LayoutSidebar>
             ) : (
               <Navigate to="/" />
             )
@@ -81,7 +81,7 @@ function App() {
           path="/Module"
           element={
             isAuthenticated ? (
-              <LayoutSidebar><Module  handleLogout={handleLogout} /></LayoutSidebar>
+              <LayoutSidebar><Module handleLogout={handleLogout} /></LayoutSidebar>
             ) : (
               <Navigate to="/" />
             )
@@ -91,7 +91,7 @@ function App() {
           path="/Customers"
           element={
             isAuthenticated ? (
-              <LayoutSidebar><Customers  handleLogout={handleLogout} /></LayoutSidebar>
+              <LayoutSidebar><Customers handleLogout={handleLogout} /></LayoutSidebar>
             ) : (
               <Navigate to="/" />
             )
@@ -101,7 +101,26 @@ function App() {
           path="/ModulesForm"
           element={
             isAuthenticated ? (
-              <LayoutSidebar><ModulesForm  handleLogout={handleLogout} /></LayoutSidebar>
+              <LayoutSidebar><ModulesForm handleLogout={handleLogout} /></LayoutSidebar>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+        <Route
+          path="/ModuleNew"
+          element={
+            isAuthenticated ? (
+              <LayoutSidebar><ModuleNew handleLogout={handleLogout} /></LayoutSidebar>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+        <Route path="/ModuleNew/:productId"
+          element={
+            isAuthenticated ? (
+              <LayoutSidebar><ModuleNew handleLogout={handleLogout} /></LayoutSidebar>
             ) : (
               <Navigate to="/" />
             )

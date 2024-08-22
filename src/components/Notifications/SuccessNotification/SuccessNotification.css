@@ -1,4 +1,4 @@
-.success-notification {
+.success-notification-success {
     display: flex;
     background-color: #4caf50; 
     color: white;
@@ -12,37 +12,26 @@
     width: 300px; 
 }
 
-.icon-container-noti {
-    margin-left: 10px;
-    margin-right: 15px;
+.icon-container-noti-success{
+    padding: 20px;
   }
   
   .icon-noti {
     font-size: 30px;
   }
 
-.message-container {
+.message-container-success {
     flex-grow: 1;
 }
 
-.message-container h4 {
-    margin: 0;
-    margin-bottom: 5px;
-    font-size: 18px;
-}
-
-.message-container p {
-    margin: 0;
-}
-
-.close-container {
+.close-container-success {
     background-color: #388e3c; 
     padding: 0 15px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    height:100PX; 
+    height:80px; 
     color: white; 
     margin-right: 0px;
     border-top-right-radius: 5px; 

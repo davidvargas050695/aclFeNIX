@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faKey } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faKey, faEye, faEyeSlash, faRightToBracket} from "@fortawesome/free-solid-svg-icons";
 import apiClient from "../../axios";
 import "./Login.css";
 
@@ -9,6 +9,11 @@ function Login({ onLogin }) {
   const [code, setCode] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+
+  const toggleShowPassword = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -52,30 +57,37 @@ function Login({ onLogin }) {
                 <label className="login__access_info-user">
                   <FontAwesomeIcon icon={faUser} className="icono" />
                   <input
-                    className="text-box"
+                    className="text-box-login"
                     type="text"
                     value={code}
                     onChange={(e) => setCode(e.target.value)}
                     placeholder="Usuario"
                   />
                 </label>
-                <label className="login__access_info-password">
+                <div className="login__access_info-password">
                   <FontAwesomeIcon icon={faKey} className="icono" />
-                  <input
-                    className="text-box"
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Contraseña"
-                  />
-                </label>
+                  <div className="password-input-container">
+                    <input
+                      className="text-box-login"
+                      type={showPassword ? "text" : "password"}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="Contraseña"
+                    />
+                    <FontAwesomeIcon
+                      icon={showPassword ? faEyeSlash : faEye}
+                      className="password-toggle-icon"
+                      onClick={toggleShowPassword}
+                    />
+                  </div>
+                </div>
               </div>
               <div className="login__access_buttons-container">
                 <button onClick={handleForgotPassword} className="link-button">
                   ¿Olvidaste tu contraseña?
                 </button>
                 <button className="access_button" type="submit">
-                  INGRESAR
+                <FontAwesomeIcon icon={faRightToBracket} className="shortcut-icon" />INGRESAR
                 </button>
               </div>
             </form>

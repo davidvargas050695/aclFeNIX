@@ -1,0 +1,39 @@
+.moduleNew-form-container {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    margin: 0 auto;
+    font-weight: normal;
+    font-family: 'Poppins', sans-serif;
+    text-transform: uppercase;
+}
+.button-return-container{
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+.basic-return-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    border: 1px solid #0d47a1; 
+    border-radius: 50%; 
+    width: 40px; 
+    height: 40px; 
+    color: #0d47a1; 
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.basic-return-button:hover {
+    background-color: #0d47a1;
+    color: #ffffff;
+}

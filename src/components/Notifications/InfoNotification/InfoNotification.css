@@ -1,4 +1,4 @@
-.info-notification {
+.info-notification-info{
     display: flex;
     background-color: #009FBD; 
     color: white;
@@ -14,33 +14,28 @@
     padding-right: 0px;
 }
 
-.icon-container-noti {
-    margin-left: 10px;
-    margin-right: 15px;
+.icon-container-noti-info {
+  padding: 20px;
 }
   
 .icon-noti {
     font-size: 30px;
 }
 
-.message-container {
+.message-container-info {
     flex-grow: 1;
 }
 
-.message-container h4 {
+.message-container-info h4 {
     margin: 0;
     margin-bottom: 5px;
     font-size: 18px;
 }
 
-.message-container p {
+.message-container-info p {
     margin: 0;
 }
-
-
-
-
-.close-container {
+.close-container-info {
     background-color: #038eaa; 
     padding: 0 15px;
     display: flex;
@@ -51,7 +46,9 @@
     margin-right: 0px;
     border-top-right-radius: 5px; 
     border-bottom-right-radius: 5px; 
-    height: 100px; 
+    height: 80px; 
+    border-top-right-radius: 5px; 
+    border-bottom-right-radius: 5px; 
 }
 
 

@@ -22,20 +22,26 @@
   }
   
   .add-client-button {
-    background-color: #28a745; 
-    color: white;
-    border-radius: 5px;
-    padding: 8px 10px; 
-    font-size: 12px; 
-    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    background-color: #ffffff;
+    border: 2px solid #0d47a1;
+    border-radius: 12px;
+    padding: 10px 20px;
+    color: #0d47a1;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
     cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, color 0.3s;
+    margin-left: auto; 
   }
   
   .add-client-button:hover {
-    background-color: #218838; 
+    background-color: #0d47a1;
+    color: #ffffff;
   }
-  
   
   .form-group {
     display: flex;
@@ -47,17 +53,6 @@
     margin-bottom: 5px;
     font-weight: normal;
     font-family: 'Poppins', sans-serif;
-  }
-  
-  input[type="text"], select {
-    width: 200px;
-    padding: 10px;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-  }
-  
-  select {
-    background-color: #ffffff;
   }
   
   .search-button {
@@ -85,3 +80,4 @@
     margin-right: 8px; /* Espacio entre el ícono y el texto */
     font-size: 16px; /* Tamaño del ícono */
   }
+

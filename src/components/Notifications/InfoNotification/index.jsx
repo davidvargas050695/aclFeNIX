@@ -6,15 +6,15 @@ import './InfoNotification.css';
 const InfoNotification = ({ message, isVisible, onClose }) => {
     return (
         isVisible && (
-            <div className="info-notification">
-                <div className="icon-container-noti">
+            <div className="info-notification-info">
+                <div className="icon-container-noti-info">
                     <FontAwesomeIcon icon={faCircleInfo} className="icon-noti" />
                 </div>
-                <div className="message-container">
+                <div className="message-container-info">
                     <h4>Información</h4>
                     <p>{message}</p>
                 </div>
-                <div className="close-container" onClick={onClose}>
+                <div className="close-container-info" onClick={onClose}>
                     X
                 </div>
             </div>

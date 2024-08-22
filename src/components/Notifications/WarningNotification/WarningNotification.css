@@ -12,37 +12,36 @@
     width: 300px; 
 }
 
-.icon-container-noti {
-    margin-left: 10px;
-    margin-right: 15px;
+.icon-container-noti-warnning {
+   padding: 20px;
   }
   
-  .icon-noti {
+  .icon-noti-warnning {
     font-size: 30px;
   }
 
-.message-container {
+.message-container-warnning{
     flex-grow: 1;
 }
 
-.message-container h4 {
+.message-container-warnning h4 {
     margin: 0;
     margin-bottom: 5px;
     font-size: 18px;
 }
 
-.message-container p {
+.message-container-warnning p {
     margin: 0;
 }
 
-.close-container {
+.close-container-warnning{
     background-color: #e2b84d; 
     padding: 0 15px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    height:100PX; 
+    height:80px; 
     color: white; 
     margin-right: 0px;
     border-top-right-radius: 5px; 

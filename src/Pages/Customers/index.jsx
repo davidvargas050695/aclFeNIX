@@ -111,8 +111,9 @@ const Customer = ({ handleLogout }) => {
         <Section>
           <div className="filter-form">
             <div className="form-group">
-              <label htmlFor="customer">Cliente</label>
+              <label htmlFor="customer">CLIENTES</label>
               <input
+                className="customer-input"
                 type="text"
                 id="customer"
                 value={search}

@@ -84,7 +84,7 @@ const ModulesForm = ({ handleLogout }) => {
             <ContractForm selectedRow={selectedRow} />
           </div>
         </div>
-      </div>Z
+      </div>
     </div>
   );
 };
