@@ -110,7 +110,7 @@ const Contract = ({ handleLogout }) => {
       <div className="home-content">
         <Section>
           <div className="filter-form">
-            <div className="form-group">
+            <div className="form-group-contract ">
               <label htmlFor="contract">Contrato</label>
               <input
                 className="contract-input"
@@ -121,7 +121,7 @@ const Contract = ({ handleLogout }) => {
                 placeholder="Contrato"
               />
             </div>
-            <div className="form-group">
+            <div className="form-group-contract ">
               <label htmlFor="customer">Cliente</label>
               <input
                 className="contract-input"

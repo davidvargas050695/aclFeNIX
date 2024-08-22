@@ -20,7 +20,7 @@
   align-items: flex-start;
 }
 
-.form-group {
+.form-group-contract {
   display: flex;
   flex-direction: column;
   padding: 10px;

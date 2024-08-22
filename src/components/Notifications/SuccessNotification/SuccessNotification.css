@@ -24,16 +24,6 @@
     flex-grow: 1;
 }
 
-.message-container-success h4 {
-    margin: 0;
-    margin-bottom: 5px;
-    font-size: 18px;
-}
-
-.message-container-success p {
-    margin: 0;
-}
-
 .close-container-success {
     background-color: #388e3c; 
     padding: 0 15px;

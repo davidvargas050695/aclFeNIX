@@ -35,7 +35,7 @@ const ClientForm = ({ handleLogout }) => {
         setIsNotificationVisible(true);
         setTimeout(() => {
             setIsNotificationVisible(false);
-        }, 90000);
+        }, 3000);
     };
 
 

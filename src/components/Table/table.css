@@ -77,6 +77,7 @@ h3 {
 }
 
 .sales-table tbody tr {
+  text-align: left;
   border-bottom: 1px solid #dee2e6;
 }
 
@@ -131,9 +132,10 @@ h3 {
   transition: background-color 0.3s ease;
 }
 
-/*.icon-button:hover {
-  background-color: red;
-} */
+.icon-button:hover {
+  background-color: #0d47a1;
+  color: white;
+} 
 
 /*.edit-button {
   background-color: #c3e6cb;

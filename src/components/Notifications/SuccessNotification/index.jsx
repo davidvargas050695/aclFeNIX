@@ -11,8 +11,8 @@ const SuccessNotification = ({ message, isVisible, onClose }) => {
                     <FontAwesomeIcon icon={faCircleCheck} className="icon-noti" />
                 </div>
                 <div className="message-container-success">
-                    <h4>Éxito</h4>
-                    <p>{message}</p>
+                    <h4 className="title-noti"> Éxito</h4>
+                    <p className="info-noti">{message}</p>
                 </div>
                 <div className="close-container-success" onClick={onClose}>
                     X

@@ -11,8 +11,8 @@ const ErrorNotification = ({ message, isVisible, onClose }) => {
                     <FontAwesomeIcon icon={faCircleXmark} className="icon-noti" />
                 </div>
                 <div className="message-container-error">
-                    <h4>Error</h4>
-                    <p>{message}</p>
+                    <h4 className="title-noti">Error</h4>
+                    <p className="info-noti">{message}</p>
                 </div>
                 <div className="close-container-error" onClick={onClose}>
                     X

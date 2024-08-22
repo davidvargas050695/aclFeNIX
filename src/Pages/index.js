@@ -6,3 +6,4 @@ export { default as HomePage } from './HomePage';
 export { default as ModulesForm } from './ModulesForm';
 export { default as Client } from './Client';
 export { default as ClientForm } from './ClientForm';
+export { default as ModuleNew } from './ModuleNew/ModuleNew';
