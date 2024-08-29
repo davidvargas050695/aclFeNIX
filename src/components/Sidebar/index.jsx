@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import imgFenix from '../../../src/static/fenix.png';
-import { faUser, faFileAlt, faClipboard, faHome , faCubes, faThLarge} from '@fortawesome/free-solid-svg-icons'; // Importa los iconos
+import { faUser, faFileAlt, faClipboard, faHome , faCubes, faFileContract} from '@fortawesome/free-solid-svg-icons'; // Importa los iconos
 import './sidebar.css'; // Importa los estilos
 
 const Sidebar = () => {
@@ -54,32 +54,6 @@ const Sidebar = () => {
           </li>
           <li 
             className="menu-item"
-            onMouseEnter={() => handleMouseEnter('Clientes')}
-            onMouseLeave={handleMouseLeave}
-          >
-            <div className="menu-item">
-              <div 
-                className="icon-container" 
-              >
-                <FontAwesomeIcon icon={faThLarge} className="icon" />
-              </div>
-              <div className="menu-text-arrow">
-                <span className="menu-text">Clientes</span>
-              </div>
-            </div>
-            {openMenu === 'Clientes' && (
-              <ul className="submenu">
-                <li>
-                  <Link to="/Client" className="submenu-item">Lista de Clientes</Link>
-                </li>
-                <li>
-                  <Link to="/dashboard2" className="submenu-item">Dashboard 2</Link>
-                </li>
-              </ul>
-            )}
-          </li>
-          <li 
-            className="menu-item"
             onMouseEnter={() => handleMouseEnter('Módulos')}
             onMouseLeave={handleMouseLeave}
           >
@@ -120,14 +94,14 @@ const Sidebar = () => {
             </Link>
           </li>
           <li>
-            <Link to="/pages" className="menu-item">
+            <Link to="/Contract" className="menu-item">
               <div 
                 className="icon-container"
               >
-                <FontAwesomeIcon icon={faFileAlt} className="icon" />
+                <FontAwesomeIcon icon={faFileContract} className="icon" />
               </div>
               <div className="menu-text-arrow">
-                <span className="menu-text">Pages</span>
+                <span className="menu-text">Contratos</span>
               </div>
             </Link>
           </li>

@@ -1,15 +1,16 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './Contract.css';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Header from '../../components/Header';
+import { Header, ActionButton, Table, ContractForm } from '../../components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faEdit, faTrashAlt, faBuilding, faFileContract } from '@fortawesome/free-solid-svg-icons';
-import Table from '../../components/Table'; // Asegúrate de que el path sea correcto
+import { faSearch, faEdit, faTrashAlt, faBuilding, faFileContract, faFileCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import Section from '../../components/Section';
-import apiClient from "../../axios"; // Asegúrate de tener configurado tu cliente API
+import apiClient from "../../axios";
 import { Tooltip } from "react-tooltip";
 
+
 const Contract = ({ handleLogout }) => {
+  const [selectedRow, setSelectedRow] = useState(null);
   const [data, setData] = useState([]);
   const [contract, setContract] = useState('');
   const [search, setSearch] = useState('');
@@ -18,6 +19,12 @@ const Contract = ({ handleLogout }) => {
   console.log('customer::: ', customer);
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
+
+  // Función que se ejecuta cuando se selecciona una fila
+  const handleRowClick = (item) => {
+    console.log('item::: ', item);
+    setSelectedRow(item);
+  };
 
   // Memoiza la función handleSearch
   const handleSearch = useCallback(async () => {
@@ -57,7 +64,7 @@ const Contract = ({ handleLogout }) => {
   const paginatedData = data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   const renderRow = (item, index) => (
-    <>
+    <tr onClick={() => handleRowClick(item)} key={index}>
       <td>{item.numCont}</td>
       <td>{item.razonSocial}</td>
       <td>{item.cif}</td>
@@ -101,55 +108,60 @@ const Contract = ({ handleLogout }) => {
           </button>
         </div>
       </td>
-    </>
+    </tr>
   );
 
   return (
-    <div className="home-container">
+    <div className="home-container-form">
       <Header onLogout={handleLogout} title='Contratos' />
-      <div className="home-content">
-        <Section>
-          <div className="filter-form">
-            <div className="form-group-contract ">
-              <label htmlFor="contract">Contrato</label>
-              <input
-                className="contract-input"
-                type="text"
-                id="contract"
-                value={contract}
-                onChange={(e) => setContract(e.target.value)}
-                placeholder="Contrato"
-              />
+      <div className="main-content">
+        <div className="home-content-form">
+          <Section>
+            <div className="filter-form">
+              <div className="form-group-contract ">
+                <input
+                  className="contract-input"
+                  type="text"
+                  id="contract"
+                  value={contract}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Buscar..."
+                />
+              </div>
             </div>
-            <div className="form-group-contract ">
-              <label htmlFor="customer">Cliente</label>
-              <input
-                className="contract-input"
-                type="text"
-                id="customer"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Cliente"
-              />
+            <div className="button-add">
+              <button
+                className="basic-custom-button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate('/ContractNew');
+                }}
+              >
+                <FontAwesomeIcon className="basic-shortcut-icon" icon={faFileCirclePlus} />
+                Crear Nuevo Contrato
+              </button>
             </div>
-            <button className="search-button" onClick={handleSearch}>
-              <FontAwesomeIcon icon={faSearch} className="search-icon" />
-              Buscar
-            </button>
+          </Section>
+          <Table
+            title='Lista de Contratos'
+            rows={paginatedData}
+            columns={columns}
+            icon={faFileContract}
+            renderRow={renderRow}
+            currentPage={currentPage}
+            totalItems={data.length}
+            itemsPerPage={itemsPerPage}
+            onPageChange={(page) => setCurrentPage(page)}
+            selectedRow={selectedRow}
+          />
+        </div>
+        <div className="additional-info-container">
+          <div>
+            <ContractForm selectedRow={selectedRow} />
           </div>
-        </Section>
-        <Table
-          title='Lista de Contratos'
-          rows={paginatedData}
-          columns={columns}
-          icon={faFileContract}
-          renderRow={renderRow}
-          currentPage={currentPage}
-          totalItems={data.length}
-          itemsPerPage={itemsPerPage}
-          onPageChange={(page) => setCurrentPage(page)}
-        />
+        </div>
       </div>
+
     </div>
   );
 };

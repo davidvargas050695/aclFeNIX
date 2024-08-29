@@ -3,18 +3,23 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import './SuccessNotification.css';
 
-const SuccessNotification = ({ message, isVisible, onClose }) => {
+const SuccessNotification = ({ message, isVisible, onClose, position }) => {
+    const notificationClass = position === 'center' ? 'success-notification-center' : 'success-notification-success';
+    const iconContainerClass = position === 'center' ? 'icon-container-noti-center' : 'icon-container-noti-success';
+    const messageContainerClass = position === 'center' ? 'message-container-center' : 'message-container-success';
+    const closeContainerClass = position === 'center' ? 'close-container-center' : 'close-container-success';
+
     return (
         isVisible && (
-            <div className="success-notification-success">
-                <div className="icon-container-noti-success">
+            <div className={notificationClass}>
+                <div className={iconContainerClass}>
                     <FontAwesomeIcon icon={faCircleCheck} className="icon-noti" />
                 </div>
-                <div className="message-container-success">
-                    <h4 className="title-noti"> Éxito</h4>
+                <div className={messageContainerClass}>
+                    <h4 className="title-noti">Éxito</h4>
                     <p className="info-noti">{message}</p>
                 </div>
-                <div className="close-container-success" onClick={onClose}>
+                <div className={closeContainerClass} onClick={onClose}>
                     X
                 </div>
             </div>

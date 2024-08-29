@@ -21,22 +21,25 @@
     gap: 20px;
 }
 
-.basic-info-form-group {
+.basic-info-form-group2 {
     display: flex;
     flex-direction: column;
     margin: 10px;
     align-items: flex-start;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); 
+    padding: 15px; 
+    border-radius: 5px; 
 }
 
-.basic-info-form-group label {
+.basic-info-form-group2 label {
     font-size: 14px;
-    color: #6c757d;
+    color: #000102;
     margin-bottom: 5px;
     text-align: left;
 }
 
-.basic-info-form-group input,
-.basic-info-form-group select {
+.basic-info-form-group2 input,
+.basic-info-form-group2 select {
     padding: 10px;
     border: 1px solid #ced4da;
     border-radius: 4px;
@@ -46,29 +49,32 @@
 }
 
 .basic-info-date-picker {
+    width: 100%;
     display: flex;
     gap: 10px;
 }
 
 .basic-info-date-picker select {
     flex: 1;
+    width: 100%;
 }
 
 /* Estilo del botón personalizado */
 .basic-form-footer {
+    gap: 15px;
     display: flex;
     justify-content: flex-end; /* Alinea el botón al lado derecho */
-    margin-top: 20px;
+    margin-top: 25px;
 }
 
 .basic-custom-button {
     display: inline-flex;
     align-items: center;
     background-color: #ffffff;
-    border: 2px solid #0d47a1; /* Ajusta el color del borde */
+    border: 2px solid #0d47a1; 
     border-radius: 12px;
     padding: 10px 20px;
-    color: #0d47a1; /* Ajusta el color del texto */
+    color: #0d47a1; 
     font-size: 12px;
     font-weight: bold;
     text-transform: uppercase;
@@ -100,7 +106,32 @@
     background-color: #12509B; /* Fondo del ícono */
     color: white; /* Color del ícono */
     border-radius: 50%;
-    padding: 4px; /* Ajusta el tamaño del ícono */
+    padding: 8px; /* Ajusta el tamaño del ícono */
     margin-right: 5px; /* Espacio entre el ícono y el texto */
     font-size: 15px; /* Tamaño del ícono */
 }
+
+.basic-info-form-group3 {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    align-items: flex-start;
+  }
+  
+  .basic-info-form-group3 label {
+    font-size: 14px;
+    color: #000000;
+    margin-bottom: 5px;
+    text-align: left;
+  }
+  
+  .basic-info-form-group3 input,
+  .basic-info-form-group3 select {
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #495057;
+    width: 50%;
+  }

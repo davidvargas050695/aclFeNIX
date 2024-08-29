@@ -7,9 +7,8 @@ import SuccessNotification from '../../components/Notifications/SuccessNotificat
 import ErrorNotification from '../../components/Notifications/ErrorNotification';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import 'react-datepicker/dist/react-datepicker.css';
-import { faSave, faRotate, faCircleArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faSave, faRotate, faCircleArrowLeft, faXmark } from '@fortawesome/free-solid-svg-icons';
 import apiClient from "../../axios";
-
 
 const ModuleNew = ({ handleLogout }) => {
   const navigate = useNavigate();
@@ -51,17 +50,12 @@ const ModuleNew = ({ handleLogout }) => {
       if (productId) {
         // Modo edición: usar PATCH
         await apiClient.patch(`/products/${productId}`, payloadUpdate);
-        console.log('Producto actualizado exitosamente');
       } else {
         // Modo creación: usar POST
         await apiClient.post('/products', payload);
-        console.log('Producto guardado exitosamente');
       }
       setIsSuccessVisible(true);
       setIsErrorVisible(false);
-      setCodigo('');
-      setOrigen('');
-      setDescripcion('');
       setTimeout(() => {
         setIsSuccessVisible(false);
       }, 4000);
@@ -78,7 +72,7 @@ const ModuleNew = ({ handleLogout }) => {
 
   return (
     <div className="home-container">
-      <Header onLogout={handleLogout} title='Contratos' />
+      <Header onLogout={handleLogout} title='Módulo' />
       <Section>
         <div className="button-return-container">
           <FontAwesomeIcon
@@ -105,12 +99,16 @@ const ModuleNew = ({ handleLogout }) => {
           </div>
           <div className="basic-info-form-group">
             <label>Origen</label>
-            <input
-              type="text"
-              placeholder="Origen"
+            <select
               value={origen}
               onChange={(e) => setOrigen(e.target.value)}
-            />
+            >
+              <option value="">Seleccione una opción</option>
+              <option value="WinDev">WinDev</option>
+              <option value="VFoxPro">Visual FoxPro</option>
+              <option value="C#">C#</option>
+              <option value="Móvil">Móvil</option>
+            </select>
           </div>
           <div className="basic-info-form-group">
             <label>Descripción</label>
@@ -123,6 +121,16 @@ const ModuleNew = ({ handleLogout }) => {
           </div>
         </div>
         <div className="basic-form-footer">
+          <button
+            className="basic-custom-button"
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate('/Module');
+            }}
+          >
+            <FontAwesomeIcon icon={faXmark} className="basic-shortcut-icon" />
+            Cancelar
+          </button>
           <button className="basic-custom-button" onClick={handleSave}>
             <FontAwesomeIcon icon={productId ? faRotate : faSave} className="basic-shortcut-icon" />{productId ? 'Actualizar' : 'Guardar'}
           </button>

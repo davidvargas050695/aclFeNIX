@@ -85,9 +85,6 @@ const Module = ({ handleLogout }) => {
           >
             <FontAwesomeIcon icon={faTrashAlt} />
           </button>
-          <button className="icon-button company-button" onClick={() => console.log('Viendo compañías', item.numCont)}>
-            <FontAwesomeIcon icon={faBuilding} />
-          </button>
         </div>
       </td>
     </>
@@ -95,7 +92,7 @@ const Module = ({ handleLogout }) => {
 
   return (
     <div className="home-container">
-      <Header onLogout={handleLogout} title='Contratos' />
+      <Header onLogout={handleLogout} title='Módulos' />
 
       <div className="home-content">
         <Section>

@@ -4,6 +4,8 @@ export { default as Contract } from './Admin/Contract'; // Cambia './Admin' por 
 export { default as Module } from './Module/Module'; 
 export { default as HomePage } from './HomePage';
 export { default as ModulesForm } from './ModulesForm';
-export { default as Client } from './Client';
 export { default as ClientForm } from './ClientForm';
 export { default as ModuleNew } from './ModuleNew/ModuleNew';
+export { default as ModuleList } from './ModulesList/ModuleList'; 
+export { default as ContractNew } from './ContractNew'; 
+export { default as ModuleContract } from './ModuleContract'; 

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './ModulesForm.css';
+import Section from '../../components/Section';
 import { faThLarge, faClipboard } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 import { Header, ActionButton, Table, ContractForm } from '../../components';
+import { faEdit, faTrashAlt, faBan, faCircleArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { Tooltip } from "react-tooltip";
 
 const ModulesForm = ({ handleLogout }) => {
   const location = useLocation();
@@ -12,12 +14,19 @@ const ModulesForm = ({ handleLogout }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedRow, setSelectedRow] = useState(null);
   const [data] = useState(modules); // Estado para almacenar los datos
+  const navigate = useNavigate();
+
+
+  const handleGoBack = () => {
+    navigate(-1);
+  };
 
   const columns = [
     { title: "Descripción", key: "descripcion" },
     { title: "Módulo", key: "modulo" },
     { title: "Origen", key: "origen" },
     { title: "Contrato", key: "numContId" },
+    { title: "Acciones", key: "acciones" }
   ];
 
   const itemsPerPage = 50;
@@ -29,6 +38,39 @@ const ModulesForm = ({ handleLogout }) => {
       <td>{item.modulo}</td>
       <td>{item.origen}</td>
       <td>{item.numContId}</td>
+      <td>
+        <div className="button-container">
+          <Tooltip id="edit-tooltip" className="custom-tooltip" />
+          <button
+            data-tooltip-id="edit-tooltip"
+            className="icon-button edit-button"
+            data-tooltip-content="Editar"
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate(`/ModuleContract/${item.id}`);
+            }}
+          >
+            <FontAwesomeIcon icon={faEdit} />
+          </button>
+          <Tooltip id="delete-tooltip" className="custom-tooltip" />
+          <button
+            data-tooltip-id="delete-tooltip"
+            data-tooltip-content="Eliminar"
+            className="icon-button delete-button"
+
+          >
+            <FontAwesomeIcon icon={faTrashAlt} />
+          </button>
+          <Tooltip id="contract-tooltip" className="custom-tooltip" />
+          <button
+            className="icon-button company-button"
+            data-tooltip-id="contract-tooltip"
+            data-tooltip-content="Bloquear"
+          >
+            <FontAwesomeIcon icon={faBan} />
+          </button>
+        </div>
+      </td>
     </>
   );
 
@@ -56,34 +98,45 @@ const ModulesForm = ({ handleLogout }) => {
   };
 
   return (
-    <div className="home-container-form">
-      <Header onLogout={handleLogout} title='Contratos' />
-      <div className="actions-container-form">
-        <ActionButton icon={<FontAwesomeIcon icon={faClipboard} />} text="AGREGAR MÓDULO"/>
-      </div>
-      <div className="main-content">
-        <div className="home-content-form"> 
-          <Table 
-            title='Lista de contratos por módulos' 
-            rows={paginatedData} 
-            columns={columns} 
-            icon={faThLarge}
-            renderRow={renderRow}
-            currentPage={currentPage}
-            totalItems={data.length}
-            itemsPerPage={itemsPerPage}
-            onPageChange={(page) => setCurrentPage(page)}
-            onRowClick={handleRowClick}
-            selectedRow={selectedRow}
-            onRefresh={handleRefresh} // Pasar la función de actualización al componente Table
-          />
-        </div>
+    <div className="home-container">
+      <Header onLogout={handleLogout} title='Módulos por Contrato' />
+      <div className="home-content">
+        <Section>
+          <div className="button-return-container">
+            <FontAwesomeIcon
+              className="basic-shortcut-icon"
+              style={{ cursor: 'pointer' }}
+              icon={faCircleArrowLeft}
 
-        <div className="additional-info-container">
-          <div>
-            <ContractForm selectedRow={selectedRow} />
+            />
           </div>
-        </div>
+          <div className="button-add">
+            <button
+              className="basic-custom-button"
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate('/ModuleList');
+              }}
+            >
+              <FontAwesomeIcon className="basic-shortcut-icon" icon={faClipboard} />
+              Agregar Módulo
+            </button>
+          </div>
+        </Section>
+        <Table
+          title='Lista de módulos por contratos '
+          rows={paginatedData}
+          columns={columns}
+          icon={faThLarge}
+          renderRow={renderRow}
+          currentPage={currentPage}
+          totalItems={data.length}
+          itemsPerPage={itemsPerPage}
+          onPageChange={(page) => setCurrentPage(page)}
+          onRowClick={handleRowClick}
+          selectedRow={selectedRow}
+          onRefresh={handleRefresh} // Pasar la función de actualización al componente Table
+        />
       </div>
     </div>
   );
