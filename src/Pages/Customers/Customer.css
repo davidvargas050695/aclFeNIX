@@ -6,19 +6,7 @@
   width: calc(100% - 180px); /* Ajusta el ancho tomando en cuenta el sidebar */
 }
 
-.home-content {
-  flex-grow: 1;
-  padding: 20px;
-  height: 100vh;
-  
-  /* Agrega más estilos según lo necesites */
-}
-
-.filter-form {
-  display: flex;
-  gap: 20px; /* Espacio entre los campos de entrada */
-  align-items: flex-start;
-}
+.
 
 .form-group {
   display: flex;

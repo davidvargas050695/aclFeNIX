@@ -1,0 +1,101 @@
+.basic-info-form-grid-three {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.basic-info-form-subtitle {
+  font-size: 17px;
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.divider {
+  width: 99%; 
+  margin: 15px auto;
+ 
+}
+
+
+.basic-info-form-group {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  align-items: flex-start;
+}
+
+.basic-info-form-group label {
+  font-size: 14px;
+  color: #6c757d;
+  margin-bottom: 5px;
+  text-align: left;
+}
+
+.basic-info-form-group select{
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #495057;
+  width: 104%;
+}
+
+.basic-info-form-group input {
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #495057;
+  width: 100%;
+}
+
+.counter-group {
+  display: flex;
+  gap: 20px; 
+  margin-top: 0;
+}
+
+.counter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.basic-title{
+  color: black;
+}
+.basic-subtittle{
+  font-size: 13px;
+}
+
+.custom-counter {
+  display: flex;
+  align-items: center;
+  border-radius: 20px; /* Redondea los bordes */
+  background-color: #f0f0f0; /* Cambia el color de fondo si es necesario */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Agrega una sombra */
+  padding: 5px 10px; /* Espaciado interno */
+}
+
+.custom-counter button {
+  background-color: transparent; /* Hace el fondo transparente */
+  border: none; /* Elimina el borde */
+  font-size: 16px; /* Ajusta el tamaño de la fuente */
+  cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+  padding: 5px 10px; /* Espaciado interno */
+}
+
+.custom-counter button:focus {
+  outline: none; /* Elimina el borde de enfoque al hacer clic */
+}
+
+.custom-counter span {
+  margin: 0 10px; /* Espaciado entre el número y los botones */
+  font-size: 16px; /* Ajusta el tamaño de la fuente */
+  font-weight: bold; /* Hace el número más visible */
+}
+.basic-info-form-grid1 {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 20px;
+}

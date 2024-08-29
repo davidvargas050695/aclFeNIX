@@ -37,3 +37,44 @@
     border-top-right-radius: 5px; 
     border-bottom-right-radius: 5px; 
 }
+
+.success-notification-center {
+  display: flex;
+  background-color: #4caf50; 
+  color: white;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  border-radius: 5px;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 300px; 
+  padding: 10px; 
+}
+
+.icon-container-noti-center {
+  padding: 20px;
+}
+
+.icon-noti {
+  font-size: 30px;
+}
+
+.message-container-center {
+  flex-grow: 1;
+}
+
+.close-container-center {
+  background-color: #388e3c; 
+  padding: 0 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  height: 60px; 
+  color: white; 
+  border-top-right-radius: 5px; 
+  border-bottom-right-radius: 5px; 
+}

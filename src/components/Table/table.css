@@ -5,6 +5,7 @@
   padding: 20px;
   width: 100%;
   margin: auto;
+  overflow-x: auto;
 }
 
 .sales-table-header {
@@ -61,9 +62,11 @@ h3 {
 .sales-table {
   width: 100%;
   border-collapse: collapse;
+  table-layout: auto;
 }
 
 .sales-table thead {
+  font-weight: bolder;
   background-color: #f9f9f9; /* Fondo claro para los encabezados */
 }
 
@@ -207,4 +210,74 @@ h3 {
   background-color: #f1f3f5; /* Color de fondo para la fila seleccionada */
   border-left: 4px solid #12509B; /* Añade un borde a la izquierda para resaltar más la fila */
 }
+@media (max-width: 768px) {
+  .sales-table-header {
+    flex-direction: column; /* Cambia la dirección a columna en pantallas pequeñas */
+    align-items: flex-start; /* Alinea los elementos al inicio */
+  }
+
+  .header-left {
+    margin-bottom: 10px; /* Añade un margen inferior para separar los elementos */
+  }
+
+  .header-right .search-input {
+    width: 100%; /* Haz que el input de búsqueda ocupe todo el ancho disponible */
+    margin-top: 10px; /* Añade un margen superior */
+  }
+
+  .icon-container-table {
+    width: 30px; /* Reduce el tamaño del ícono en pantallas pequeñas */
+    height: 30px;
+  }
+
+  .shortcut-icon-actually {
+    padding: 6px; /* Reduce el tamaño del ícono */
+    margin: 10px;
+    font-size: 12px;
+  }
+
+  .sales-table th,
+  .sales-table td {
+    padding: 10px;
+    font-size: 12px; /* Disminuye el tamaño de la fuente */
+  }
+
+  .sales-table td {
+    padding: 8px; /* Ajusta el padding */
+  }
+}
+@media (max-width: 576px) {
+  .sales-table th:nth-child(3), /* Cambia el número para seleccionar la columna que quieres ocultar */
+  .sales-table td:nth-child(3) {
+    display: none; /* Oculta la columna */
+  }
+}
+@media (max-width: 576px) {
+  .sales-table {
+    border-collapse: separate;
+    border-spacing: 0 10px;
+  }
+
+  .sales-table tbody tr {
+    display: block;
+    margin-bottom: 15px;
+  }
+
+  .sales-table td {
+    display: block;
+    text-align: right;
+    padding-left: 50%;
+    position: relative;
+  }
+
+  .sales-table td:before {
+    content: attr(data-label);
+    position: absolute;
+    left: 15px;
+    white-space: nowrap;
+    text-align: left;
+    font-weight: bold;
+  }
+}
+
 

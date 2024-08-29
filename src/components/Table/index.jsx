@@ -22,13 +22,7 @@ const Table = ({ title, rows = [], columns = [], renderRow, icon, currentPage, t
             style={{ cursor: 'pointer' }} // Añade un cursor de mano para indicar que es interactivo
           />
         </div>
-        <div className="header-right">
-          <input
-            type="text"
-            className="search-input"
-            placeholder="Buscar..."
-          />
-        </div>
+
       </div>
       <table className="sales-table">
         <thead>

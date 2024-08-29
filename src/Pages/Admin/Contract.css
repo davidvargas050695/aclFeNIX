@@ -68,3 +68,27 @@ select {
   margin-right: 8px; /* Espacio entre el ícono y el texto */
   font-size: 16px; /* Tamaño del ícono */
 }
+
+.button-add-contract {
+  width: 20px;
+  display: flex;
+  gap: 10px; 
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+
+.basic-contract-button {
+    display: inline-flex;
+    align-items: center;
+    background-color: #ffffff;
+    border: 2px solid #0d47a1; 
+    border-radius: 8px; 
+    padding: 6px 12px; 
+    color: #0d47a1; 
+    font-size: 11px; 
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Reducir la sombra para ajustarse al nuevo tamaño */
+    transition: background-color 0.3s, color 0.3s;
+}

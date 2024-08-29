@@ -11,8 +11,8 @@ const WarningNotification = ({ message, isVisible, onClose }) => {
                     <FontAwesomeIcon icon={faCircleExclamation} className="icon-noti" />
                 </div>
                 <div className="message-container-warnning">
-                    <h4>Advertencia</h4>
-                    <p>{message}</p>
+                    <h4 className="title-noti">Advertencia</h4>
+                    <p className="info-noti">{message}</p>
                 </div>
                 <div className="close-container-warnning" onClick={onClose}>
                     X

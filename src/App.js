@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { LayoutSidebar } from './components'; // Importa el componente Layout
-import { Login, Contract, Module, HomePage, Client, ClientForm, ModulesForm, Customers, ModuleNew } from "./Pages";
+import { Login, Contract, Module, HomePage, ModuleList, ClientForm, ModulesForm, Customers, ModuleNew, ContractNew,ModuleContract } from "./Pages";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -48,10 +48,20 @@ function App() {
           }
         />
         <Route
-          path="/Client"
+          path="/ContractNew"
           element={
             isAuthenticated ? (
-              <LayoutSidebar><Client handleLogout={handleLogout} /></LayoutSidebar>
+              <LayoutSidebar><ContractNew handleLogout={handleLogout} /></LayoutSidebar>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+        <Route
+          path="/ModuleContract/:moduleId"
+          element={
+            isAuthenticated ? (
+              <LayoutSidebar><ModuleContract handleLogout={handleLogout} /></LayoutSidebar>
             ) : (
               <Navigate to="/" />
             )
@@ -67,8 +77,7 @@ function App() {
             )
           }
         />
-        <Route
-          path="/ClientForm"
+        <Route path="/ClientForm/:customerCode"
           element={
             isAuthenticated ? (
               <LayoutSidebar><ClientForm handleLogout={handleLogout} /></LayoutSidebar>
@@ -102,6 +111,16 @@ function App() {
           element={
             isAuthenticated ? (
               <LayoutSidebar><ModulesForm handleLogout={handleLogout} /></LayoutSidebar>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+        <Route
+          path="/ModuleList"
+          element={
+            isAuthenticated ? (
+              <LayoutSidebar><ModuleList handleLogout={handleLogout} /></LayoutSidebar>
             ) : (
               <Navigate to="/" />
             )

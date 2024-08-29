@@ -9,3 +9,5 @@ export { default as SuccessNotification  } from './Notifications/SuccessNotifica
 export { default as ErrorNotification  } from './Notifications/ErrorNotification';
 export { default as WarningNotification  } from './Notifications/WarningNotification';
 export { default as InfoNotification  } from './Notifications/InfoNotification';
+export { default as CustomerModal  } from './CustomerModal';
+export { default as ModulesModal  } from './ModulesModal';
