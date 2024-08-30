@@ -8,8 +8,10 @@
 
 .actions-container-form {
   display: flex;
-  justify-content: flex-end; /* Alinea los elementos a la izquierda */
-  gap: 1px; /* Añade espacio entre los elementos */
+  justify-content: flex-end;
+  /* Alinea los elementos a la izquierda */
+  gap: 1px;
+  /* Añade espacio entre los elementos */
   flex-grow: 1;
   padding: 10px;
   width: 101%;
@@ -18,7 +20,8 @@
 
 .main-content {
   display: flex;
-  justify-content: space-between; /* Espacio entre los dos contenedores */
+  justify-content: space-between;
+  /* Espacio entre los dos contenedores */
   align-items: flex-start;
   padding: 15px;
   width: 101%;
@@ -26,13 +29,33 @@
 }
 
 .home-content-form {
-  width: 43%; /* Ajusta el ancho del primer contenedor */
+  width: 43%;
+  /* Ajusta el ancho del primer contenedor */
   background-color: white;
   border-radius: 8px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .additional-info-container {
-  width: 50%; /* Ajusta el ancho del segundo contenedor */
+  width: 50%;
+  /* Ajusta el ancho del segundo contenedor */
   padding: 1px;
+}
+
+.status_button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  z-index: 100;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  transition: background-color 0.3s ease;
+  background-color: #ffffff;
+}
+.status_button :hover {
+  background-color: #00000038;
 }

@@ -19,6 +19,7 @@ const ContractNew = ({ handleLogout }) => {
     const { productId } = useParams();
     const [distributors, setDistributors] = useState([]);
     const [typeProduct, setProduct] = useState([]);
+    const [typeContract, setTypeContract] = useState([]);
     const [fechaFin, setFechaFin] = useState(null);
     const [codigo, setCodigo] = useState('');
     const [numSerie, setSerie] = useState('');
@@ -41,7 +42,7 @@ const ContractNew = ({ handleLogout }) => {
     const [cliente2, setCliente2] = useState('');
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
-    const [moduleData, setModuleData] = useState([]);
+    const [moduleData, setModuleData] = useState('');
     const [showModules, setShowModules] = useState(false);
 
     const handleDateChange = (date) => {
@@ -76,7 +77,7 @@ const ContractNew = ({ handleLogout }) => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await apiClient.get('/contract_type');
+                const response = await apiClient.get('/product_type');
                 setProduct(response.data);
             } catch (error) {
                 console.error('Error fetching products:', error);
@@ -84,6 +85,19 @@ const ContractNew = ({ handleLogout }) => {
         };
 
         fetchProducts();
+    }, []);
+
+    useEffect(() => {
+        const fetchTipoContra = async () => {
+            try {
+                const response = await apiClient.get('/contract_type');
+                setTypeContract(response.data);
+            } catch (error) {
+                console.error('Error fetching contract:', error);
+            }
+        };
+
+        fetchTipoContra();
     }, []);
 
     const validateFields = () => {
@@ -137,16 +151,15 @@ const ContractNew = ({ handleLogout }) => {
         try {
             if (productId) {
                 // Modo edición: usar PATCH
-                await apiClient.patch(`/products/${productId}`, payloadUpdate);
-                console.log('COntrato actualizado exitosamente');
+                await apiClient.patch(`/contracts/${productId}`, payloadUpdate);
+                console.log('Contrato actualizado exitosamente');
             } else {
                 // Modo creación: usar POST
                 const response = await apiClient.post('/contracts', payload);
                 const newContractNumber = response.data.numCont;
                 setContractNumber(newContractNumber);
                 setIsSuccessVisible(true);
-                const response2 = await apiClient.get(`/module_pack?tipoContra=${tipocontra}`);
-                setModuleData(response2.data);
+                setModuleData(tipocontra);
                 setShowModules(true);
             }
             setIsSuccessVisible(true);
@@ -277,10 +290,12 @@ const ContractNew = ({ handleLogout }) => {
                             value={tipoContrato}
                             onChange={(e) => setTipoContrato(e.target.value)}
                         >
-                            <option value="">Seleccione un Tipo de Contrato</option>
-                            <option value="contador">Contador</option>
-                            <option value="nube">Nube</option>
-                            <option value="perpetuo">Perpetuo</option>
+                            <option value="">Seleccione un Tipo Contrato</option>
+                            {typeContract.map((contarct) => (
+                                <option key={contarct.code} value={contarct.code}>
+                                    {contarct.code}
+                                </option>
+                            ))}
                         </select>
                         {errors.tipoContrato && <p className="error-message">{errors.tipoContrato}</p>}
                     </div>
@@ -318,27 +333,7 @@ const ContractNew = ({ handleLogout }) => {
                             </div>
                         </div>
                     </div>
-                    <div className="basic-info-form-group2">
-                        <label className="basic-title">Módulo de Activos</label>
-                        <div className="counter-group">
-                            <div className="counter">
-                                <p className="basic-subtittle">Servidores</p>
-                                <div className="custom-counter">
-                                    <button onClick={() => handleCounterChange('aser', 'decrement')}>-</button>
-                                    <span>{aNumSer}</span>
-                                    <button onClick={() => handleCounterChange('aser', 'increment')}>+</button>
-                                </div>
-                            </div>
-                            <div className="counter">
-                                <p className="basic-subtittle">Clientes</p>
-                                <div className="custom-counter">
-                                    <button onClick={() => handleCounterChange('acli', 'decrement')}>-</button>
-                                    <span>{aNumCli}</span>
-                                    <button onClick={() => handleCounterChange('acli', 'increment')}>+</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
                 <div className="basic-form-footer">
                     <button
@@ -367,7 +362,7 @@ const ContractNew = ({ handleLogout }) => {
                 isVisible={isErrorVisible}
                 onClose={() => setIsErrorVisible(false)}
             />
-            {showModules && <ModulesModal data={moduleData} />}
+            {showModules && <ModulesModal tipocontra={moduleData} />}
         </div>
     );
 };

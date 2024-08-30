@@ -1,24 +1,63 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './ModulesForm.css';
+import ModalStatus from '../../components/Notifications/ModuleStatus';
 import Section from '../../components/Section';
 import { faThLarge, faClipboard } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Header, ActionButton, Table, ContractForm } from '../../components';
-import { faEdit, faTrashAlt, faBan, faCircleArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrashAlt, faCircleCheck, faCircleXmark, faCircleArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { Tooltip } from "react-tooltip";
+import apiClient from "../../axios";
 
 const ModulesForm = ({ handleLogout }) => {
   const location = useLocation();
   const { modules } = location.state || {};
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedRow, setSelectedRow] = useState(null);
-  const [data] = useState(modules); // Estado para almacenar los datos
   const navigate = useNavigate();
+  const [data, setData] = useState(modules || []); // Estado inicial con los datos
+  const [status, setStatus] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [numContId, setnumContId] = useState(null);
 
+  useEffect(() => {
+    handleRefresh(); // Cargar datos al montar el componente
+  }, []);
 
-  const handleGoBack = () => {
+  const handleStatusClick = (item) => {
+    setSelectedItem(item);
+    setModalVisible(true);
+    handleRefresh(); 
+  };
+
+  const handleCloseModal = () => {
+    setModalVisible(false);
+    setSelectedItem(null);
+  };
+
+  const handleClick = () => {
     navigate(-1);
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      const url = `/modules/${id}`;
+      await apiClient.delete(url);
+      handleRefresh(); 
+    } catch (error) {
+      console.error('Error al eliminar el Módulo');
+    }
+  };
+
+  const handleRefresh = async () => {
+    try {
+      const response = await apiClient.get('/modules');
+      setData(response.data);
+    } catch (error) {
+      console.error('Error al actualizar los datos:', error);
+    }
   };
 
   const columns = [
@@ -26,6 +65,7 @@ const ModulesForm = ({ handleLogout }) => {
     { title: "Módulo", key: "modulo" },
     { title: "Origen", key: "origen" },
     { title: "Contrato", key: "numContId" },
+    { title: "Estado", key: "acciones" },
     { title: "Acciones", key: "acciones" }
   ];
 
@@ -39,6 +79,24 @@ const ModulesForm = ({ handleLogout }) => {
       <td>{item.origen}</td>
       <td>{item.numContId}</td>
       <td>
+        {item.activo ? (
+          <button
+            className="status_button"
+            onClick={() => handleStatusClick(item)}
+            
+          >
+            <FontAwesomeIcon icon={faCircleCheck} style={{ color: 'green', fontSize: '24px' }} />
+          </button>
+        ) : (
+          <button
+            className="status_button"
+            onClick={() => handleStatusClick(item)}
+          >
+            <FontAwesomeIcon className="status_icon" icon={faCircleXmark} style={{ color: 'red', fontSize: '24px' }} />
+          </button>
+        )}
+      </td>
+      <td>
         <div className="button-container">
           <Tooltip id="edit-tooltip" className="custom-tooltip" />
           <button
@@ -47,7 +105,7 @@ const ModulesForm = ({ handleLogout }) => {
             data-tooltip-content="Editar"
             onClick={(e) => {
               e.stopPropagation();
-              navigate(`/ModuleContract/${item.id}`);
+              navigate(`/ModuleContract?moduleId=${item.id}`);
             }}
           >
             <FontAwesomeIcon icon={faEdit} />
@@ -57,44 +115,18 @@ const ModulesForm = ({ handleLogout }) => {
             data-tooltip-id="delete-tooltip"
             data-tooltip-content="Eliminar"
             className="icon-button delete-button"
-
+            onClick={() => handleDelete(item.id)}
           >
             <FontAwesomeIcon icon={faTrashAlt} />
-          </button>
-          <Tooltip id="contract-tooltip" className="custom-tooltip" />
-          <button
-            className="icon-button company-button"
-            data-tooltip-id="contract-tooltip"
-            data-tooltip-content="Bloquear"
-          >
-            <FontAwesomeIcon icon={faBan} />
           </button>
         </div>
       </td>
     </>
   );
 
-  // Función que se ejecuta cuando se selecciona una fila
   const handleRowClick = (item) => {
     console.log('item::: ', item);
     setSelectedRow(item);
-  };
-
-  // Función para actualizar la información
-  const handleRefresh = () => {
-    // Aquí puedes realizar una llamada a un servicio para obtener los datos actualizados
-    // Por ejemplo, si estás usando fetch o axios:
-    /*
-    fetch('/api/your-endpoint')
-      .then(response => response.json())
-      .then(newData => {
-        setData(newData);
-      })
-      .catch(error => {
-        console.error('Error al actualizar los datos:', error);
-      });
-    */
-    console.log("Datos actualizados"); // Simulación de actualización
   };
 
   return (
@@ -107,7 +139,7 @@ const ModulesForm = ({ handleLogout }) => {
               className="basic-shortcut-icon"
               style={{ cursor: 'pointer' }}
               icon={faCircleArrowLeft}
-
+              onClick={handleClick}
             />
           </div>
           <div className="button-add">
@@ -115,7 +147,7 @@ const ModulesForm = ({ handleLogout }) => {
               className="basic-custom-button"
               onClick={(e) => {
                 e.stopPropagation();
-                navigate('/ModuleList');
+                navigate(`/ModuleContract?numContId=${numContId}`);
               }}
             >
               <FontAwesomeIcon className="basic-shortcut-icon" icon={faClipboard} />
@@ -124,7 +156,7 @@ const ModulesForm = ({ handleLogout }) => {
           </div>
         </Section>
         <Table
-          title='Lista de módulos por contratos '
+          title='Lista de módulos por contratos'
           rows={paginatedData}
           columns={columns}
           icon={faThLarge}
@@ -137,6 +169,18 @@ const ModulesForm = ({ handleLogout }) => {
           selectedRow={selectedRow}
           onRefresh={handleRefresh} // Pasar la función de actualización al componente Table
         />
+        {selectedItem && (
+          <ModalStatus
+            message={selectedItem.activo
+              ? 'Módulo Activo. ¿Desea Inactivarlo?'
+              : 'Módulo Inactivo. ¿Desea Activarlo?'}
+            isVisible={modalVisible}
+            onClose={handleCloseModal}
+            numContId={selectedItem.numContId}
+            modulo={selectedItem.modulo}
+            activo={selectedItem.activo}
+          />
+        )}
       </div>
     </div>
   );

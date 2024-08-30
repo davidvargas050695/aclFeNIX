@@ -66,7 +66,6 @@ const Customer = ({ handleLogout }) => {
       const url = `/clients/${code}`;
       await apiClient.delete(url);
       setData(data.filter(item => item.code !== code));
-      console.log(`Eliminado con éxito el cliente con código: ${code}`);
     } catch (error) {
       console.error(`Error al eliminar el cliente con código: ${code}`, error);
     }
