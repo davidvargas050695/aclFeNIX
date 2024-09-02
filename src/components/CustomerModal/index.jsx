@@ -1,19 +1,18 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import './CustomerModal.css';
+import Table from '../Table';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUserPlus, faUser } from '@fortawesome/free-solid-svg-icons';
 import apiClient from "../../axios";
-import { faUser } from '@fortawesome/free-solid-svg-icons';
-import Table from '../../components/Table';
-import ClientProcess from '../Notifications/ClientProcess';
-import debounce from 'lodash.debounce';
-import { Tooltip } from "react-tooltip";
 
-const CustomerModal = ({ isOpen, closeModal }) => {
-    const [searchTerm, setSearchTerm] = useState('');
+const CustomerModal = ({ isOpen, closeModal, selectClient }) => {
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [search, setSearch] = useState('');
-    const [selectedRows, setSelectedRows] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [selectedClient, setSelectedClient] = useState(null);
+    const [showNotification, setShowNotification] = useState(false);
 
+    // Cargar todos los datos al montar el componente
     const fetchAllData = async () => {
         try {
             const response = await apiClient.get('/clients');
@@ -35,82 +34,108 @@ const CustomerModal = ({ isOpen, closeModal }) => {
         fetchAllData();
     };
 
-    const debouncedSearch = useCallback(
-        debounce(async (searchTerm) => {
-            try {
-                const params = new URLSearchParams();
-                if (searchTerm) params.append('search', searchTerm);
-
-                const response = await apiClient.get(`/clients?${params.toString()}`);
-
-                if (Array.isArray(response.data)) {
-                    setData(response.data);
-                } else {
-                    setData([response.data]);
-                }
-            } catch (error) {
-                console.error("Error al obtener los datos del servicio", error);
-            }
-        }, 300), []
-    );
-
-    useEffect(() => {
-        debouncedSearch(search);
-    }, [search, debouncedSearch]);
-
-
-
     const columns = [
         { title: "Código", key: "code" },
         { title: "Rázon Social", key: "socialReason" },
         { title: "Cédula", key: "cif" },
-        { title: "Seleccionar", key: "select" }
+        { title: "Seleccionar", key: "acciones" },
     ];
 
     const itemsPerPage = 50;
     const paginatedData = data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
+    const handleCheckboxChange = (client) => {
+        setSelectedClient(client);
+    };
+
     const renderRow = (item, index) => (
-        <>
+        <tr key={index}>
             <td>{item.code}</td>
             <td>{item.socialReason}</td>
             <td>{item.cif}</td>
-          </>
+            <td>
+                <input
+                    type="checkbox"
+                    checked={selectedClient?.code === item.code}
+                    onChange={() => handleCheckboxChange(item)}
+                />
+            </td>
+        </tr>
     );
+
+    const handleAddClick = () => {
+        if (selectedClient) {
+            setShowNotification(true);
+        } else {
+            alert('Seleccione un cliente antes de agregar.');
+        }
+    };
+
+    const handleAccept = () => {
+        if (selectedClient) {
+            selectClient(selectedClient.code);
+            closeModal();
+        }
+    };
+
+    const handleCancel = () => {
+        setShowNotification(false);
+    };
 
     return (
         isOpen && (
-            <div className="modal-overlay" onClick={closeModal}>
-                <div className="modal-content" onClick={e => e.stopPropagation()}>
-                    <button className="modal-close" onClick={closeModal}>X</button>
-                    <div className="modal-header">
-                        <h3 className="basic-info-form-title">Seleccione un Cliente</h3>
+            <div className="modal-overlay">
+                <div className="modal-content">
+                    <h3 className="modal-title">Clientes</h3>
+                    <div className="filter-form">
+                        <div className="form-group">
+                            <input
+                                className="customer-input"
+                                type="text"
+                                id="customer"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                placeholder="Buscar..."
+                            />
+                        </div>
                     </div>
-                    <div className="modal-body">
-                        <input
-                            className="modal-search"
-                            type="text"
-                            id="customer"
-                            value={search}
-                            onChange={(e) => setSearch(e.target.value)}
-                            placeholder="Buscar..."
-                        />
-                        <Table
-                            title='Lista de Clientes'
-                            rows={paginatedData}
-                            columns={columns}
-                            icon={faUser}
-                            renderRow={renderRow}
-                            currentPage={currentPage}
-                            totalItems={data.length}
-                            itemsPerPage={itemsPerPage}
-                            onPageChange={(page) => setCurrentPage(page)}
-                            onRefresh={handleRefresh}
-                        />
+                    <Table
+                        title='Lista de Clientes'
+                        rows={paginatedData}
+                        columns={columns}
+                        icon={faUser}
+                        renderRow={renderRow}
+                        currentPage={currentPage}
+                        totalItems={data.length}
+                        itemsPerPage={itemsPerPage}
+                        onPageChange={(page) => setCurrentPage(page)}
+                        onRefresh={handleRefresh}
+                    />
+                    <div className="basic-form-footer">
+                        <button className="basic-custom-button" onClick={handleAddClick}>
+                            <FontAwesomeIcon icon={faUserPlus} className="basic-shortcut-icon" />
+                            Agregar
+                        </button>
                     </div>
                 </div>
+                {showNotification && (
+                    <div className="modal-overlay">
+                        <div className="notification">
+                            <p>Seleccionó el Cliente {selectedClient.socialReason}</p>
+                            <div className="button-container-info">
+                                <button className="cancel-btn-info" onClick={handleCancel}>
+                                    Cancelar
+                                </button>
+                                <button className="ok-btn-info" onClick={handleAccept}>
+                                    OK
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         )
-    );    
+    );
 };
+
 export default CustomerModal;

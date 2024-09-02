@@ -38,12 +38,11 @@ const ContractNew = ({ handleLogout }) => {
     const [clients, setClients] = useState([]);
     const [errors, setErrors] = useState({});
     const [contractNumber, setContractNumber] = useState('');
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [cliente2, setCliente2] = useState('');
-    const openModal = () => setIsModalOpen(true);
-    const closeModal = () => setIsModalOpen(false);
     const [moduleData, setModuleData] = useState('');
-    const [showModules, setShowModules] = useState(false);
+    const [moduleNumContra, setModuleNumContra] = useState('');
+    const [moduleCanal, setModuleCanal] = useState('');
+    const [isInfoVisible, setIsInfoVisible] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleDateChange = (date) => {
         // Convierte la fecha seleccionada al formato YYYY-MM-DD HH:mm:ss
@@ -123,6 +122,18 @@ const ContractNew = ({ handleLogout }) => {
         }
     };
 
+    const openModal = () => {
+        setIsModalOpen(true);
+      };
+    
+      const closeModal = () => {
+        setIsModalOpen(false);
+      };
+    
+      const selectClient = (clientName) => {
+        setCliente(clientName);
+      };
+
     const handleSave = async () => {
         const validationErrors = validateFields();
         if (Object.keys(validationErrors).length > 0) {
@@ -144,23 +155,33 @@ const ContractNew = ({ handleLogout }) => {
             fechaFin
         };
         const payloadUpdate = {
-
-
+            distribuidor,
+            servidor,
+            observacion,
+            tipocontra,
+            tipoContrato,
+            numSer,
+            numCli,
+            aNumSer,
+            aNumCli,
+            fechaFin
         };
 
         try {
             if (productId) {
                 // Modo edición: usar PATCH
                 await apiClient.patch(`/contracts/${productId}`, payloadUpdate);
-                console.log('Contrato actualizado exitosamente');
             } else {
                 // Modo creación: usar POST
+                console.log(payload);
                 const response = await apiClient.post('/contracts', payload);
                 const newContractNumber = response.data.numCont;
                 setContractNumber(newContractNumber);
                 setIsSuccessVisible(true);
                 setModuleData(tipocontra);
-                setShowModules(true);
+                setModuleNumContra(newContractNumber);
+                setModuleCanal(distribuidor);
+                setIsInfoVisible(true);
             }
             setIsSuccessVisible(true);
             setIsErrorVisible(false);
@@ -197,15 +218,6 @@ const ContractNew = ({ handleLogout }) => {
                 <h3 className="basic-info-form-title">Información del Contrato</h3>
                 <div className="basic-info-form-grid">
                     <div className="basic-info-form-group">
-                        <label>Nro. Contrato</label>
-                        <input
-                            type="text"
-                            placeholder="Nro. Contrato"
-                            value={codigo}
-                            onChange={(e) => setCodigo(e.target.value)}
-                        />
-                    </div>
-                    <div className="basic-info-form-group">
                         <label style={{ color: errors.numSerie ? 'red' : 'inherit' }}>Nro. Identificador</label>
                         <input
                             type="text"
@@ -221,10 +233,14 @@ const ContractNew = ({ handleLogout }) => {
                             type="text"
                             placeholder="Cliente"
                             value={cliente}
+                            onClick={openModal} // Abre el modal al hacer clic en el input
                             onChange={(e) => setCliente(e.target.value)}
-
                         />
-                        <CustomerModal isOpen={isModalOpen} closeModal={closeModal} />
+                        <CustomerModal
+                            isOpen={isModalOpen}
+                            closeModal={closeModal}
+                            selectClient={selectClient}
+                        />
                         {errors.cliente && <p className="error-message">{errors.cliente}</p>}
                     </div>
                     <div className="basic-info-form-group">
@@ -251,23 +267,6 @@ const ContractNew = ({ handleLogout }) => {
                             onChange={(e) => setServidor(e.target.value)}
                         />
                         {errors.servidor && <p className="error-message">{errors.servidor}</p>}
-                    </div>
-                    <div className="basic-info-form-group">
-                        <label style={{ color: errors.fechaFin ? 'red' : 'inherit' }}>Cáduca</label>
-                        <div className="basic-info-date-picker">
-                            <DatePicker
-                                selected={fechaFin ? new Date(fechaFin) : null}
-                                onChange={handleDateChange}
-                                showTimeSelect
-                                timeFormat="HH:mm"
-                                timeIntervals={15}
-                                dateFormat="MMMM d, yyyy h:mm aa"
-                                placeholderText="Selecciona la Fecha"
-                                className="custom-date-picker"
-                            />
-                            {errors.fechaFin && <p className="error-message">{errors.fechaFin}</p>}
-                        </div>
-
                     </div>
                     <div className="basic-info-form-group">
                         <label style={{ color: errors.tipocontra ? 'red' : 'inherit' }}>Producto</label>
@@ -298,6 +297,22 @@ const ContractNew = ({ handleLogout }) => {
                             ))}
                         </select>
                         {errors.tipoContrato && <p className="error-message">{errors.tipoContrato}</p>}
+                    </div>
+                    <div className="basic-info-form-group">
+                        <label style={{ color: errors.fechaFin ? 'red' : 'inherit' }}>Cáduca</label>
+                        <div className="basic-info-date-picker">
+                            <DatePicker
+                                selected={fechaFin ? new Date(fechaFin) : null}
+                                onChange={handleDateChange}
+                                showTimeSelect
+                                timeFormat="HH:mm"
+                                timeIntervals={15}
+                                dateFormat="MMMM d, yyyy h:mm aa"
+                                placeholderText="Selecciona la Fecha"
+                                className="custom-date-picker"
+                            />
+                            {errors.fechaFin && <p className="error-message">{errors.fechaFin}</p>}
+                        </div>
                     </div>
                     <div className="basic-info-form-group">
                         <label>Bloqueo</label>
@@ -362,7 +377,14 @@ const ContractNew = ({ handleLogout }) => {
                 isVisible={isErrorVisible}
                 onClose={() => setIsErrorVisible(false)}
             />
-            {showModules && <ModulesModal tipocontra={moduleData} />}
+            <ModulesModal
+                isVisible={isInfoVisible}
+                onClose={() => setIsInfoVisible(false)}
+                tipocontra={moduleData}
+                numContra={moduleNumContra}
+                channel={moduleCanal}
+            />
+
         </div>
     );
 };

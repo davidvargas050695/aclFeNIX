@@ -59,6 +59,11 @@
     font-size: 1rem;
 }
 
+.button-container-info button:hover {
+    background: #ddd;
+    color: black;
+  }
+
 .cancel-btn-info {
     background-color: #dc3545;
     color: #fff;

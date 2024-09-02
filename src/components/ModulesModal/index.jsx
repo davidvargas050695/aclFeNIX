@@ -1,22 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom'
 import './ModulesModal.css';
+import SuccessProcess from '../Notifications/SuccessProcess';
+import SuccessNotification from '../Notifications/SuccessNotification';
+import ErrorNotification from '../Notifications/ErrorNotification';
 import TableModule from '../../components/TableModule';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faSave, faCubes } from '@fortawesome/free-solid-svg-icons';
 
 import apiClient from "../../axios";
 
-const ModulesModal = ({ tipocontra }) => {
+const ModulesModal = ({ isVisible, onClose, tipocontra, numContra, channel }) => {
     const [data, setData] = useState([]);
     const [search, setSearch] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedModules, setSelectedModules] = useState([]);
+    const [numContId, setContId] = useState('');
+    const [modulo, setCodigo] = useState('');
+    const [numLicencias, setNumLicencias] = useState('');
+    const [origen, setOrigen] = useState('');
+    const [canal, setCanal] = useState('');
+    const [activo, setIsActive] = useState(0);
+    const [motivo, setMotivo] = useState('');
+    const [isPay, setIsPay] = useState(0);
+    const [maxCount, setMaxCount] = useState('');
+    const [user, setUSer] = useState('');
+    const [contractNumber, setContractNumber] = useState('');
+    const [successVisible, setSuccessVisible] = useState(false);
+    const [isErrorVisible, setIsErrorVisible] = useState(false);
     const navigate = useNavigate();
 
     const fetchAllData = async () => {
         try {
-            console.log(tipocontra);
             const response = await apiClient.get(`/module_pack?tipoContra=${tipocontra}`);
             if (Array.isArray(response.data)) {
                 setData(response.data);
@@ -49,6 +64,43 @@ const ModulesModal = ({ tipocontra }) => {
         }
     };
 
+    const handleSave = async () => {
+        const payload = selectedModules.map(moduleCode => {
+            const moduleData = data.find(item => item.codModulo === moduleCode);
+            return {
+                numContId: numContra, 
+                modulo: moduleData.codModulo,
+                origen: moduleData.origin,
+                user: "RCH", 
+                canal: channel, 
+                num_licencias: moduleData.numLicencias,
+                activo: moduleData.activo === 1, 
+                motivo: "", 
+                is_pay: moduleData.isPay === 1, 
+                max_count: moduleData.maxCount,
+            };
+        });
+        try {
+            console.log(payload);
+            const response = await apiClient.post('/modules/bulk', payload);
+            if (response.status === 200) {
+                setSuccessVisible(true);
+            }
+        } catch (error) {
+            console.error('Error al guardar el modulo', error);
+            setIsErrorVisible(true);
+            setSuccessVisible(false);
+            setTimeout(() => {
+                setIsErrorVisible(false);
+            }, 4000);
+        }
+    };
+
+    const handleCloseSuccess = () => {
+        setSuccessVisible(false);
+        onClose();
+    };
+
     const columns = [
         { title: "Código", key: "code" },
         { title: "Descripción", key: "description" },
@@ -77,40 +129,51 @@ const ModulesModal = ({ tipocontra }) => {
 
 
     return (
+        isVisible && (
+            <div className="modal-overlay">
+                <div className="modal-content-module">
+                    <div className="modal-content-module-body">
+                        <h3 className="modal-title ">Módulos del Contrato</h3>
+                        <TableModule
+                            title='Módulos'
+                            rows={paginatedData}
+                            columns={columns}
+                            icon={faCubes}
+                            renderRow={renderRow}
+                            currentPage={currentPage}
+                            totalItems={data.length}
+                            itemsPerPage={itemsPerPage}
+                            onPageChange={(page) => setCurrentPage(page)}
+                            onRefresh={handleRefresh}
+                            onSelectAll={handleSelectAll}
+                            isAllSelected={selectedModules.length === data.length}
+                        />
 
-        <div className="modal-overlay">
-            <div className="modal-content-module">
-                <div className="modal-content-module-body">
-                    <h3 className="modal-title ">Módulos del Contrato</h3>
-                    <TableModule
-                        title='Módulos'
-                        rows={paginatedData}
-                        columns={columns}
-                        icon={faUser}
-                        renderRow={renderRow}
-                        currentPage={currentPage}
-                        totalItems={data.length}
-                        itemsPerPage={itemsPerPage}
-                        onPageChange={(page) => setCurrentPage(page)}
-                        onRefresh={handleRefresh}
-                        onSelectAll={handleSelectAll}
-                        isAllSelected={selectedModules.length === data.length}
-                    />
-
+                    </div>
+                    <div className="basic-form-footer">
+                        <button className="basic-custom-button" onClick={handleSave}>
+                            <FontAwesomeIcon icon={faSave} className="basic-shortcut-icon" />
+                            Guardar
+                        </button>
+                    </div>
                 </div>
 
+                <ErrorNotification
+                    message="Hubo un problema al Crear el Contrato. Inténtalo de nuevo."
+                    isVisible={isErrorVisible}
+                    onClose={() => setIsErrorVisible(false)}
+                />
 
-                <div className="basic-form-footer">
-                    <button className="basic-custom-button">
-                        <FontAwesomeIcon icon={faPlus} className="basic-shortcut-icon" />
-                        Agregar
-                    </button>
-
-                </div>
+                <SuccessProcess
+                    message={`El Contrato se ha creado correctamente${numContra ? ` con Número de Contrato ${numContra}` : ""}.`}
+                    isVisible={successVisible}
+                    onClose={handleCloseSuccess}
+                />
 
             </div>
 
-        </div>
+        )
+
     );
 };
 
