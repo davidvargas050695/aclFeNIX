@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import './ModuleContract.css';
+import DatePicker from 'react-datepicker';
 import Header from '../../components/Header';
 import Section from '../../components/Section';
 import SuccessNotification from '../../components/Notifications/SuccessNotification';
@@ -11,20 +13,28 @@ import apiClient from "../../axios";
 
 const ModuleContract = ({ handleLogout }) => {
   const navigate = useNavigate();
-  const { moduleId } = useParams();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const moduleId = searchParams.get('moduleId');
+
   const [distributors, setDistributors] = useState([]);
   const [numContId, setContId] = useState('');
   const [modulo, setCodigo] = useState('');
   const [numLicencias, setNumLicencias] = useState('');
   const [origen, setOrigen] = useState('');
   const [canal, setCanal] = useState('');
-  const [fechaFin, setFechaFin] = useState('');
-  const [activo, setActivo] = useState(0);
+  const [fechaFin, setFechaFin] = useState(null);
+  const [activo, setIsActive] = useState(0);
   const [motivo, setMotivo] = useState('');
   const [isPay, setIsPay] = useState(0);
   const [maxCount, setMaxCount] = useState('');
   const [isSuccessVisible, setIsSuccessVisible] = useState(false);
   const [isErrorVisible, setIsErrorVisible] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(null);
+
+  const toggleSwitch = () => {
+    setIsActive(prev => !prev);
+  };
 
   useEffect(() => {
     const fetchDistributors = async () => {
@@ -39,18 +49,24 @@ const ModuleContract = ({ handleLogout }) => {
     fetchDistributors();
   }, []);
 
+  const handleClick = () => {
+    navigate(-1);
+  };
+
   useEffect(() => {
     if (moduleId) {
       const fetchModule = async () => {
         try {
           const response = await apiClient.get(`/modules/${moduleId}`);
+          const fechaFin = response.data.fechaFin ? new Date(response.data.fechaFin) : null;
           setContId(response.data.numContId);
           setCodigo(response.data.modulo);
           setNumLicencias(response.data.numLicencias);
           setOrigen(response.data.origen);
           setCanal(response.data.canal);
-          setFechaFin(response.data.fechaFin);
-          setActivo(response.data.activo === 1 ? "Activo" : "Inactivo");
+          setFechaFin(fechaFin);
+          setSelectedDate(fechaFin);
+          setIsActive(response.data.activo === 1);
           setMotivo(response.data.motivo);
           setIsPay(response.data.isPay === 1 ? "Pagado" : "Gratis");
           setMaxCount(response.data.maxCount);
@@ -61,28 +77,41 @@ const ModuleContract = ({ handleLogout }) => {
       };
       fetchModule();
     }
+    else if (numContId) {
+      setContId(numContId);
+
+    }
   }, [moduleId]);
+
 
   const handleSave = async () => {
     const payload = {
+      numContId,
+      modulo,
+      origen,
+      canal,
+      numLicencias,
+      activo: activo === "Activo" ? true : false,
+      motivo,
+      isPay: isPay === "Pagado" ? true : false,
+      maxCount,
 
     };
     const payloadUpdate = {
-      isPay,
+      isPay: isPay === "Pagado" ? true : false,
       maxCount,
-      activo,
+      activo: activo === "Activo" ? true : false,
       motivo,
       fechaFin,
       numLicencias,
-      canal
+      canal,
+      origen
     };
 
     try {
       if (moduleId) {
         // Modo edición: usar PATCH
         console.log(payloadUpdate);
-        console.log(numContId);
-        console.log(modulo);
         await apiClient.patch(`/modules/edit_by_contract/${numContId}/${modulo}`, payloadUpdate);
       } else {
         // Modo creación: usar POST
@@ -113,10 +142,8 @@ const ModuleContract = ({ handleLogout }) => {
             className="basic-shortcut-icon"
             style={{ cursor: 'pointer' }}
             icon={faCircleArrowLeft}
-            onClick={(e) => {
-              e.stopPropagation();
-              navigate('/Module');
-            }} />
+            onClick={handleClick}
+          />
         </div>
       </Section>
       <div className="moduleNew-form-container">
@@ -158,7 +185,9 @@ const ModuleContract = ({ handleLogout }) => {
               onChange={(e) => setOrigen(e.target.value)}
             />
           </div>
-          <div className="basic-info-form-group">
+        </div>
+        <div className="basic-info-form-grid-three">
+          <div className="basic-info-form-group4">
             <label>Distribuidor</label>
             <select
               value={canal}
@@ -172,26 +201,30 @@ const ModuleContract = ({ handleLogout }) => {
               ))}
             </select>
           </div>
-          <div className="basic-info-form-group">
+          <div className="basic-info-form-group4">
             <label>Cadúca</label>
-            <input
-              type="text"
-              placeholder="Cadúca"
-              value={fechaFin}
-              onChange={(e) => setFechaFin(e.target.value)}
+            <DatePicker
+              selected={selectedDate}
+              onChange={(date) => setSelectedDate(date)}
+              dateFormat="MMMM d, yyyy"
+              placeholderText="Selecciona la Fecha"
+              className="custom-date-picker"
             />
           </div>
-          <div className="basic-info-form-group">
+          <div className="basic-info-form-group4">
             <label>Estado</label>
-            <select
-              value={activo}
-              onChange={(e) => setActivo(e.target.value)}
-            >
-              <option value="">Seleccione una opción</option>
-              <option value="Activo">Activo</option>
-              <option value="Inactivo">Inactivo</option>
-            </select>
+            <div className="slider-container" onClick={toggleSwitch}>
+              <div className={`slider-option ${activo ? 'active' : 'inactive'}`}>
+                Activo
+              </div>
+              <div className={`slider-option ${!activo ? 'active' : 'inactive'}`}>
+                Inactivo
+              </div>
+            </div>
+
           </div>
+        </div>
+        <div className="basic-info-form-grid">
 
           <div className="basic-info-form-group">
             <label>Plan</label>
@@ -213,7 +246,7 @@ const ModuleContract = ({ handleLogout }) => {
               onChange={(e) => setMaxCount(e.target.value)}
             />
           </div>
-          {activo === "Inactivo" && (
+          {!activo && (
             <div className="basic-info-form-group">
               <label>Motivo</label>
               <input

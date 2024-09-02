@@ -68,10 +68,12 @@ function App() {
           }
         />
         <Route
-          path="/ModuleContract/:moduleId"
+          path="/ModuleContract/*"
           element={
             isAuthenticated ? (
-              <LayoutSidebar><ModuleContract handleLogout={handleLogout} /></LayoutSidebar>
+              <LayoutSidebar>
+                <ModuleContract handleLogout={handleLogout} />
+              </LayoutSidebar>
             ) : (
               <Navigate to="/" />
             )

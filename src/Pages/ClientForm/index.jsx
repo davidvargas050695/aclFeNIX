@@ -181,6 +181,22 @@ const ClientForm = ({ handleLogout }) => {
         fetchDistributors();
     }, []);
 
+    const validateEmail = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email) && email.endsWith('.com');
+    };
+
+    const handleChange = (e) => {
+        const value = e.target.value;
+        setEmail(value);
+
+        // Validar el email
+        if (!validateEmail(value)) {
+            setErrors({ email: 'Email inválido. Debe contener "@" y terminar en ".com"' });
+        } else {
+            setErrors({});
+        }
+    };
     const validateFields = () => {
         let validationErrors = {};
         if (!codcli) validationErrors.codcli = "El Campo es Obligatorio";
@@ -190,6 +206,7 @@ const ClientForm = ({ handleLogout }) => {
         if (!direc1) validationErrors.direc1 = "El Campo es Obligatorio";
         if (!tlf1) validationErrors.tlf1 = "El Campo es Obligatorio";
         if (!distribuidor) validationErrors.distribuidor = "El Campo es Obligatorio";
+        if (!email) validationErrors.distribuidor = "El Campo es Obligatorio";
         return validationErrors;
     };
 
@@ -394,7 +411,7 @@ const ClientForm = ({ handleLogout }) => {
                         {errors.tlf1 && <p className="error-message">{errors.tlf1}</p>}
                     </div>
                     <div className="basic-info-form-group">
-                        <label style={{ color: errors.tlf1 ? 'red' : 'inherit' }}>Distribuidor</label>
+                        <label style={{ color: errors.distribuidor ? 'red' : 'inherit' }}>Distribuidor</label>
                         <select
                             value={distribuidor}
                             onChange={(e) => setCanal(e.target.value)}
@@ -409,13 +426,14 @@ const ClientForm = ({ handleLogout }) => {
                         {errors.distribuidor && <p className="error-message">{errors.distribuidor}</p>}
                     </div>
                     <div className="basic-info-form-group">
-                        <label> Email</label>
+                        <label style={{ color: errors.email ? 'red' : 'inherit' }}> Email</label>
                         <input
                             type="text"
                             placeholder="Email"
                             value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            onChange={handleChange}
                         />
+                        {errors.email && <p className="error-message">{errors.email}</p>}
                     </div>
 
                 </div>
@@ -433,7 +451,7 @@ const ClientForm = ({ handleLogout }) => {
                     <button
                         className="basic-custom-button"
                         onClick={handleSave}
-                        disabled={isButtonDisabled} 
+                        disabled={isButtonDisabled}
                     >
                         <FontAwesomeIcon icon={customerCode ? faRotate : faSave} className="basic-shortcut-icon" />{customerCode ? 'Actualizar' : 'Guardar'}
                     </button>

@@ -19,6 +19,7 @@ const ContractNew = ({ handleLogout }) => {
     const { productId } = useParams();
     const [distributors, setDistributors] = useState([]);
     const [typeProduct, setProduct] = useState([]);
+    const [typeContract, setTypeContract] = useState([]);
     const [fechaFin, setFechaFin] = useState(null);
     const [codigo, setCodigo] = useState('');
     const [numSerie, setSerie] = useState('');
@@ -37,6 +38,10 @@ const ContractNew = ({ handleLogout }) => {
     const [clients, setClients] = useState([]);
     const [errors, setErrors] = useState({});
     const [contractNumber, setContractNumber] = useState('');
+    const [moduleData, setModuleData] = useState('');
+    const [moduleNumContra, setModuleNumContra] = useState('');
+    const [moduleCanal, setModuleCanal] = useState('');
+    const [isInfoVisible, setIsInfoVisible] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
@@ -75,7 +80,7 @@ const ContractNew = ({ handleLogout }) => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await apiClient.get('/contract_type');
+                const response = await apiClient.get('/product_type');
                 setProduct(response.data);
             } catch (error) {
                 console.error('Error fetching products:', error);
@@ -83,6 +88,19 @@ const ContractNew = ({ handleLogout }) => {
         };
 
         fetchProducts();
+    }, []);
+
+    useEffect(() => {
+        const fetchTipoContra = async () => {
+            try {
+                const response = await apiClient.get('/contract_type');
+                setTypeContract(response.data);
+            } catch (error) {
+                console.error('Error fetching contract:', error);
+            }
+        };
+
+        fetchTipoContra();
     }, []);
 
     const validateFields = () => {
@@ -108,6 +126,18 @@ const ContractNew = ({ handleLogout }) => {
         }
     };
 
+    const openModal = () => {
+        setIsModalOpen(true);
+      };
+    
+      const closeModal = () => {
+        setIsModalOpen(false);
+      };
+    
+      const selectClient = (clientName) => {
+        setCliente(clientName);
+      };
+
     const handleSave = async () => {
         const validationErrors = validateFields();
         if (Object.keys(validationErrors).length > 0) {
@@ -129,8 +159,16 @@ const ContractNew = ({ handleLogout }) => {
             fechaFin
         };
         const payloadUpdate = {
-
-
+            distribuidor,
+            servidor,
+            observacion,
+            tipocontra,
+            tipoContrato,
+            numSer,
+            numCli,
+            aNumSer,
+            aNumCli,
+            fechaFin
         };
 
         try {
@@ -139,13 +177,15 @@ const ContractNew = ({ handleLogout }) => {
                 await apiClient.patch(`/products/${productId}`, payloadUpdate);
             } else {
                 // Modo creación: usar POST
+                console.log(payload);
                 const response = await apiClient.post('/contracts', payload);
                 const newContractNumber = response.data.numCont;
                 setContractNumber(newContractNumber);
                 setIsSuccessVisible(true);
-                const response2 = await apiClient.get(`/module_pack?tipoContra=${tipocontra}`);
-                setModuleData(response2.data);
-                setShowModules(true);
+                setModuleData(tipocontra);
+                setModuleNumContra(newContractNumber);
+                setModuleCanal(distribuidor);
+                setIsInfoVisible(true);
             }
             setIsSuccessVisible(true);
             setIsErrorVisible(false);
@@ -182,15 +222,6 @@ const ContractNew = ({ handleLogout }) => {
                 <h3 className="basic-info-form-title">Información del Contrato</h3>
                 <div className="basic-info-form-grid">
                     <div className="basic-info-form-group">
-                        <label>Nro. Contrato</label>
-                        <input
-                            type="text"
-                            placeholder="Nro. Contrato"
-                            value={codigo}
-                            onChange={(e) => setCodigo(e.target.value)}
-                        />
-                    </div>
-                    <div className="basic-info-form-group">
                         <label style={{ color: errors.numSerie ? 'red' : 'inherit' }}>Nro. Identificador</label>
                         <input
                             type="text"
@@ -206,10 +237,14 @@ const ContractNew = ({ handleLogout }) => {
                             type="text"
                             placeholder="Cliente"
                             value={cliente}
+                            onClick={openModal} // Abre el modal al hacer clic en el input
                             onChange={(e) => setCliente(e.target.value)}
-
                         />
-                        <CustomerModal isOpen={isModalOpen} closeModal={closeModal} />
+                        <CustomerModal
+                            isOpen={isModalOpen}
+                            closeModal={closeModal}
+                            selectClient={selectClient}
+                        />
                         {errors.cliente && <p className="error-message">{errors.cliente}</p>}
                     </div>
                     <div className="basic-info-form-group">
@@ -238,23 +273,6 @@ const ContractNew = ({ handleLogout }) => {
                         {errors.servidor && <p className="error-message">{errors.servidor}</p>}
                     </div>
                     <div className="basic-info-form-group">
-                        <label style={{ color: errors.fechaFin ? 'red' : 'inherit' }}>Cáduca</label>
-                        <div className="basic-info-date-picker">
-                            <DatePicker
-                                selected={fechaFin ? new Date(fechaFin) : null}
-                                onChange={handleDateChange}
-                                showTimeSelect
-                                timeFormat="HH:mm"
-                                timeIntervals={15}
-                                dateFormat="MMMM d, yyyy h:mm aa"
-                                placeholderText="Selecciona la Fecha"
-                                className="custom-date-picker"
-                            />
-                            {errors.fechaFin && <p className="error-message">{errors.fechaFin}</p>}
-                        </div>
-
-                    </div>
-                    <div className="basic-info-form-group">
                         <label style={{ color: errors.tipocontra ? 'red' : 'inherit' }}>Producto</label>
                         <select
                             value={tipocontra}
@@ -275,12 +293,30 @@ const ContractNew = ({ handleLogout }) => {
                             value={tipoContrato}
                             onChange={(e) => setTipoContrato(e.target.value)}
                         >
-                            <option value="">Seleccione un Tipo de Contrato</option>
-                            <option value="contador">Contador</option>
-                            <option value="nube">Nube</option>
-                            <option value="perpetuo">Perpetuo</option>
+                            <option value="">Seleccione un Tipo Contrato</option>
+                            {typeContract.map((contarct) => (
+                                <option key={contarct.code} value={contarct.code}>
+                                    {contarct.code}
+                                </option>
+                            ))}
                         </select>
                         {errors.tipoContrato && <p className="error-message">{errors.tipoContrato}</p>}
+                    </div>
+                    <div className="basic-info-form-group">
+                        <label style={{ color: errors.fechaFin ? 'red' : 'inherit' }}>Cáduca</label>
+                        <div className="basic-info-date-picker">
+                            <DatePicker
+                                selected={fechaFin ? new Date(fechaFin) : null}
+                                onChange={handleDateChange}
+                                showTimeSelect
+                                timeFormat="HH:mm"
+                                timeIntervals={15}
+                                dateFormat="MMMM d, yyyy h:mm aa"
+                                placeholderText="Selecciona la Fecha"
+                                className="custom-date-picker"
+                            />
+                            {errors.fechaFin && <p className="error-message">{errors.fechaFin}</p>}
+                        </div>
                     </div>
                     <div className="basic-info-form-group">
                         <label>Bloqueo</label>
@@ -316,27 +352,7 @@ const ContractNew = ({ handleLogout }) => {
                             </div>
                         </div>
                     </div>
-                    <div className="basic-info-form-group2">
-                        <label className="basic-title">Módulo de Activos</label>
-                        <div className="counter-group">
-                            <div className="counter">
-                                <p className="basic-subtittle">Servidores</p>
-                                <div className="custom-counter">
-                                    <button onClick={() => handleCounterChange('aser', 'decrement')}>-</button>
-                                    <span>{aNumSer}</span>
-                                    <button onClick={() => handleCounterChange('aser', 'increment')}>+</button>
-                                </div>
-                            </div>
-                            <div className="counter">
-                                <p className="basic-subtittle">Clientes</p>
-                                <div className="custom-counter">
-                                    <button onClick={() => handleCounterChange('acli', 'decrement')}>-</button>
-                                    <span>{aNumCli}</span>
-                                    <button onClick={() => handleCounterChange('acli', 'increment')}>+</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
                 <div className="basic-form-footer">
                     <button
@@ -365,7 +381,14 @@ const ContractNew = ({ handleLogout }) => {
                 isVisible={isErrorVisible}
                 onClose={() => setIsErrorVisible(false)}
             />
-            {showModules && <ModulesModal data={moduleData} />}
+            <ModulesModal
+                isVisible={isInfoVisible}
+                onClose={() => setIsInfoVisible(false)}
+                tipocontra={moduleData}
+                numContra={moduleNumContra}
+                channel={moduleCanal}
+            />
+
         </div>
     );
 };

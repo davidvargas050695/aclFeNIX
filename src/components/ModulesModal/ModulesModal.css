@@ -1,0 +1,18 @@
+.modal-content-module{
+    width: 90%;
+    height: 90%;
+    background-color: white;
+    border-radius: 1%;
+    padding: 10px;
+}
+
+.modal-content-module-body{
+    width: 100%;
+    height: 80%;
+}
+
+.modal-title {
+    font-size: 18px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
