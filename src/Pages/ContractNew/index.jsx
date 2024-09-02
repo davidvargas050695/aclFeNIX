@@ -43,9 +43,9 @@ const ContractNew = ({ handleLogout }) => {
     const [moduleCanal, setModuleCanal] = useState('');
     const [isInfoVisible, setIsInfoVisible] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const openModal = () => setIsModalOpen(true);
-    const closeModal = () => setIsModalOpen(false);
-    const [moduleData, setModuleData] = useState([]);
+    // const openModal = () => setIsModalOpen(true);
+    // const closeModal = () => setIsModalOpen(false);
+    // const [moduleData, setModuleData] = useState([]);
     const [showModules, setShowModules] = useState(false);
 
     const handleDateChange = (date) => {
