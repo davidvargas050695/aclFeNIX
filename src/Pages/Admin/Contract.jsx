@@ -3,7 +3,7 @@ import './Contract.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Header, Table, ContractForm } from '../../components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrashAlt, faBuilding, faFileContract, faFileCirclePlus } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrashAlt, faBuilding, faFileContract, faFileCirclePlus, faSearchPlus } from '@fortawesome/free-solid-svg-icons';
 import Section from '../../components/Section';
 import apiClient from "../../axios";
 import { Tooltip } from "react-tooltip";
@@ -16,6 +16,9 @@ const Contract = ({ handleLogout }) => {
   const [customers, setCustomers] = useState('');
   const location = useLocation();
   const [totalItems, setTotalItems] = useState(0);
+  const [contract, setContract] = useState('');
+  const [tempSearch, setTempSearch] = useState(''); // Temporal
+  const [tempCustomers, setTempCustomers] = useState(''); // Temporal
   const { customer } = location.state || {};
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
@@ -33,9 +36,9 @@ const Contract = ({ handleLogout }) => {
       if (customer) params.append('customer', customer);
       if (search) params.append('search', search);
       if (customers) params.append('customer', customers);
-      const endpoint = `/contracts?${params.toString()}&page=${page}`;
+      const endpoint = customer ? '/contracts' : `/contracts/${contract}`;
+      const response = await apiClient.get(`${endpoint}?${params.toString()}&page=${page}`);
       // Realizar la solicitud a la API
-      const response = await apiClient.get(endpoint);
       if (Array.isArray(response.data.results)) {
         setData(response.data.results);
       } else {
@@ -48,7 +51,7 @@ const Contract = ({ handleLogout }) => {
     } catch (error) {
       console.error("Error al obtener los datos del servicio", error);
     }
-  }, [search, customers, navigate, location.pathname, location.state]);
+  }, [search, contract, customers, navigate, location.pathname, location.state]);
 
   // Ejecuta handleSearch cuando el componente se monta
   useEffect(() => {
@@ -62,8 +65,7 @@ const Contract = ({ handleLogout }) => {
     { title: "Acciones", key: "acciones" },
   ];
 
-  const itemsPerPage = 50;
-  const paginatedData = data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const itemsPerPage = 10;
 
   const renderRow = (item, index) => (
     <>
@@ -112,21 +114,37 @@ const Contract = ({ handleLogout }) => {
       </td>
     </>
   );
-
+  const assignSearchValues = () => {
+    setSearch(tempSearch);
+    setCustomers(tempCustomers);
+    handleSearch(); // Ejecuta la búsqueda después de asignar los valores
+  };
   return (
     <div className="home-container-form">
       <Header onLogout={handleLogout} title='Contratos' />
+      <Section><div className="button-add-contract">
+              <button
+                className="basic-contract-button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate('/ContractNew');
+                }}
+              >
+                <FontAwesomeIcon className="basic-shortcut-icon" icon={faFileCirclePlus} />
+                Crear Nuevo Contrato
+              </button>
+            </div> </Section>
       <div className="main-content">
         <div className="home-content-form">
-          <Section>
+        <Section>
             <div className="filter-form">
-            <div className="form-group-contract ">
+              <div className="form-group-contract ">
                 <input
                   className="contract-input"
                   type="text"
                   id="search"
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
+                  value={tempSearch}
+                  onChange={(e) => setTempSearch(e.target.value)}
                   placeholder="Contrato"
                 />
               </div>
@@ -135,8 +153,8 @@ const Contract = ({ handleLogout }) => {
                   className="contract-input"
                   type="text"
                   id="customers"
-                  value={customers}
-                  onChange={(e) => setCustomers(e.target.value)}
+                  value={tempCustomers}
+                  onChange={(e) => setTempCustomers(e.target.value)}
                   placeholder="Cliente"
                 />
               </div>
@@ -144,13 +162,10 @@ const Contract = ({ handleLogout }) => {
             <div className="button-add">
               <button
                 className="basic-custom-button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  navigate('/ContractNew');
-                }}
+                onClick={() => assignSearchValues()}
               >
-                <FontAwesomeIcon className="basic-shortcut-icon" icon={faFileCirclePlus} />
-                Crear Nuevo Contrato
+                <FontAwesomeIcon className="basic-shortcut-icon" icon={faSearchPlus} />
+                Buscar
               </button>
             </div>
           </Section>

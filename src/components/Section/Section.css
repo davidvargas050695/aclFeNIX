@@ -5,7 +5,8 @@
   padding: 20px;
   width: 100%;
   margin: auto;
-  margin-bottom: 20px;
+  margin-top: 1px;
+  margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center; /* Asegura que ambos elementos estén alineados verticalmente */
