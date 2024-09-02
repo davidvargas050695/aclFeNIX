@@ -43,9 +43,8 @@ const ContractNew = ({ handleLogout }) => {
     const [moduleCanal, setModuleCanal] = useState('');
     const [isInfoVisible, setIsInfoVisible] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    // const openModal = () => setIsModalOpen(true);
-    // const closeModal = () => setIsModalOpen(false);
-    // const [moduleData, setModuleData] = useState([]);
+    const [selectedClient, setSelectedClient] = useState(null);
+    const [showNotification, setShowNotification] = useState(false);
     const [showModules, setShowModules] = useState(false);
 
     const handleDateChange = (date) => {
@@ -127,16 +126,19 @@ const ContractNew = ({ handleLogout }) => {
     };
 
     const openModal = () => {
+        setSelectedClient(null);
+        setShowNotification(false);
         setIsModalOpen(true);
-      };
-    
-      const closeModal = () => {
+    };
+
+
+    const closeModal = () => {
         setIsModalOpen(false);
-      };
-    
-      const selectClient = (clientName) => {
+    };
+
+    const selectClient = (clientName) => {
         setCliente(clientName);
-      };
+    };
 
     const handleSave = async () => {
         const validationErrors = validateFields();
@@ -237,7 +239,7 @@ const ContractNew = ({ handleLogout }) => {
                             type="text"
                             placeholder="Cliente"
                             value={cliente}
-                            onClick={openModal} // Abre el modal al hacer clic en el input
+                            onClick={openModal} // Usa la función modificada
                             onChange={(e) => setCliente(e.target.value)}
                         />
                         <CustomerModal

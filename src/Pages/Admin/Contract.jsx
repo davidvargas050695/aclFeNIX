@@ -100,7 +100,7 @@ const Contract = ({ handleLogout }) => {
           <button
             className="icon-button company-button"
             onClick={(e) => {
-              e.stopPropagation(); // Evita que el clic en el botón se propague al td
+              e.stopPropagation();
               navigate('/ModulesForm', { state: { modules: item.modules } });
             }}
             data-tooltip-id="contract-tooltip"
@@ -120,7 +120,7 @@ const Contract = ({ handleLogout }) => {
         <div className="home-content-form">
           <Section>
             <div className="filter-form">
-            <div className="form-group-contract ">
+              <div className="form-group-contract ">
                 <input
                   className="contract-input"
                   type="text"

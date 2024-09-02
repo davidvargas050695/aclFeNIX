@@ -34,7 +34,17 @@ const ModuleNew = ({ handleLogout }) => {
       fetchProduct();
     }
   }, [productId]);
-
+  
+  const handleSelectChange = (e) => {
+    const value = e.target.value;
+    if (value === "WinDev") {
+      setOrigen("WD");
+    } else if (value === "VFoxPro") {
+      setOrigen("VFP");
+    } else {
+      setOrigen("");
+    }
+  };
   const handleSave = async () => {
     const payload = {
       codigo,
@@ -105,10 +115,8 @@ const ModuleNew = ({ handleLogout }) => {
               onChange={(e) => setOrigen(e.target.value)}
             >
               <option value="">Seleccione una opción</option>
-              <option value="WinDev">WinDev</option>
-              <option value="VFoxPro">Visual FoxPro</option>
-              <option value="C#">C#</option>
-              <option value="Móvil">Móvil</option>
+              <option value="WinDev">WD</option>
+              <option value="VFoxPro">VFP</option>
             </select>
           </div>
           <div className="basic-info-form-group">

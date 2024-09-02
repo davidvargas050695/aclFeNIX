@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './CustomerModal.css';
 import Table from '../Table';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserPlus, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faUserPlus, faUser, faSearch } from '@fortawesome/free-solid-svg-icons';
 import apiClient from "../../axios";
 
 const CustomerModal = ({ isOpen, closeModal, selectClient }) => {
     const [data, setData] = useState([]);
+    const [search, setSearch] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const [searchTerm, setSearchTerm] = useState('');
     const [selectedClient, setSelectedClient] = useState(null);
+
     const [showNotification, setShowNotification] = useState(false);
 
     // Cargar todos los datos al montar el componente
@@ -34,46 +35,33 @@ const CustomerModal = ({ isOpen, closeModal, selectClient }) => {
         fetchAllData();
     };
 
+    // Función que se ejecuta cuando se selecciona una fila
+    const handleRowClick = (item) => {
+        setSelectedClient(item);
+        setShowNotification(true);
+    };
+
     const columns = [
         { title: "Código", key: "code" },
         { title: "Rázon Social", key: "socialReason" },
-        { title: "Cédula", key: "cif" },
-        { title: "Seleccionar", key: "acciones" },
+        { title: "Cédula", key: "cif" }
     ];
 
     const itemsPerPage = 50;
     const paginatedData = data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
-    const handleCheckboxChange = (client) => {
-        setSelectedClient(client);
-    };
-
     const renderRow = (item, index) => (
-        <tr key={index}>
-            <td>{item.code}</td>
-            <td>{item.socialReason}</td>
-            <td>{item.cif}</td>
-            <td>
-                <input
-                    type="checkbox"
-                    checked={selectedClient?.code === item.code}
-                    onChange={() => handleCheckboxChange(item)}
-                />
-            </td>
-        </tr>
+        <>
+            <td onClick={() => handleRowClick(item)}>{item.code}</td>
+            <td onClick={() => handleRowClick(item)}>{item.socialReason}</td>
+            <td onClick={() => handleRowClick(item)}>{item.cif}</td>
+        </>
     );
-
-    const handleAddClick = () => {
-        if (selectedClient) {
-            setShowNotification(true);
-        } else {
-            alert('Seleccione un cliente antes de agregar.');
-        }
-    };
 
     const handleAccept = () => {
         if (selectedClient) {
             selectClient(selectedClient.code);
+            setShowNotification(false); // Ocultar la notificación al aceptar
             closeModal();
         }
     };
@@ -82,6 +70,23 @@ const CustomerModal = ({ isOpen, closeModal, selectClient }) => {
         setShowNotification(false);
     };
 
+    const handleSearch = useCallback(async () => {
+        try {
+            const params = new URLSearchParams();
+            if (search) params.append('search', search);
+
+            const response = await apiClient.get(`/clients?${params.toString()}`);
+
+            if (Array.isArray(response.data)) {
+                setData(response.data);
+            } else {
+                setData([response.data]);
+            }
+        } catch (error) {
+            console.error("Error al obtener los datos del servicio", error);
+        }
+    }, [search]);
+
     return (
         isOpen && (
             <div className="modal-overlay">
@@ -89,15 +94,20 @@ const CustomerModal = ({ isOpen, closeModal, selectClient }) => {
                     <h3 className="modal-title">Clientes</h3>
                     <div className="filter-form">
                         <div className="form-group">
+                            <label htmlFor="customer">Cliente</label>
                             <input
-                                className="customer-input"
                                 type="text"
                                 id="customer"
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                                placeholder="Buscar..."
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                                placeholder="Cliente"
                             />
                         </div>
+
+                        <button className="search-button-modal" onClick={handleSearch}>
+                            <FontAwesomeIcon icon={faSearch} className="search-icon" />
+                            Buscar
+                        </button>
                     </div>
                     <Table
                         title='Lista de Clientes'
@@ -111,14 +121,8 @@ const CustomerModal = ({ isOpen, closeModal, selectClient }) => {
                         onPageChange={(page) => setCurrentPage(page)}
                         onRefresh={handleRefresh}
                     />
-                    <div className="basic-form-footer">
-                        <button className="basic-custom-button" onClick={handleAddClick}>
-                            <FontAwesomeIcon icon={faUserPlus} className="basic-shortcut-icon" />
-                            Agregar
-                        </button>
-                    </div>
                 </div>
-                {showNotification && (
+                {showNotification && selectedClient && (
                     <div className="modal-overlay">
                         <div className="notification">
                             <p>Seleccionó el Cliente {selectedClient.socialReason}</p>
@@ -132,6 +136,7 @@ const CustomerModal = ({ isOpen, closeModal, selectClient }) => {
                             </div>
                         </div>
                     </div>
+
                 )}
             </div>
         )

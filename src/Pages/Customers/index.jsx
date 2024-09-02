@@ -4,11 +4,11 @@ import Header from '../../components/Header';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import SuccessNotification from '../../components/Notifications/SuccessNotification';
 import ErrorNotification from '../../components/Notifications/ErrorNotification';
-import { faEdit, faTrashAlt, faUser, faFileContract, faUserPlus, faEye } from '@fortawesome/free-solid-svg-icons';
-import Table from '../../components/Table'; 
+import { faEdit, faTrashAlt, faUser, faFileContract, faUserPlus, faEye, faSearch } from '@fortawesome/free-solid-svg-icons';
+import Table from '../../components/Table';
 import Section from '../../components/Section';
 import SlideModal from '../../components/SlideModal';
-import apiClient from "../../axios"; 
+import apiClient from "../../axios";
 import { Tooltip } from "react-tooltip";
 import { useNavigate } from 'react-router-dom';
 import debounce from 'lodash.debounce';
@@ -27,7 +27,7 @@ const Customer = ({ handleLogout }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const toggleModal = async (item) => {
-    if(!isModalOpen) {
+    if (!isModalOpen) {
       try {
         const response = await apiClient.get(`/clients/${item.code}`);
         const customer = {
@@ -72,33 +72,25 @@ const Customer = ({ handleLogout }) => {
   const handleRefresh = () => {
     fetchAllData(currentPage);
   };
-// eslint-disable-next-line react-hooks/exhaustive-deps
-const debouncedSearch = useCallback(
-  debounce(async (searchTerm) => {
+
+  const handleSearch = useCallback(async () => {
     try {
+      // Construir la URL con los query params
       const params = new URLSearchParams();
-      if (searchTerm) params.append('search', searchTerm);
+      if (search) params.append('search', search);
 
-      const response = await apiClient.get(`/clients?${params.toString()}&page=${currentPage}`);
+      const response = await apiClient.get(`/clients?${params.toString()}`);
 
-      if (Array.isArray(response.data.results)) {
-        setData(response.data.results);
-        setTotalItems(response.data.total); // Actualiza el total de elementos según la búsqueda
+      if (Array.isArray(response.data)) {
+        setData(response.data); // Si es un array, lo dejamos tal cual
       } else {
-        setData([response.data.results]);
-        setTotalItems(1);
+        setData([response.data]); // Si es un objeto, lo encapsulamos en un array
       }
+
     } catch (error) {
-      setIsErrorVisible(true);
+      console.error("Error al obtener los datos del servicio", error);
     }
-  }, 300), [currentPage] // Dependencia en currentPage para cambiar la página en el paginado
-);
-
-  
-
-  useEffect(() => {
-    debouncedSearch(search); // Ejecuta la búsqueda cuando cambie el valor de search
-  }, [search, debouncedSearch]);
+  }, [search]);
 
   const handleDelete = async (code) => {
     try {
@@ -181,31 +173,36 @@ const debouncedSearch = useCallback(
         <Section>
           <div className="filter-form">
             <div className="form-group">
-              <label htmlFor="customer">CLIENTES</label>
+              <label htmlFor="customer">Cliente</label>
               <input
-                className="customer-input"
                 type="text"
                 id="customer"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Buscar..."
+                placeholder="Cliente"
               />
             </div>
+
+            <button className="search-button" onClick={handleSearch}>
+              <FontAwesomeIcon icon={faSearch} className="search-icon" />
+              Buscar
+            </button>
+           
           </div>
           <div className="button-add">
-            <button
-              className="basic-custom-button"
-              onClick={(e) => {
-                e.stopPropagation();
-                navigate('/ClientForm');
-              }}
-            >
-              <FontAwesomeIcon className="basic-shortcut-icon" icon={faUserPlus} />
-              Crear Nuevo Cliente
-            </button>
-          </div>
+              <button
+                className="basic-custom-button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate('/ClientForm');
+                }}
+              >
+                <FontAwesomeIcon className="basic-shortcut-icon" icon={faUserPlus} />
+                Crear Nuevo Cliente
+              </button>
+            </div>
         </Section>
-        
+
         <Table
           title="Lista de Clientes"
           rows={data}
@@ -219,58 +216,58 @@ const debouncedSearch = useCallback(
           onRefresh={handleRefresh}
           loading={loading}
         />
-         <SuccessNotification
-        message={"Se ha cargado correctamente"}
-        isVisible={isSuccessVisible}
-        onClose={() => setIsSuccessVisible(false)}
-      />
-      <ErrorNotification
-        message="Ups! Ocurrio un Problema"
-        isVisible={isErrorVisible}
-        onClose={() => setIsErrorVisible(false)}
-      />
-      <SlideModal isOpen={isModalOpen} onClose={toggleModal} title="Detalles del Cliente">
-      <div className="section-container-form">
-        <h4 className="section-title-form">CÓDIGO</h4>
-        <hr className="section-divider-form" />
-        <div className="form-group-form">
-          <label>{selectedItem?.general.code}</label>
-        </div>
-        
-        <h4 className="section-title-form">RÁZON SOCIAL</h4>
-        <hr className="section-divider-form" />
-        <div className="form-group-form">
-          <label>{selectedItem?.general.socialReason}</label>
-        </div>
-        
-        <h4 className="section-title-form">CÉDULA</h4>
-        <hr className="section-divider-form" />
-        <div className="form-group-form">
-          <label>{selectedItem?.general.cif}</label>
-        </div>
-        
-        <h4 className="section-title-form">NOMBRE COMERCIAL</h4>
-        <hr className="section-divider-form" />
-        <div className="form-group-form">
-          <label>{selectedItem?.general.comercialName}</label>
-        </div>
-        <h4 className="section-title-form">DIRECCIÓN</h4>
-        <hr className="section-divider-form" />
-        <div className="form-group-form">
-          <label>{selectedItem?.alternative.direc1 || selectedItem?.alternative.direc2}</label>
-        </div>
-        <h4 className="section-title-form">DISTRIBUIDOR</h4>
-        <hr className="section-divider-form" />
-        <div className="form-group-form">
-          <label>{selectedItem?.alternative.distribuidor}</label>
-        </div>
-        <h4 className="section-title-form">TELÉFONO</h4>
-        <hr className="section-divider-form" />
-        <div className="form-group-form">
-          <label>{selectedItem?.alternative.tlf1}</label>
-        </div>    
-        </div>
-      </SlideModal>
+        <SuccessNotification
+          message={"Se ha cargado correctamente"}
+          isVisible={isSuccessVisible}
+          onClose={() => setIsSuccessVisible(false)}
+        />
+        <ErrorNotification
+          message="Ups! Ocurrio un Problema"
+          isVisible={isErrorVisible}
+          onClose={() => setIsErrorVisible(false)}
+        />
+        <SlideModal isOpen={isModalOpen} onClose={toggleModal} title="Detalles del Cliente">
+          <div className="section-container-form">
+            <h4 className="section-title-form">CÓDIGO</h4>
+            <hr className="section-divider-form" />
+            <div className="form-group-form">
+              <label>{selectedItem?.general.code}</label>
+            </div>
+
+            <h4 className="section-title-form">RÁZON SOCIAL</h4>
+            <hr className="section-divider-form" />
+            <div className="form-group-form">
+              <label>{selectedItem?.general.socialReason}</label>
+            </div>
+
+            <h4 className="section-title-form">CÉDULA</h4>
+            <hr className="section-divider-form" />
+            <div className="form-group-form">
+              <label>{selectedItem?.general.cif}</label>
+            </div>
+
+            <h4 className="section-title-form">NOMBRE COMERCIAL</h4>
+            <hr className="section-divider-form" />
+            <div className="form-group-form">
+              <label>{selectedItem?.general.comercialName}</label>
+            </div>
+            <h4 className="section-title-form">DIRECCIÓN</h4>
+            <hr className="section-divider-form" />
+            <div className="form-group-form">
+              <label>{selectedItem?.alternative.direc1 || selectedItem?.alternative.direc2}</label>
+            </div>
+            <h4 className="section-title-form">DISTRIBUIDOR</h4>
+            <hr className="section-divider-form" />
+            <div className="form-group-form">
+              <label>{selectedItem?.alternative.distribuidor}</label>
+            </div>
+            <h4 className="section-title-form">TELÉFONO</h4>
+            <hr className="section-divider-form" />
+            <div className="form-group-form">
+              <label>{selectedItem?.alternative.tlf1}</label>
+            </div>
+          </div>
+        </SlideModal>
       </div>
     </div>
   );

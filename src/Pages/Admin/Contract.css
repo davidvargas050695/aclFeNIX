@@ -57,11 +57,12 @@ select {
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease;
   position: relative;
-  top: 41px; /* Mueve el botón 20px hacia abajo */
+  top: 30px; /* Mueve el botón 20px hacia abajo */
 }
 
 .search-button:hover {
-  background-color: #12509B;
+  background-color: white;
+  color: #12509B;
 }
 
 .search-icon {
