@@ -54,6 +54,7 @@ const ModuleNew = ({ handleLogout }) => {
         // Modo creación: usar POST
         await apiClient.post('/products', payload);
       }
+      navigate('/Module');
       setIsSuccessVisible(true);
       setIsErrorVisible(false);
       setTimeout(() => {

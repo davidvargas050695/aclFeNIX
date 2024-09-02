@@ -9,7 +9,7 @@ import ModulesModal from '../../components/ModulesModal';
 import SuccessNotification from '../../components/Notifications/SuccessNotification';
 import ErrorNotification from '../../components/Notifications/ErrorNotification';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSave, faRotate, faCircleArrowLeft, faXmark, faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import { faSave, faRotate, faCircleArrowLeft, faXmark } from '@fortawesome/free-solid-svg-icons';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import apiClient from "../../axios";
@@ -43,6 +43,10 @@ const ContractNew = ({ handleLogout }) => {
     const [moduleCanal, setModuleCanal] = useState('');
     const [isInfoVisible, setIsInfoVisible] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const openModal = () => setIsModalOpen(true);
+    const closeModal = () => setIsModalOpen(false);
+    const [moduleData, setModuleData] = useState([]);
+    const [showModules, setShowModules] = useState(false);
 
     const handleDateChange = (date) => {
         // Convierte la fecha seleccionada al formato YYYY-MM-DD HH:mm:ss
@@ -115,9 +119,9 @@ const ContractNew = ({ handleLogout }) => {
             setNumSer(prev => (operation === 'increment' ? prev + 1 : (prev > 0 ? prev - 1 : 0)));
         } else if (counterType === 'cli') {
             setNumCli(prev => (operation === 'increment' ? prev + 1 : (prev > 0 ? prev - 1 : 0)));
-        } else if (counterType == 'aser') {
+        } else if (counterType === 'aser') {
             setAnumSer(prev => (operation === 'increment' ? prev + 1 : (prev > 0 ? prev - 1 : 0)));
-        } else if (counterType == 'acli') {
+        } else if (counterType === 'acli') {
             setAnumCli(prev => (operation === 'increment' ? prev + 1 : (prev > 0 ? prev - 1 : 0)));
         }
     };
@@ -170,7 +174,7 @@ const ContractNew = ({ handleLogout }) => {
         try {
             if (productId) {
                 // Modo edición: usar PATCH
-                await apiClient.patch(`/contracts/${productId}`, payloadUpdate);
+                await apiClient.patch(`/products/${productId}`, payloadUpdate);
             } else {
                 // Modo creación: usar POST
                 console.log(payload);

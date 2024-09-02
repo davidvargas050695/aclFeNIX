@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import './Contract.css';
+import './ContractAll.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Header, Table, ContractForm } from '../../components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,12 +12,13 @@ import { Tooltip } from "react-tooltip";
 const Contract = ({ handleLogout }) => {
   const [selectedRow, setSelectedRow] = useState(null);
   const [data, setData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
+  const itemsPerPage = 10;
   const [search, setSearch] = useState('');
   const [customers, setCustomers] = useState('');
   const location = useLocation();
-  const [totalItems, setTotalItems] = useState(0);
   const { customer } = location.state || {};
-  const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
 
   // Función que se ejecuta cuando se selecciona una fila
@@ -29,8 +30,6 @@ const Contract = ({ handleLogout }) => {
   const handleSearch = useCallback(async (page = 1) => {
     try {
       const params = new URLSearchParams();
-      if (search) params.append('search', search);
-      if (customer) params.append('customer', customer);
       if (search) params.append('search', search);
       if (customers) params.append('customer', customers);
       const endpoint = `/contracts?${params.toString()}&page=${page}`;
@@ -62,14 +61,11 @@ const Contract = ({ handleLogout }) => {
     { title: "Acciones", key: "acciones" },
   ];
 
-  const itemsPerPage = 50;
-  const paginatedData = data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
-
   const renderRow = (item, index) => (
     <>
-      <td onClick={() => handleRowClick(item)}>{item.numCont}</td>
-      <td onClick={() => handleRowClick(item)}>{item.razonSocial}</td>
-      <td onClick={() => handleRowClick(item)}>{item.cif}</td>
+      <td onClick={() => handleRowClick(item)}>{item?.numCont}</td>
+      <td onClick={() => handleRowClick(item)}>{item?.razonSocial}</td>
+      <td onClick={() => handleRowClick(item)}>{item?.cif}</td>
       <td>
         <div className="button-container">
           <Tooltip id="edit-tooltip" className="custom-tooltip" />
@@ -79,7 +75,6 @@ const Contract = ({ handleLogout }) => {
             data-tooltip-content="Editar"
             onClick={(e) => {
               e.stopPropagation(); // Evita que el clic en el botón se propague al td
-              console.log('Editar', item.numCont);
             }}
           >
             <FontAwesomeIcon icon={faEdit} />
@@ -91,7 +86,6 @@ const Contract = ({ handleLogout }) => {
             className="icon-button delete-button"
             onClick={(e) => {
               e.stopPropagation(); // Evita que el clic en el botón se propague al td
-              console.log('Eliminar', item.numCont);
             }}
           >
             <FontAwesomeIcon icon={faTrashAlt} />
@@ -112,6 +106,7 @@ const Contract = ({ handleLogout }) => {
       </td>
     </>
   );
+  
 
   return (
     <div className="home-container-form">
@@ -120,7 +115,7 @@ const Contract = ({ handleLogout }) => {
         <div className="home-content-form">
           <Section>
             <div className="filter-form">
-            <div className="form-group-contract ">
+              <div className="form-group-contract ">
                 <input
                   className="contract-input"
                   type="text"

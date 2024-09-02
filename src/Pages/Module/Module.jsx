@@ -3,7 +3,9 @@ import { useNavigate } from 'react-router-dom'
 import './Module.css';
 import Header from '../../components/Header';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrashAlt, faBuilding, faUser, faCirclePlus,faCube } from '@fortawesome/free-solid-svg-icons';
+import SuccessNotification from '../../components/Notifications/SuccessNotification';
+import ErrorNotification from '../../components/Notifications/ErrorNotification';
+import { faEdit, faTrashAlt, faCirclePlus,faCube } from '@fortawesome/free-solid-svg-icons';
 import Table from '../../components/Table'; // Asegúrate de que el path sea correcto
 import Section from '../../components/Section';
 import apiClient from "../../axios"; // Asegúrate de tener configurado tu cliente API
@@ -14,37 +16,48 @@ const Module = ({ handleLogout }) => {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
-
+  const [loading, setLoading] = useState(true);
+  const [isSuccessVisible, setIsSuccessVisible] = useState(false);
+  const [isErrorVisible, setIsErrorVisible] = useState(false);
+  const [totalItems, setTotalItems] = useState(0);
+  const itemsPerPage = 10;
   // Este useEffect se ejecuta una vez cuando el componente se monta
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await apiClient.get('/products');
+    fetchData(currentPage); // Llamar a la función para obtener los datos
+  }, [currentPage]); // El array vacío [] asegura que este efecto se ejecute solo una vez al montar el componente
+ 
+  const fetchData = async (page = 1) => {
+    try {
+      setLoading(true);
+      const response = await apiClient.get(`/products?page=${page}`);
 
-        if (Array.isArray(response.data)) {
-          setData(response.data); // Si es un array, lo dejamos tal cual
-        } else {
-          setData([response.data]); // Si es un objeto, lo encapsulamos en un array
-        }
-      } catch (error) {
-        console.error("Error al obtener los datos del servicio", error);
+      if (Array.isArray(response.data.results)) {
+        setData(response.data.results); // Si es un array, lo dejamos tal cual
+        setTotalItems(response.data.total);
+      } else {
+        setData([response.data.results]); // Si es un objeto, lo encapsulamos en un array
       }
-    };
-
-    fetchData(); // Llamar a la función para obtener los datos
-  }, []); // El array vacío [] asegura que este efecto se ejecute solo una vez al montar el componente
+      setIsSuccessVisible(true);
+    } catch (error) {
+      setIsErrorVisible(true);
+    } finally {
+      setIsSuccessVisible(true);
+      setLoading(false);
+    }
+  };
+  const handleRefresh = () => {
+    fetchData(currentPage);
+  };
 
   const handleDelete = async (id) => {
     try {
       const url = `/products/${id}`;
       await apiClient.delete(url);
-
       // Después de eliminar, actualizamos la lista filtrando el elemento eliminado
-      setData(data.filter(item => item.id !== id));
-
-      console.log(`Eliminado con éxito el producto con código: ${id}`);
+      // setData(data.filter(item => item.id !== id));
+      handleRefresh(); 
     } catch (error) {
-      console.error(`Error al eliminar el producto con código: ${id}`, error);
+      setIsErrorVisible(true);
     }
   };
   const columns = [
@@ -54,8 +67,6 @@ const Module = ({ handleLogout }) => {
     { title: "Acciones", key: "acciones" },
   ];
 
-  const itemsPerPage = 50;
-  const paginatedData = data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   const renderRow = (item, index) => (
     <>
@@ -113,15 +124,27 @@ const Module = ({ handleLogout }) => {
         </Section>
         <Table
           title='Lista de Módulos'
-          rows={paginatedData}
+          rows={data}
           columns={columns}
           icon={faCube}
           renderRow={renderRow}
           currentPage={currentPage}
-          totalItems={data.length}
+          totalItems={totalItems}
           itemsPerPage={itemsPerPage}
+          onRefresh={handleRefresh}
           onPageChange={(page) => setCurrentPage(page)}
+          loading={loading}
         />
+           <SuccessNotification
+        message={"Se ha cargado correctamente"}
+        isVisible={isSuccessVisible}
+        onClose={() => setIsSuccessVisible(false)}
+      />
+      <ErrorNotification
+        message="Ups! Ocurrio un Problema"
+        isVisible={isErrorVisible}
+        onClose={() => setIsErrorVisible(false)}
+      />
       </div>
     </div>
   );

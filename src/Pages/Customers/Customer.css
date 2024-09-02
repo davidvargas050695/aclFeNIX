@@ -56,3 +56,35 @@ select {
   margin-right: 8px; /* Espacio entre el ícono y el texto */
   font-size: 16px; /* Tamaño del ícono */
 }
+.section-container-form {
+  background-color: white;
+  padding: 1px;
+  margin-bottom: 1px;
+  text-align: left; /* Asegura que todo el contenido esté alineado a la izquierda */
+}
+
+.section-title-form {
+  font-size: 14px;
+  font-weight: bold;
+  color: #12509B;
+  margin-bottom: 5px;
+  text-align: left; /* Asegura que el título esté alineado a la izquierda */
+}
+
+.section-divider-form {
+  border: none;
+  border-bottom: 2px solid #dcdcdc;
+  margin: 1px 0;
+}
+
+.form-group-form {
+  margin-bottom: 15px;
+  position: relative;
+  display: block;
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 5px;
+  text-align: left; /* Asegura que el contenido esté alineado a la izquierda */
+}
+
+

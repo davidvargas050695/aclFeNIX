@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { LayoutSidebar } from './components'; // Importa el componente Layout
-import { Login, Contract, Module, HomePage, ModuleList, ClientForm, ModulesForm, Customers, ModuleNew, ContractNew, ModuleContract } from "./Pages";
+import { Login, Contract, Module, HomePage, ModuleList, ClientForm, ModulesForm, Customers, ModuleNew, ContractNew,ModuleContract, ContratAll } from "./Pages";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -42,6 +42,16 @@ function App() {
           element={
             isAuthenticated ? (
               <LayoutSidebar><Contract handleLogout={handleLogout} /></LayoutSidebar>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+        <Route
+          path="/ContractAll"
+          element={
+            isAuthenticated ? (
+              <LayoutSidebar><ContratAll handleLogout={handleLogout} /></LayoutSidebar>
             ) : (
               <Navigate to="/" />
             )

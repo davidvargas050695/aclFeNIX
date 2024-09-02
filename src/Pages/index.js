@@ -9,3 +9,4 @@ export { default as ModuleNew } from './ModuleNew/ModuleNew';
 export { default as ModuleList } from './ModulesList/ModuleList'; 
 export { default as ContractNew } from './ContractNew'; 
 export { default as ModuleContract } from './ModuleContract'; 
+export { default as ContratAll } from './ContratAll';

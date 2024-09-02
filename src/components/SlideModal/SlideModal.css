@@ -1,0 +1,71 @@
+.side-modal {
+  position: fixed;
+  top: 0;
+  font-weight: normal;
+  font-family: 'Poppins', sans-serif;
+  right: -100%;
+  width: 400px;
+  height: 100%;
+  background-color: white;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+  transition: right 0.3s ease;
+  z-index: 1001; /* Asegúrate de que el modal esté por encima del overlay */
+}
+
+.side-modal.open {
+  right: 0;
+}
+
+.side-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #F9F9F9;
+  border-bottom: 1px solid #ddd;
+}
+
+.modal-title {
+  font-size: 16px;
+  color: #0d47a1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #0d47a1;
+}
+
+.side-modal-content {
+  padding: 10px;
+  width: 100%;
+  display: flex;
+  flex-direction: column; /* Asegura que los elementos se coloquen uno debajo del otro */
+  align-items: flex-start; /* Alinea los elementos a la izquierda */
+  justify-content: flex-start; /* Asegura que los elementos se inicien desde la parte superior */
+}
+
+/* Overlay oscuro para el fondo */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro con transparencia */
+  z-index: 1000; /* Asegúrate de que esté detrás del modal */
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none; /* Evita que el overlay capture los clics cuando está oculto */
+}
+
+.side-modal.open ~ .overlay {
+  opacity: 1;
+  pointer-events: auto; /* Permite que el overlay capture los clics cuando está visible */
+}
