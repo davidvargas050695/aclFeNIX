@@ -9,7 +9,7 @@ import ModulesModal from '../../components/ModulesModal';
 import SuccessNotification from '../../components/Notifications/SuccessNotification';
 import ErrorNotification from '../../components/Notifications/ErrorNotification';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSave, faRotate, faCircleArrowLeft, faXmark, faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import { faSave, faRotate, faCircleArrowLeft, faXmark } from '@fortawesome/free-solid-svg-icons';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import apiClient from "../../axios";
@@ -38,7 +38,6 @@ const ContractNew = ({ handleLogout }) => {
     const [errors, setErrors] = useState({});
     const [contractNumber, setContractNumber] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [cliente2, setCliente2] = useState('');
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
     const [moduleData, setModuleData] = useState([]);
@@ -102,9 +101,9 @@ const ContractNew = ({ handleLogout }) => {
             setNumSer(prev => (operation === 'increment' ? prev + 1 : (prev > 0 ? prev - 1 : 0)));
         } else if (counterType === 'cli') {
             setNumCli(prev => (operation === 'increment' ? prev + 1 : (prev > 0 ? prev - 1 : 0)));
-        } else if (counterType == 'aser') {
+        } else if (counterType === 'aser') {
             setAnumSer(prev => (operation === 'increment' ? prev + 1 : (prev > 0 ? prev - 1 : 0)));
-        } else if (counterType == 'acli') {
+        } else if (counterType === 'acli') {
             setAnumCli(prev => (operation === 'increment' ? prev + 1 : (prev > 0 ? prev - 1 : 0)));
         }
     };
@@ -138,7 +137,6 @@ const ContractNew = ({ handleLogout }) => {
             if (productId) {
                 // Modo edición: usar PATCH
                 await apiClient.patch(`/products/${productId}`, payloadUpdate);
-                console.log('COntrato actualizado exitosamente');
             } else {
                 // Modo creación: usar POST
                 const response = await apiClient.post('/contracts', payload);
