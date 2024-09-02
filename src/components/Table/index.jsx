@@ -1,10 +1,25 @@
 import React from "react";
 import "./table.css";
-import Pagination from "./pagination"; 
+import Pagination from "./pagination";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSync } from '@fortawesome/free-solid-svg-icons';
+import Loader from "../Loader"; // Asegúrate de tener el componente Loader disponible
 
-const Table = ({ title, rows = [], columns = [], renderRow, icon, currentPage, totalItems, itemsPerPage, onPageChange, onRowClick, selectedRow, onRefresh }) => {
+const Table = ({
+  title,
+  rows = [],
+  columns = [],
+  renderRow,
+  icon,
+  currentPage,
+  totalItems,
+  itemsPerPage,
+  onPageChange,
+  onRowClick,
+  selectedRow,
+  onRefresh,
+  loading // Añadir el prop `loading`
+}) => {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   return (
@@ -18,11 +33,10 @@ const Table = ({ title, rows = [], columns = [], renderRow, icon, currentPage, t
           <FontAwesomeIcon
             icon={faSync}
             className="shortcut-icon-actually"
-            onClick={onRefresh} // Llama a la función de actualización cuando se hace clic en el ícono
-            style={{ cursor: 'pointer' }} // Añade un cursor de mano para indicar que es interactivo
+            onClick={onRefresh}
+            style={{ cursor: 'pointer' }}
           />
         </div>
-
       </div>
       <table className="sales-table">
         <thead>
@@ -33,12 +47,18 @@ const Table = ({ title, rows = [], columns = [], renderRow, icon, currentPage, t
           </tr>
         </thead>
         <tbody>
-          {rows.length > 0 ? (
+          {loading ? (
+            <tr>
+              <td colSpan={columns.length} className="loader-container">
+                <Loader /> {/* Mostrar el loader cuando loading es true */}
+              </td>
+            </tr>
+          ) : rows.length > 0 ? (
             rows.map((item, index) => (
               <tr
                 key={index}
-                onClick={() => onRowClick && onRowClick(item)} // Solo ejecuta onRowClick si está definida
-                className={item === selectedRow ? "selected-row" : ""} // Aplica la clase si la fila está seleccionada
+                onClick={() => onRowClick && onRowClick(item)}
+                className={item === selectedRow ? "selected-row" : ""}
               >
                 {renderRow(item, index)}
                 {columns.map((col) => col.render && <td key={col.key}>{col.render(item)}</td>)}
@@ -51,11 +71,13 @@ const Table = ({ title, rows = [], columns = [], renderRow, icon, currentPage, t
           )}
         </tbody>
       </table>
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={onPageChange}
-      />
+      {!loading && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={onPageChange}
+        />
+      )}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 import './InfoNotification.css';
@@ -8,7 +8,16 @@ import SuccessProcess from '../SuccessProcess';
 const InfoNotification = ({ message, isVisible, onClose, payload }) => {
     const [successVisible, setSuccessVisible] = useState(false);
     const [message2, setMessage2] = useState('');
+    useEffect(() => {
+        if (isVisible) {
+            const timer = setTimeout(() => {
+                onClose(); // Oculta la notificación después de 4 segundos
+            }, 4000);
 
+            // Limpia el temporizador si el componente se desmonta o si isVisible cambia
+            return () => clearTimeout(timer);
+        }
+    }, [isVisible, onClose]);
     const handleConfirm = async () => {
         try {
             const response = await apiClient.post('/clients?restore=true', payload);

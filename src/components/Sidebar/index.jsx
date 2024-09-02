@@ -43,12 +43,6 @@ const Sidebar = () => {
                 <li>
                   <Link to="/Home" className="submenu-item">Inicio</Link>
                 </li>
-                <li>
-                  <Link to="/Contract" className="submenu-item">Contratos</Link>
-                </li>
-                <li>
-                  <Link to="/dashboard3" className="submenu-item">Dashboard 3</Link>
-                </li>
               </ul>
             )}
           </li>
@@ -72,12 +66,6 @@ const Sidebar = () => {
                 <li>
                   <Link to="/Module" className="submenu-item">Lista de Módulos</Link>
                 </li>
-                <li>
-                  <Link to="/dashboard2" className="submenu-item">Dashboard 2</Link>
-                </li>
-                <li>
-                  <Link to="/dashboard3" className="submenu-item">Dashboard 3</Link>
-                </li>
               </ul>
             )}
           </li>
@@ -94,7 +82,7 @@ const Sidebar = () => {
             </Link>
           </li>
           <li>
-            <Link to="/Contract" className="menu-item">
+            <Link to="/ContractAll" className="menu-item">
               <div 
                 className="icon-container"
               >

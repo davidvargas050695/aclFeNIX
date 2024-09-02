@@ -11,3 +11,4 @@ export { default as WarningNotification  } from './Notifications/WarningNotifica
 export { default as InfoNotification  } from './Notifications/InfoNotification';
 export { default as CustomerModal  } from './CustomerModal';
 export { default as ModulesModal  } from './ModulesModal';
+export { default as SlideModal  } from './SlideModal';
