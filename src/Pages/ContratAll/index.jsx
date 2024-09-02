@@ -3,7 +3,7 @@ import './ContractAll.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Header, Table, ContractForm } from '../../components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrashAlt, faBuilding, faFileContract, faFileCirclePlus } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrashAlt, faBuilding, faFileContract, faFileCirclePlus, faSearchPlus } from '@fortawesome/free-solid-svg-icons';
 import Section from '../../components/Section';
 import apiClient from "../../axios";
 import { Tooltip } from "react-tooltip";
@@ -17,6 +17,8 @@ const Contract = ({ handleLogout }) => {
   const itemsPerPage = 10;
   const [search, setSearch] = useState('');
   const [customers, setCustomers] = useState('');
+  const [tempSearch, setTempSearch] = useState(''); // Temporal
+  const [tempCustomers, setTempCustomers] = useState(''); // Temporal
   const location = useLocation();
   const { customer } = location.state || {};
   const navigate = useNavigate();
@@ -52,7 +54,7 @@ const Contract = ({ handleLogout }) => {
   // Ejecuta handleSearch cuando el componente se monta
   useEffect(() => {
     handleSearch(currentPage);
-  }, [handleSearch, currentPage, search, customers]); // Incluye handleSearch en el array de dependencias
+  }, [handleSearch, currentPage]); // Incluye handleSearch en el array de dependencias
 
   const columns = [
     { title: "Número de contrato", key: "numCont" },
@@ -106,11 +108,27 @@ const Contract = ({ handleLogout }) => {
       </td>
     </>
   );
-  
+  const assignSearchValues = () => {
+    setSearch(tempSearch);
+    setCustomers(tempCustomers);
+    handleSearch(); // Ejecuta la búsqueda después de asignar los valores
+  };
 
   return (
     <div className="home-container-form">
       <Header onLogout={handleLogout} title='Contratos' />
+      <Section><div className="button-add-contract">
+              <button
+                className="basic-contract-button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate('/ContractNew');
+                }}
+              >
+                <FontAwesomeIcon className="basic-shortcut-icon" icon={faFileCirclePlus} />
+                Crear Nuevo Contrato
+              </button>
+            </div> </Section>
       <div className="main-content">
         <div className="home-content-form">
           <Section>
@@ -120,8 +138,8 @@ const Contract = ({ handleLogout }) => {
                   className="contract-input"
                   type="text"
                   id="search"
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
+                  value={tempSearch}
+                  onChange={(e) => setTempSearch(e.target.value)}
                   placeholder="Contrato"
                 />
               </div>
@@ -130,8 +148,8 @@ const Contract = ({ handleLogout }) => {
                   className="contract-input"
                   type="text"
                   id="customers"
-                  value={customers}
-                  onChange={(e) => setCustomers(e.target.value)}
+                  value={tempCustomers}
+                  onChange={(e) => setTempCustomers(e.target.value)}
                   placeholder="Cliente"
                 />
               </div>
@@ -139,13 +157,10 @@ const Contract = ({ handleLogout }) => {
             <div className="button-add">
               <button
                 className="basic-custom-button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  navigate('/ContractNew');
-                }}
+                onClick={() => assignSearchValues()}
               >
-                <FontAwesomeIcon className="basic-shortcut-icon" icon={faFileCirclePlus} />
-                Crear Nuevo Contrato
+                <FontAwesomeIcon className="basic-shortcut-icon" icon={faSearchPlus} />
+                Buscar
               </button>
             </div>
           </Section>
