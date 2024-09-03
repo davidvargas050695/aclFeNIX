@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Header from '../../components/Header';
 import Section from '../../components/Section';
+import Loader from '../../components/Loader';
 import SuccessNotification from '../../components/Notifications/SuccessNotification';
 import ErrorNotification from '../../components/Notifications/ErrorNotification';
 import InfoNotification from '../../components/Notifications/InfoNotification';
@@ -14,6 +15,7 @@ import './ClientForm.css';
 
 const ClientForm = ({ handleLogout }) => {
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
     const [isWarningVisible, setIsWarningVisible] = useState(false);
     const [warningMessage, setWarningMessage] = useState('');
     const [isButtonDisabled, setIsButtonDisabled] = useState(false);
@@ -81,9 +83,11 @@ const ClientForm = ({ handleLogout }) => {
     // Nueva función para manejar la búsqueda
     const handleDocumentSearch = async (event) => {
         if (event.key === 'Enter' || event.key === 'Tab') {
+
             event.preventDefault();
             try {
                 // Obtén el token primero
+                setLoading(true);
                 const token = await fetchAuthToken();
                 if (!token) {
                     throw new Error('No se pudo obtener el token de autenticación');
@@ -150,6 +154,8 @@ const ClientForm = ({ handleLogout }) => {
                 setNombre('');
                 setDireccion('');
                 setEmail('');
+            } finally {
+                setLoading(false);
             }
         }
     };
@@ -206,7 +212,7 @@ const ClientForm = ({ handleLogout }) => {
         if (!direc1) validationErrors.direc1 = "El Campo es Obligatorio";
         if (!tlf1) validationErrors.tlf1 = "El Campo es Obligatorio";
         if (!distribuidor) validationErrors.distribuidor = "El Campo es Obligatorio";
-        if (!email) validationErrors.distribuidor = "El Campo es Obligatorio";
+        if (!email) validationErrors.email = "El Campo es Obligatorio";
         return validationErrors;
     };
 
@@ -478,6 +484,9 @@ const ClientForm = ({ handleLogout }) => {
                 isVisible={isWarningVisible}
                 onClose={() => setIsWarningVisible(false)}
             />
+            {loading && (
+                  <Loader /> 
+            )}
         </div>
     );
 };
