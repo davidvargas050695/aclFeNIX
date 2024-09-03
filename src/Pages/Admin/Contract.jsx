@@ -23,6 +23,7 @@ const Contract = ({ handleLogout }) => {
   const navigate = useNavigate();
   const [isSuccessVisible, setIsSuccessVisible] = useState(false);
   const [isErrorVisible, setIsErrorVisible] = useState(false);
+  const itemsPerPage = 10;
   // Definición de la función handleRowClick
   const handleRowClick = (item) => {
     setSelectedRow(item);
@@ -75,8 +76,6 @@ const Contract = ({ handleLogout }) => {
     { title: "Acciones", key: "acciones" },
   ];
 
-  const itemsPerPage = 10;
-
 
   const renderRow = (item, index) => (
     <>
@@ -85,18 +84,6 @@ const Contract = ({ handleLogout }) => {
       <td onClick={() => handleRowClick(item)}>{item.cif}</td>
       <td>
         <div className="button-container">
-          <Tooltip id="edit-tooltip" className="custom-tooltip" />
-          <button
-            data-tooltip-id="edit-tooltip"
-            className="icon-button edit-button"
-            data-tooltip-content="Editar"
-            onClick={(e) => {
-              e.stopPropagation(); // Evita que el clic en el botón se propague al td
-              console.log('Editar', item.numCont);
-            }}
-          >
-            <FontAwesomeIcon icon={faEdit} />
-          </button>
           <Tooltip id="delete-tooltip" className="custom-tooltip" />
           <button
             data-tooltip-id="delete-tooltip"
