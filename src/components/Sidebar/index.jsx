@@ -82,18 +82,6 @@ const Sidebar = () => {
               </div>
             </Link>
           </li>
-          <li>
-            <Link to="/forms" className="menu-item">
-              <div 
-                className="icon-container"
-              >
-                <FontAwesomeIcon icon={faClipboard} className="icon" />
-              </div>
-              <div className="menu-text-arrow">
-                <span className="menu-text">Forms</span>
-              </div>
-            </Link>
-          </li>
         </ul>
       </nav>
     </div>
