@@ -180,34 +180,33 @@ const ContractForm = ({ selectedRow }) => {
             </div>
           </div>
         </div>
-        <div className="basic-info-form-group3">
-          <label>Módulo de Activos</label>
-          <div className="counter-group">
-            <div className="counter">
-              <p className="basic-subtittle">Servidores</p>
-              <input
-                type="text"
-                name="aNumSer"
-                value={formValues.aNumSer}
-                onChange={handleChange}
-                readOnly
-              />
-            </div>
-            <div className="counter">
-              <p className="basic-subtittle">Clientes</p>
-              <input
-                type="text"
-                name="aNumCli"
-                value={formValues.aNumCli}
-                onChange={handleChange}
-                readOnly
-              />
-            </div>
-
-          </div>
-
-        </div>
-
+      {/*
+<div className="basic-info-form-group3">
+  <label>Módulo de Activos</label>
+  <div className="counter-group">
+    <div className="counter">
+      <p className="basic-subtittle">Servidores</p>
+      <input
+        type="text"
+        name="aNumSer"
+        value={formValues.aNumSer}
+        onChange={handleChange}
+        readOnly
+      />
+    </div>
+    <div className="counter">
+      <p className="basic-subtittle">Clientes</p>
+      <input
+        type="text"
+        name="aNumCli"
+        value={formValues.aNumCli}
+        onChange={handleChange}
+        readOnly
+      />
+    </div>
+  </div>
+</div>
+*/}
       </div>
       <div className="basic-form-footer">
         <button className="basic-custom-button">

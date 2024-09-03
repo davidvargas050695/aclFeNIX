@@ -8,66 +8,78 @@ import Section from '../../components/Section';
 import apiClient from "../../axios";
 import { Tooltip } from "react-tooltip";
 
-
 const Contract = ({ handleLogout }) => {
   const [selectedRow, setSelectedRow] = useState(null);
-  const [data, setData] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalItems, setTotalItems] = useState(0);
-  const itemsPerPage = 10;
-  const [search, setSearch] = useState('');
-  const [customers, setCustomers] = useState('');
-  const [tempSearch, setTempSearch] = useState(''); // Temporal
-  const [tempCustomers, setTempCustomers] = useState(''); // Temporal
   const location = useLocation();
-  const { customer } = location.state || {};
+  const [data, setData] = useState([]);
+  const [search, setSearch] = useState(''); // Estado definitivo para la búsqueda
+  const [customer, setCustomer] = useState(location.state?.customer || ''); // Estado definitivo para la búsqueda
+  const [totalItems, setTotalItems] = useState(0);
+  const [tempSearch, setTempSearch] = useState(''); // Temporal para el input de contrato
+  const [tempCustomers, setTempCustomers] = useState(''); // Temporal para el input de cliente
+  const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
 
-  // Función que se ejecuta cuando se selecciona una fila
+  // Definición de la función handleRowClick
   const handleRowClick = (item) => {
     setSelectedRow(item);
+    // Aquí puedes agregar cualquier lógica adicional que necesites cuando se haga clic en una fila
   };
 
-  // Memoiza la función handleSearch
+  // Función de búsqueda
   const handleSearch = useCallback(async (page = 1) => {
     try {
-      const params = new URLSearchParams();
-      if (search) params.append('search', search);
-      if (customers) params.append('customer', customers);
-      const endpoint = `/contracts?${params.toString()}&page=${page}`;
-      // Realizar la solicitud a la API
-      const response = await apiClient.get(endpoint);
-      if (Array.isArray(response.data.results)) {
-        setData(response.data.results);
-      } else {
-        setData(response.data);
-      }
-      setTotalItems(response.data.total); //
+      let endPoint = 'contracts/1';
       if (customer) {
-        navigate(location.pathname, { replace: true, state: { ...location.state, customer: null } });
+        endPoint += `?customer=${customer}`;
+      } else if (search) {
+        endPoint += `?search=${search}`;
       }
+
+      const response = await apiClient.get(endPoint);
+      console.log('response::: ', response);
+      if (Array.isArray(response.data)) {
+        setData(response.data);
+      } else {
+        setData([response.data]);
+      }
+      setTotalItems(response.data.total); 
     } catch (error) {
       console.error("Error al obtener los datos del servicio", error);
     }
-  }, [search, customers, navigate, location.pathname, location.state]);
+  }, [search, customer]);
 
   // Ejecuta handleSearch cuando el componente se monta
   useEffect(() => {
     handleSearch(currentPage);
-  }, [handleSearch, currentPage]); // Incluye handleSearch en el array de dependencias
+  }, [handleSearch, currentPage]); 
 
+  // Asigna los valores definitivos y ejecuta la búsqueda
+  const assignSearchValues = () => {
+    if (tempSearch) {
+      setSearch(tempSearch);
+      setCustomer(''); // Limpia cliente si hay algo en contrato
+    } else if (tempCustomers) {
+      setCustomer(tempCustomers);
+      setSearch(''); // Limpia contrato si hay algo en cliente
+    }
+  };
+  
   const columns = [
     { title: "Número de contrato", key: "numCont" },
-    { title: "Cliente", key: "razonSocial" },
+    { title: "Cliente", key: "cliente" },
     { title: "Cédula", key: "cif" },
     { title: "Acciones", key: "acciones" },
   ];
 
+  const itemsPerPage = 10;
+
+
   const renderRow = (item, index) => (
     <>
-      <td onClick={() => handleRowClick(item)}>{item?.numCont}</td>
-      <td onClick={() => handleRowClick(item)}>{item?.razonSocial}</td>
-      <td onClick={() => handleRowClick(item)}>{item?.cif}</td>
+      <td onClick={() => handleRowClick(item)}>{item.numCont}</td>
+      <td onClick={() => handleRowClick(item)}>{item.cliente}</td>
+      <td onClick={() => handleRowClick(item)}>{item.cif}</td>
       <td>
         <div className="button-container">
           <Tooltip id="edit-tooltip" className="custom-tooltip" />
@@ -77,6 +89,7 @@ const Contract = ({ handleLogout }) => {
             data-tooltip-content="Editar"
             onClick={(e) => {
               e.stopPropagation(); // Evita que el clic en el botón se propague al td
+              console.log('Editar', item.numCont);
             }}
           >
             <FontAwesomeIcon icon={faEdit} />
@@ -88,6 +101,7 @@ const Contract = ({ handleLogout }) => {
             className="icon-button delete-button"
             onClick={(e) => {
               e.stopPropagation(); // Evita que el clic en el botón se propague al td
+              console.log('Eliminar', item.numCont);
             }}
           >
             <FontAwesomeIcon icon={faTrashAlt} />
@@ -96,7 +110,7 @@ const Contract = ({ handleLogout }) => {
           <button
             className="icon-button company-button"
             onClick={(e) => {
-              e.stopPropagation(); // Evita que el clic en el botón se propague al td
+              e.stopPropagation();
               navigate('/ModulesForm', { state: { modules: item.modules } });
             }}
             data-tooltip-id="contract-tooltip"
@@ -108,27 +122,24 @@ const Contract = ({ handleLogout }) => {
       </td>
     </>
   );
-  const assignSearchValues = () => {
-    setSearch(tempSearch);
-    setCustomers(tempCustomers);
-    handleSearch(); // Ejecuta la búsqueda después de asignar los valores
-  };
 
   return (
     <div className="home-container-form">
       <Header onLogout={handleLogout} title='Contratos' />
-      <Section><div className="button-add-contract">
-              <button
-                className="basic-contract-button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  navigate('/ContractNew');
-                }}
-              >
-                <FontAwesomeIcon className="basic-shortcut-icon" icon={faFileCirclePlus} />
-                Crear Nuevo Contrato
-              </button>
-            </div> </Section>
+      <Section>
+        <div className="button-add-contract">
+          <button
+            className="basic-contract-button"
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate('/ContractNew');
+            }}
+          >
+            <FontAwesomeIcon className="basic-shortcut-icon" icon={faFileCirclePlus} />
+            Crear Nuevo Contrato
+          </button>
+        </div>
+      </Section>
       <div className="main-content">
         <div className="home-content-form">
           <Section>
@@ -139,7 +150,10 @@ const Contract = ({ handleLogout }) => {
                   type="text"
                   id="search"
                   value={tempSearch}
-                  onChange={(e) => setTempSearch(e.target.value)}
+                  onChange={(e) => {
+                    setTempSearch(e.target.value);
+                    setTempCustomers(''); // Limpia cliente cuando escribes en contrato
+                  }}
                   placeholder="Contrato"
                 />
               </div>
@@ -149,7 +163,10 @@ const Contract = ({ handleLogout }) => {
                   type="text"
                   id="customers"
                   value={tempCustomers}
-                  onChange={(e) => setTempCustomers(e.target.value)}
+                  onChange={(e) => {
+                    setTempCustomers(e.target.value);
+                    setTempSearch(''); // Limpia contrato cuando escribes en cliente
+                  }}
                   placeholder="Cliente"
                 />
               </div>
@@ -183,7 +200,6 @@ const Contract = ({ handleLogout }) => {
           </div>
         </div>
       </div>
-
     </div>
   );
 };

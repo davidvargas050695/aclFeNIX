@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import imgFenix from '../../../src/static/fenix.png';
-import { faUser, faFileAlt, faClipboard, faHome , faCubes, faFileContract} from '@fortawesome/free-solid-svg-icons'; // Importa los iconos
+import { faUser, faClipboard, faHome , faCubes, faFileContract} from '@fortawesome/free-solid-svg-icons'; // Importa los iconos
 import './sidebar.css'; // Importa los estilos
 
 const Sidebar = () => {
@@ -23,28 +23,17 @@ const Sidebar = () => {
       </div>
       <nav>
         <ul>
-          <li 
-            className="menu-item"
-            onMouseEnter={() => handleMouseEnter('dashboard')}
-            onMouseLeave={handleMouseLeave}
-          >
-            <div className="menu-item">
+        <li>
+            <Link to="/Home" className="menu-item">
               <div 
-                className="icon-container" 
+                className="icon-container"
               >
                 <FontAwesomeIcon icon={faHome} className="icon" />
               </div>
               <div className="menu-text-arrow">
                 <span className="menu-text">Administrador</span>
               </div>
-            </div>
-            {openMenu === 'dashboard' && (
-              <ul className="submenu">
-                <li>
-                  <Link to="/Home" className="submenu-item">Inicio</Link>
-                </li>
-              </ul>
-            )}
+            </Link>
           </li>
           <li 
             className="menu-item"
