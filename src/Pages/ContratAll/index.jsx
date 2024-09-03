@@ -7,6 +7,8 @@ import { faEdit, faTrashAlt, faBuilding, faFileContract, faFileCirclePlus, faSea
 import Section from '../../components/Section';
 import apiClient from "../../axios";
 import { Tooltip } from "react-tooltip";
+import SuccessNotification from '../../components/Notifications/SuccessNotification';
+import ErrorNotification from '../../components/Notifications/ErrorNotification';
 
 const Contract = ({ handleLogout }) => {
   const [selectedRow, setSelectedRow] = useState(null);
@@ -19,7 +21,8 @@ const Contract = ({ handleLogout }) => {
   const [tempCustomers, setTempCustomers] = useState(''); // Temporal para el input de cliente
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
-
+  const [isSuccessVisible, setIsSuccessVisible] = useState(false);
+  const [isErrorVisible, setIsErrorVisible] = useState(false);
   // Definición de la función handleRowClick
   const handleRowClick = (item) => {
     setSelectedRow(item);
@@ -37,14 +40,15 @@ const Contract = ({ handleLogout }) => {
       }
 
       const response = await apiClient.get(endPoint);
-      console.log('response::: ', response);
       if (Array.isArray(response.data)) {
         setData(response.data);
       } else {
         setData([response.data]);
       }
-      setTotalItems(response.data.total); 
+      setTotalItems(response.data.total);
+      setIsSuccessVisible(true);
     } catch (error) {
+      setIsErrorVisible(true);
       console.error("Error al obtener los datos del servicio", error);
     }
   }, [search, customer]);
@@ -82,7 +86,7 @@ const Contract = ({ handleLogout }) => {
       <td onClick={() => handleRowClick(item)}>{item.cif}</td>
       <td>
         <div className="button-container">
-          <Tooltip id="edit-tooltip" className="custom-tooltip" />
+          {/*  <Tooltip id="edit-tooltip" className="custom-tooltip" />
           <button
             data-tooltip-id="edit-tooltip"
             className="icon-button edit-button"
@@ -93,7 +97,7 @@ const Contract = ({ handleLogout }) => {
             }}
           >
             <FontAwesomeIcon icon={faEdit} />
-          </button>
+          </button> */}
           <Tooltip id="delete-tooltip" className="custom-tooltip" />
           <button
             data-tooltip-id="delete-tooltip"
@@ -101,7 +105,6 @@ const Contract = ({ handleLogout }) => {
             className="icon-button delete-button"
             onClick={(e) => {
               e.stopPropagation(); // Evita que el clic en el botón se propague al td
-              console.log('Eliminar', item.numCont);
             }}
           >
             <FontAwesomeIcon icon={faTrashAlt} />
@@ -200,6 +203,16 @@ const Contract = ({ handleLogout }) => {
           </div>
         </div>
       </div>
+      <SuccessNotification
+                    message={"Datos cargados correctamente"}
+                    isVisible={isSuccessVisible}
+                    onClose={() => setIsSuccessVisible(false)}
+                />
+                <ErrorNotification
+                    message="Ups! Ocurrio un Problema"
+                    isVisible={isErrorVisible}
+                    onClose={() => setIsErrorVisible(false)}
+                />
     </div>
   );
 };

@@ -26,7 +26,7 @@ const ContractNew = ({ handleLogout }) => {
     const [cliente, setCliente] = useState('');
     const [distribuidor, setSucursal] = useState('');
     const [servidor, setServidor] = useState('');
-    const [observacion, setBloqueo] = useState('');
+    const [observacion2, setBloqueo] = useState('');
     const [tipocontra, setTipoProducto] = useState('');
     const [tipoContrato, setTipoContrato] = useState('');
     const [numSer, setNumSer] = useState(0);
@@ -41,6 +41,7 @@ const ContractNew = ({ handleLogout }) => {
     const [moduleData, setModuleData] = useState('');
     const [moduleNumContra, setModuleNumContra] = useState('');
     const [moduleCanal, setModuleCanal] = useState('');
+    const [checkobservacion, setIsCheckObservacion] = useState(false);
     const [isInfoVisible, setIsInfoVisible] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedClient, setSelectedClient] = useState(null);
@@ -52,6 +53,9 @@ const ContractNew = ({ handleLogout }) => {
         const formattedDate = format(date, 'yyyy-MM-dd HH:mm:ss');
         setFechaFin(formattedDate);
     };
+    const toggleSwitch = () => {
+        setIsCheckObservacion(prev => !prev);
+      };
 
     useEffect(() => {
         apiClient.get('/clients')
@@ -149,9 +153,10 @@ const ContractNew = ({ handleLogout }) => {
         const payload = {
             numSerie,
             cliente,
+            checkobservacion,
             distribuidor,
             servidor,
-            observacion,
+            observacion2,
             tipocontra,
             tipoContrato,
             numSer,
@@ -162,8 +167,9 @@ const ContractNew = ({ handleLogout }) => {
         };
         const payloadUpdate = {
             distribuidor,
+            checkobservacion,
             servidor,
-            observacion,
+            observacion2,
             tipocontra,
             tipoContrato,
             numSer,
@@ -305,7 +311,7 @@ const ContractNew = ({ handleLogout }) => {
                         {errors.tipoContrato && <p className="error-message">{errors.tipoContrato}</p>}
                     </div>
                     <div className="basic-info-form-group">
-                        <label style={{ color: errors.fechaFin ? 'red' : 'inherit' }}>Cáduca</label>
+                        <label style={{ color: errors.fechaFin ? 'red' : 'inherit' }}>Cáduca </label>
                         <div className="basic-info-date-picker">
                             <DatePicker
                                 selected={fechaFin ? new Date(fechaFin) : null}
@@ -317,18 +323,36 @@ const ContractNew = ({ handleLogout }) => {
                                 placeholderText="Selecciona la Fecha"
                                 className="custom-date-picker"
                             />
+                             <div className="slider-container-contract-space">
+                            <div className="slider-container-contract" onClick={toggleSwitch}>
+                            <div className={`slider-option-contract ${checkobservacion ? 'active-contract' : 'inactive-contract'}`}>
+                                Bloqueado
+                            </div>
+                            <div className={`slider-option-contract ${!checkobservacion ? 'active-contract' : 'inactive-contract'}`}>
+                                No Bloqueado
+                            </div>
+                            </div>
+                            </div>
                             {errors.fechaFin && <p className="error-message">{errors.fechaFin}</p>}
                         </div>
                     </div>
-                    <div className="basic-info-form-group">
-                        <label>Bloqueo</label>
-                        <input
-                            type="text"
-                            placeholder="Comentario"
-                            value={observacion}
-                            onChange={(e) => setBloqueo(e.target.value)}
-                        />
-                    </div>
+                    <div>
+    {/* Otros elementos del componente */}
+    
+    {checkobservacion && (
+      <div className="basic-info-form-group">
+        <label>Bloqueo</label>
+        <input
+          type="text"
+          placeholder="Comentario"
+          value={observacion2}
+          onChange={(e) => setBloqueo(e.target.value)}
+        />
+      </div>
+    )}
+
+    {/* Otros elementos del componente */}
+  </div>
                 </div>
                 <hr className="divider" />
                 <h3 className="basic-info-form-title">Número de Licencias</h3>

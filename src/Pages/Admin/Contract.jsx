@@ -7,6 +7,8 @@ import { faEdit, faTrashAlt, faBuilding, faFileContract, faFileCirclePlus, faSea
 import Section from '../../components/Section';
 import apiClient from "../../axios";
 import { Tooltip } from "react-tooltip";
+import ErrorNotification from '../../components/Notifications/ErrorNotification';
+import SuccessNotification from '../../components/Notifications/SuccessNotification';
 
 const Contract = ({ handleLogout }) => {
   const [selectedRow, setSelectedRow] = useState(null);
@@ -19,7 +21,8 @@ const Contract = ({ handleLogout }) => {
   const [tempCustomers, setTempCustomers] = useState(''); // Temporal para el input de cliente
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
-
+  const [isSuccessVisible, setIsSuccessVisible] = useState(false);
+  const [isErrorVisible, setIsErrorVisible] = useState(false);
   // Definición de la función handleRowClick
   const handleRowClick = (item) => {
     setSelectedRow(item);
@@ -200,6 +203,16 @@ const Contract = ({ handleLogout }) => {
           </div>
         </div>
       </div>
+      <SuccessNotification
+                    message={"Datos cargados correctamente"}
+                    isVisible={isSuccessVisible}
+                    onClose={() => setIsSuccessVisible(false)}
+                />
+                <ErrorNotification
+                    message="Ups! Ocurrio un Problema"
+                    isVisible={isErrorVisible}
+                    onClose={() => setIsErrorVisible(false)}
+                />
     </div>
   );
 };

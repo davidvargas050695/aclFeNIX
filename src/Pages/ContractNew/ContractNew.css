@@ -15,7 +15,39 @@
   margin: 15px auto;
  
 }
+.slider-container-contract {
+  display: flex;
+  width: 200px;
+  border: 2px solid #12509B;
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+}
 
+.slider-container-contract-space {
+  left: 80px !important; /* Asegúrate de que 'right' esté configurado para moverlo hacia la derecha */
+  position: relative; /* Añade esto si no está posicionado relativamente */
+}
+
+.slider-option-contract {
+  flex: 1;
+  text-align: center;
+  padding: 10px 0;
+  transition: all 0.3s ease;
+  text-transform: none; 
+  font-size: 10px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.active-contract  {
+  background-color: #12509B;
+  color: white;
+}
+
+.inactive-contract  {
+  background-color: #f0ecec;
+  color: #12509B;
+}
 
 .basic-info-form-group {
   display: flex;
