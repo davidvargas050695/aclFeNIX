@@ -51,25 +51,25 @@
   }
   
   .button-add-contract {
-    width: 20px;
+    width: 100%; /* Asegúrate de que ocupe todo el ancho disponible */
     display: flex;
-    gap: 10px; 
-    align-items: flex-start;
-    justify-content: flex-end;
-  }
-  
-  .basic-contract-button {
-      display: inline-flex;
-      align-items: center;
-      background-color: #ffffff;
-      border: 2px solid #0d47a1; 
-      border-radius: 8px; 
-      padding: 6px 12px; 
-      color: #0d47a1; 
-      font-size: 11px; 
-      font-weight: bold;
-      text-transform: uppercase;
-      cursor: pointer;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Reducir la sombra para ajustarse al nuevo tamaño */
-      transition: background-color 0.3s, color 0.3s;
-  }
+    justify-content: flex-end; /* Alinea el contenido al final (derecha) */
+    align-items: center; /* Alinea verticalmente el contenido */
+    padding-right: 20px; /* Añade un padding derecho si es necesario para separarlo del borde */
+}
+
+.basic-contract-button {
+    display: inline-flex;
+    align-items: center;
+    background-color: #ffffff;
+    border: 2px solid #0d47a1; 
+    border-radius: 8px; 
+    padding: 6px 12px; 
+    color: #0d47a1; 
+    font-size: 11px; 
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, color 0.3s;
+}

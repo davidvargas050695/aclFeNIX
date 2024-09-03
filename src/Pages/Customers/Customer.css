@@ -5,7 +5,6 @@
   margin-left: 145px; /* Ajusta el margen izquierdo para que no se superponga con el sidebar */
   width: calc(100% - 180px); /* Ajusta el ancho tomando en cuenta el sidebar */
 }
-
 .form-group {
   display: flex;
   flex-direction: column;
