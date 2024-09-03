@@ -38,7 +38,7 @@ const HomePage = ({ handleLogout }) => {
                     </div>
                     <div className="content">
                         <div className="content-header">
-                            <p className="content-title">Compañias</p>
+                            <p className="content-title">Clientes</p>
                             <p className="content-count">{homeData.clients}</p> {/* Mostrar el número de clientes */}
                         </div>
                         <hr />
