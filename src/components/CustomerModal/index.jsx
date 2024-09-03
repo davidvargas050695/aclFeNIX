@@ -4,18 +4,23 @@ import Table from '../Table';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserPlus, faUser, faSearch } from '@fortawesome/free-solid-svg-icons';
 import apiClient from "../../axios";
+import SuccessNotification from '../../components/Notifications/SuccessNotification';
+import ErrorNotification from '../../components/Notifications/ErrorNotification';
 
 const CustomerModal = ({ isOpen, closeModal, selectClient }) => {
     const [data, setData] = useState([]);
     const [search, setSearch] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedClient, setSelectedClient] = useState(null);
-
     const [showNotification, setShowNotification] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [isSuccessVisible, setIsSuccessVisible] = useState(false);
+    const [isErrorVisible, setIsErrorVisible] = useState(false);
 
     // Cargar todos los datos al montar el componente
     const fetchAllData = async () => {
         try {
+            setLoading(true);
             const response = await apiClient.get('/clients');
             if (Array.isArray(response.data)) {
                 setData(response.data);
@@ -23,7 +28,10 @@ const CustomerModal = ({ isOpen, closeModal, selectClient }) => {
                 setData([response.data]);
             }
         } catch (error) {
-            console.error("Error al obtener los datos del servicio", error);
+            setIsErrorVisible(true);
+        } finally {
+            setIsSuccessVisible(true);
+            setLoading(false);
         }
     };
 
@@ -120,6 +128,7 @@ const CustomerModal = ({ isOpen, closeModal, selectClient }) => {
                         itemsPerPage={itemsPerPage}
                         onPageChange={(page) => setCurrentPage(page)}
                         onRefresh={handleRefresh}
+                        loading={loading}
                     />
                 </div>
                 {showNotification && selectedClient && (
@@ -138,6 +147,16 @@ const CustomerModal = ({ isOpen, closeModal, selectClient }) => {
                     </div>
 
                 )}
+                <SuccessNotification
+                    message={"Se ha cargado correctamente"}
+                    isVisible={isSuccessVisible}
+                    onClose={() => setIsSuccessVisible(false)}
+                />
+                <ErrorNotification
+                    message="Ups! Ocurrio un Problema"
+                    isVisible={isErrorVisible}
+                    onClose={() => setIsErrorVisible(false)}
+                />
             </div>
         )
     );
