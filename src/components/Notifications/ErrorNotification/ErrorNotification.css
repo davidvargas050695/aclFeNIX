@@ -25,18 +25,27 @@
     flex-grow: 1;
 }
 
-
 .title-noti{
-    text-align: left;
-    margin: 0;
-    margin-bottom: 5px;
-    font-size: 15px;
-}
-
-.info-noti {
+    text-transform: uppercase; /* Convierte todo el texto en minúsculas */
     font-size: 14px;
     text-align: left;
     margin: 0;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-family: 'Poppins', sans-serif;
+}
+
+.info-noti {
+    text-transform: lowercase; /* Convierte todo el texto en minúsculas */
+    font-size: 10px;
+    font-weight: normal;
+    text-align: left;
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+.info-noti::first-letter {
+    text-transform: uppercase; /* Hace que solo la primera letra sea mayúscula */
 }
 
 .close-container-error {

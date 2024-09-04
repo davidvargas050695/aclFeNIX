@@ -24,6 +24,30 @@
     flex-grow: 1;
 }
 
+.info-noti-success {
+  text-transform: lowercase; /* Convierte todo el texto en minúsculas */
+  font-size: 10px;
+  font-weight: normal;
+  text-align: left;
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+.info-noti-success::first-letter {
+  text-transform: uppercase; /* Hace que solo la primera letra sea mayúscula */
+}
+.title-noti-success {
+  text-transform: uppercase; /* Convierte todo el texto en minúsculas */
+  font-size: 14px;
+  text-align: left;
+  margin: 0;
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif;
+}
+
+
+
 .close-container-success {
     background-color: #388e3c; 
     padding: 0 15px;
@@ -56,10 +80,6 @@
 
 .icon-container-noti-center {
   padding: 20px;
-}
-
-.icon-noti {
-  font-size: 30px;
 }
 
 .message-container-center {

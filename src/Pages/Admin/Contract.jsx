@@ -3,7 +3,7 @@ import './Contract.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Header, Table } from '../../components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashAlt,faInfoCircle, faFileContract, faFileCirclePlus, faSearchPlus } from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt,faEye, faFileContract, faFileCirclePlus, faSearchPlus } from '@fortawesome/free-solid-svg-icons';
 import Section from '../../components/Section';
 import apiClient from "../../axios";
 import { Tooltip } from "react-tooltip";
@@ -94,7 +94,7 @@ const Contract = ({ handleLogout }) => {
               navigate('/ContractEdition', { state: { numCont: item?.numCont } });
             }}
           >
-            <FontAwesomeIcon icon={faInfoCircle} />
+            <FontAwesomeIcon icon={faEye} />
           </button>
           <Tooltip id="delete-tooltip" className="custom-tooltip" />
           <button

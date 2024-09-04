@@ -58,6 +58,14 @@ const ContractEdition = ({ handleLogout }) => {
     { title: "Cédula", key: "cif" },
     { title: "Acciones", key: "acciones" },
   ];
+  const handleModalClose = () => {
+    // Llama a la función que quieras antes de cerrar el modal
+    handleSearch(currentPage);
+    setIsSuccessVisible(true);
+    // Luego, cierra el modal
+    setIsModalVisible(false);
+  };
+  
 
   const renderRow = (item, index) => (
     <>
@@ -127,13 +135,13 @@ const ContractEdition = ({ handleLogout }) => {
       {isModalVisible && (
         <div className="modal-overlay-edit">
           <div className="modal-content-edit">
-            <ContractForm selectedRow={selectedRow} closeModal={() => setIsModalVisible(false)}/>
+          <ContractForm selectedRow={selectedRow} closeModal={handleModalClose} />
           </div>
         </div>
       )}
 
       <SuccessNotification
-        message={"Datos cargados correctamente"}
+        message={"Se ha cargado correctamente"}
         isVisible={isSuccessVisible}
         onClose={() => setIsSuccessVisible(false)}
       />
