@@ -14,14 +14,33 @@
 label {
   margin-bottom: 5px;
   font-weight: normal;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
-.customer-input, select {
+.customer-input,
+select {
   width: 200px;
   padding: 10px;
   border: 1px solid #ced4da;
   border-radius: 4px;
+}
+
+.search-button-customer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #12509b;
+  color: #6c757d; /* Color del texto similar al de la imagen */
+  /* Borde con color similar al texto */
+  border-radius: 5px; /* Bordes redondeados */
+  padding: 8px 16px;
+  font-size: 14px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  position: relative;
+  top: 12px; /* Mueve el botón 20px hacia abajo */
+  left: 20px;
 }
 
 select {
@@ -42,7 +61,7 @@ select {
 .section-title-form {
   font-size: 14px;
   font-weight: bold;
-  color: #12509B;
+  color: #12509b;
   margin-bottom: 5px;
   text-align: left; /* Asegura que el título esté alineado a la izquierda */
 }
@@ -62,5 +81,3 @@ select {
   margin-bottom: 5px;
   text-align: left; /* Asegura que el contenido esté alineado a la izquierda */
 }
-
-

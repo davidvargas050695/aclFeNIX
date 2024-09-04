@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import './CustomerModal.css';
 import Table from '../Table';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserPlus, faUser, faSearch } from '@fortawesome/free-solid-svg-icons';
+import {faUser, faSearch } from '@fortawesome/free-solid-svg-icons';
 import apiClient from "../../axios";
 import SuccessNotification from '../../components/Notifications/SuccessNotification';
 import ErrorNotification from '../../components/Notifications/ErrorNotification';

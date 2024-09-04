@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './Contract.css';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Header, Table, ContractForm } from '../../components';
+import { Header, Table } from '../../components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrashAlt, faBuilding, faFileContract, faFileCirclePlus, faSearchPlus } from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt,faInfoCircle, faFileContract, faFileCirclePlus, faSearchPlus } from '@fortawesome/free-solid-svg-icons';
 import Section from '../../components/Section';
 import apiClient from "../../axios";
 import { Tooltip } from "react-tooltip";
@@ -33,19 +33,19 @@ const Contract = ({ handleLogout }) => {
   // Función de búsqueda
   const handleSearch = useCallback(async (page = 1) => {
     try {
-      let endPoint = 'contracts/1';
+      let endPoint = 'contracts';
       if (customer) {
-        endPoint += `?customer=${customer}`;
+        endPoint += `?customer=${customer}&page=${page}`;
       } else if (search) {
-        endPoint += `?search=${search}`;
+        endPoint += `?search=${search}&page=${page}`;
       }
 
       const response = await apiClient.get(endPoint);
       console.log('response::: ', response);
-      if (Array.isArray(response.data)) {
-        setData(response.data);
+      if (Array.isArray(response.data.results)) {
+        setData(response.data.results);
       } else {
-        setData([response.data]);
+        setData([response.data.results]);
       }
       setTotalItems(response.data.total); 
     } catch (error) {
@@ -79,11 +79,23 @@ const Contract = ({ handleLogout }) => {
 
   const renderRow = (item, index) => (
     <>
-      <td onClick={() => handleRowClick(item)}>{item.numCont}</td>
-      <td onClick={() => handleRowClick(item)}>{item.cliente}</td>
-      <td onClick={() => handleRowClick(item)}>{item.cif}</td>
+      <td onClick={() => handleRowClick(item)}>{item?.numCont}</td>
+      <td onClick={() => handleRowClick(item)}>{item?.cliente}</td>
+      <td onClick={() => handleRowClick(item)}>{item?.cif}</td>
       <td>
         <div className="button-container">
+        <Tooltip id="edit-tooltip" className="custom-tooltip" />
+          <button
+            data-tooltip-id="edit-tooltip"
+            className="icon-button edit-button"
+            data-tooltip-content="Detalles"
+            onClick={(e) => {
+              e.stopPropagation(); // Evita que el clic en el botón se propague al td
+              navigate('/ContractEdition', { state: { numCont: item?.numCont } });
+            }}
+          >
+            <FontAwesomeIcon icon={faInfoCircle} />
+          </button>
           <Tooltip id="delete-tooltip" className="custom-tooltip" />
           <button
             data-tooltip-id="delete-tooltip"
@@ -91,13 +103,12 @@ const Contract = ({ handleLogout }) => {
             className="icon-button delete-button"
             onClick={(e) => {
               e.stopPropagation(); // Evita que el clic en el botón se propague al td
-              console.log('Eliminar', item.numCont);
             }}
           >
             <FontAwesomeIcon icon={faTrashAlt} />
           </button>
-          <Tooltip id="contract-tooltip" className="custom-tooltip" />
-          <button
+        {/*   <Tooltip id="contract-tooltip" className="custom-tooltip" />
+         <button
             className="icon-button company-button"
             onClick={(e) => {
               e.stopPropagation();
@@ -107,33 +118,18 @@ const Contract = ({ handleLogout }) => {
             data-tooltip-content="Módulos"
           >
             <FontAwesomeIcon icon={faBuilding} />
-          </button>
+          </button> */}
         </div>
       </td>
     </>
   );
 
   return (
-    <div className="home-container-form">
+    <div className="home-container">
       <Header onLogout={handleLogout} title='Contratos' />
+      <div className="home-content">
       <Section>
-        <div className="button-add-contract">
-          <button
-            className="basic-contract-button"
-            onClick={(e) => {
-              e.stopPropagation();
-              navigate('/ContractNew');
-            }}
-          >
-            <FontAwesomeIcon className="basic-shortcut-icon" icon={faFileCirclePlus} />
-            Crear Nuevo Contrato
-          </button>
-        </div>
-      </Section>
-      <div className="main-content">
-        <div className="home-content-form">
-          <Section>
-            <div className="filter-form">
+      <div className="filter-form">
               <div className="form-group-contract ">
                 <input
                   className="contract-input"
@@ -170,8 +166,20 @@ const Contract = ({ handleLogout }) => {
                 Buscar
               </button>
             </div>
-          </Section>
-          <Table
+        <div className="button-add-contract">
+          <button
+            className="basic-contract-button"
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate('/ContractNew');
+            }}
+          >
+            <FontAwesomeIcon className="basic-shortcut-icon" icon={faFileCirclePlus} />
+            Crear Nuevo Contrato
+          </button>
+        </div>
+      </Section>
+      <Table
             title='Lista de Contratos'
             rows={data}
             columns={columns}
@@ -183,23 +191,17 @@ const Contract = ({ handleLogout }) => {
             onPageChange={(page) => setCurrentPage(page)}
             selectedRow={selectedRow}
           />
-        </div>
-        <div className="additional-info-container">
-          <div>
-            <ContractForm selectedRow={selectedRow} />
-          </div>
-        </div>
       </div>
       <SuccessNotification
-                    message={"Datos cargados correctamente"}
-                    isVisible={isSuccessVisible}
-                    onClose={() => setIsSuccessVisible(false)}
-                />
-                <ErrorNotification
-                    message="Ups! Ocurrio un Problema"
-                    isVisible={isErrorVisible}
-                    onClose={() => setIsErrorVisible(false)}
-                />
+          message={"Datos cargados correctamente"}
+          isVisible={isSuccessVisible}
+          onClose={() => setIsSuccessVisible(false)}
+      />
+      <ErrorNotification
+          message="Ups! Ocurrio un Problema"
+          isVisible={isErrorVisible}
+          onClose={() => setIsErrorVisible(false)}
+      />
     </div>
   );
 };

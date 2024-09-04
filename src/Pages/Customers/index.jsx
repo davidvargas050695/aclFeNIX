@@ -117,7 +117,7 @@ const Customer = ({ handleLogout }) => {
       <td>{item.code}</td>
       <td>{item.socialReason}</td>
       <td>{item.cif}</td>
-      <td>{item.created}</td>
+      <td>{new Date(item.created).toLocaleString()}</td>
       <td>
         <div className="button-container">
           <Tooltip id="edit-tooltip" className="custom-tooltip" />
@@ -172,18 +172,16 @@ const Customer = ({ handleLogout }) => {
       <div className="home-content">
         <Section>
           <div className="filter-form">
-            <div className="form-group">
-              <label htmlFor="customer">Cliente</label>
-              <input
-                type="text"
-                id="customer"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Cliente"
-              />
-            </div>
-
-            <button className="search-button" onClick={handleSearch}>
+          <div className="basic-info-form-group">
+            <input
+               type="text"
+               id="customer"
+               value={search}
+               onChange={(e) => setSearch(e.target.value)}
+               placeholder="Cliente"
+            />
+          </div>
+            <button className="search-button-customer" onClick={handleSearch}>
               <FontAwesomeIcon icon={faSearch} className="search-icon" />
               Buscar
             </button>

@@ -48,7 +48,6 @@ const ModuleContract = ({ handleLogout }) => {
 
     fetchDistributors();
   }, []);
-
   const handleClick = () => {
     navigate(-1);
   };
