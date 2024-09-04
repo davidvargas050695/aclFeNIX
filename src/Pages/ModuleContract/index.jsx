@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import './ModuleContract.css';
 import DatePicker from 'react-datepicker';
+import { es } from 'date-fns/locale';
 import Header from '../../components/Header';
 import Section from '../../components/Section';
 import SuccessNotification from '../../components/Notifications/SuccessNotification';
@@ -205,8 +206,9 @@ const ModuleContract = ({ handleLogout }) => {
             <DatePicker
               selected={selectedDate}
               onChange={(date) => setSelectedDate(date)}
-              dateFormat="MMMM d, yyyy"
+              dateFormat="MMMM d, yyyy h:mm aa"
               placeholderText="Selecciona la Fecha"
+              locale={es}
               className="custom-date-picker"
             />
           </div>

@@ -40,7 +40,7 @@ const ModulesModal = ({ isVisible, onClose, tipocontra, numContra, channel }) =>
             }
         } catch (error) {
             console.error("Error al obtener los datos del servicio", error);
-        }
+      }
     };
     const handleRefresh = () => {
         fetchAllData();

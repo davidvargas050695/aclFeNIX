@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './ContractForm.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DatePicker from 'react-datepicker';
+import { es } from 'date-fns/locale';
 import 'react-datepicker/dist/react-datepicker.css';
 import { faSync, faClose, faPlus , faMinus } from '@fortawesome/free-solid-svg-icons';
 import apiClient from '../../axios'; // Asegúrate de tener esta importación
@@ -14,7 +15,7 @@ const ContractForm = ({ selectedRow, closeModal }) => {
   const [typeContract, setTypeContract] = useState([]);
   const [isSuccessVisible, setIsSuccessVisible] = useState(false);
   const [isErrorVisible, setIsErrorVisible] = useState(false);
-
+  const [errors, setErrors] = useState({});
   const [formValues, setFormValues] = useState({
     numCont: '',
     numSerie: '',
@@ -39,7 +40,6 @@ const ContractForm = ({ selectedRow, closeModal }) => {
     observacion2: '',
     solicitado: 1,
     checkobservacion: false,
-    fechaFin: ''
   });
 
   useEffect(() => {
@@ -98,7 +98,6 @@ useEffect(() => {
         nReactiva: selectedRow.nReactiva || 0,
         aReactiva: selectedRow.aReactiva || 0,
         proxPago: selectedRow.proxPago || '',
-        fechaFin: selectedRow.fechaFin || '',
       });
     }
   }, [selectedRow]);
@@ -119,10 +118,13 @@ useEffect(() => {
     e.preventDefault();
     try {
       // Crear una copia de formValues y eliminar las propiedades cliente y contEmpre
-      const { cliente, contEmpre, observacion , tipoContrato, fechaFin,numCont, ...formValuesWithoutClientAndContEmpre } = formValues;
-
+      const {  numCont,  fechaFin, cliente, reg1, reg2, ...formValuesWithoutClientAndContEmpre } = formValues;
+      const formValuesWithProxPago = {
+        ...formValuesWithoutClientAndContEmpre,
+        proxPago: new Date(formValues.proxPago).toISOString(), // Asignamos fechaFin a proxPago
+      };
       // Enviar la copia modificada de formValues al servidor
-      const response = await apiClient.patch( `contracts/${numCont}`, formValuesWithoutClientAndContEmpre);
+      const response = await apiClient.patch( `contracts/${numCont}`, formValuesWithProxPago);
       setIsSuccessVisible(true);
       closeModal()
       // Aquí puedes manejar lo que ocurre después de la actualización
@@ -133,10 +135,10 @@ useEffect(() => {
 };
 
   useEffect(() => {
-    if (formValues.fechaFin) {
-      setSelectedDate(new Date(formValues.fechaFin));
+    if (formValues.proxPago) {
+      setSelectedDate(new Date(formValues.proxPago));
     }
-  }, [formValues.fechaFin]);
+  }, [formValues.proxPago]);
 
   return (
     <div className="basic-info-form-container">
@@ -178,7 +180,6 @@ useEffect(() => {
               name="contEmpre"
               value={formValues.contEmpre}
               onChange={handleChange}
-              readOnly
             />
           </div>
           <div className="basic-info-form-group">
@@ -199,10 +200,11 @@ useEffect(() => {
                   setSelectedDate(date);
                   setFormValues((prevValues) => ({
                     ...prevValues,
-                    fechaFin: date
+                    proxPago: date
                   }));
                 }}
-                dateFormat="MMMM d, yyyy"
+                locale={es}
+                      dateFormat="MMMM d, yyyy"
                 placeholderText="Selecciona la Fecha"
                 className="custom-date-picker"
               />
@@ -387,7 +389,7 @@ useEffect(() => {
         </div>
       </form>
       <SuccessNotification
-                    message={"Acción realizada correctamente"}
+                    message={"Se ha cargado correctamente"}
                     isVisible={isSuccessVisible}
                     onClose={() => setIsSuccessVisible(false)}
                 />

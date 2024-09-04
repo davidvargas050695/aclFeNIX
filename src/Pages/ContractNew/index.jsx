@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { format } from "date-fns";
+import { es } from 'date-fns/locale';
 import "./ContractNew.css";
 import Header from "../../components/Header";
 import Section from "../../components/Section";
@@ -342,6 +343,7 @@ const ContractNew = ({ handleLogout }) => {
                 selected={fechaFin ? new Date(fechaFin) : null}
                 onChange={handleDateChange}
                 showTimeSelect
+                locale={es}
                 timeFormat="HH:mm"
                 timeIntervals={15}
                 dateFormat="MMMM d, yyyy h:mm aa"
