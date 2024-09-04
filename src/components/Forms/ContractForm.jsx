@@ -3,12 +3,12 @@ import './ContractForm.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { faSync } from '@fortawesome/free-solid-svg-icons';
+import { faSync, faClose, faPlus , faMinus } from '@fortawesome/free-solid-svg-icons';
 import apiClient from '../../axios'; // Asegúrate de tener esta importación
 import SuccessNotification from '../../components/Notifications/SuccessNotification';
 import ErrorNotification from '../../components/Notifications/ErrorNotification';
 
-const ContractForm = ({ selectedRow }) => {
+const ContractForm = ({ selectedRow, closeModal }) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [productType, setProductType] = useState([]);
   const [typeContract, setTypeContract] = useState([]);
@@ -25,7 +25,7 @@ const ContractForm = ({ selectedRow }) => {
     tipocontra: '',
     tipoContrato: '',
     numSer: 0,
-    numCli: '',
+    numCli: 0,
     aNumCli: 0,
     nReactiva: 0,
     reactiva: 0,
@@ -33,6 +33,8 @@ const ContractForm = ({ selectedRow }) => {
     aNumSer: 0,
     nNumSer: 0,
     nNumCli: 0,
+    reg1: '',
+    reg2: '',
     proxPago: '',
     observacion2: '',
     solicitado: 1,
@@ -82,12 +84,14 @@ useEffect(() => {
         tipocontra: selectedRow.tipocontra || '',
         tipoContrato: selectedRow.tipoContrato || '',
         numSer: selectedRow.numSer || 0,
-        numCli: selectedRow.numCli || '',
+        numCli: selectedRow.numCli || 0,
         aNumSer: selectedRow.aNumSer || 0,
         observacion2: selectedRow.observacion2 || '',
         checkobservacion: selectedRow.checkobservacion === 1 ? true : false || false,
         nNumSer: selectedRow.nNumSer || 0,
         nNumCli: selectedRow.nNumCli || 0,
+        reg1: selectedRow.reg1 || 0,
+        reg2:  selectedRow.reg2 || 0,
         solicitado: selectedRow.solicitado || 1,
         aNumCli: selectedRow.aNumCli || 0,
         reactiva: selectedRow.reactiva || 0,
@@ -115,11 +119,12 @@ useEffect(() => {
     e.preventDefault();
     try {
       // Crear una copia de formValues y eliminar las propiedades cliente y contEmpre
-      const { cliente, contEmpre, observacion , tipoContrato, fechaFin, ...formValuesWithoutClientAndContEmpre } = formValues;
+      const { cliente, contEmpre, observacion , tipoContrato, fechaFin,numCont, ...formValuesWithoutClientAndContEmpre } = formValues;
 
       // Enviar la copia modificada de formValues al servidor
-      const response = await apiClient.post('contracts/refresh_access_key', formValuesWithoutClientAndContEmpre);
+      const response = await apiClient.patch( `contracts/${numCont}`, formValuesWithoutClientAndContEmpre);
       setIsSuccessVisible(true);
+      closeModal()
       // Aquí puedes manejar lo que ocurre después de la actualización
     } catch (error) {
       setIsErrorVisible(true);
@@ -219,6 +224,16 @@ useEffect(() => {
             </select>
           </div>
           <div className="basic-info-form-group">
+            <label>Observación</label>
+            <input
+              type="text"
+              name="observacion"
+              value={formValues.observacion}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="basic-info-form-switch">
+          <label>Estado</label>
             <div className="slider-container-contract" onClick={toggleSwitch}>
               <div className={`slider-option-contract ${formValues.checkobservacion ? 'active-contract' : 'inactive-contract'}`}>
                 Bloqueado
@@ -259,29 +274,83 @@ useEffect(() => {
         <hr className="divider" />
         <h3 className="basic-info-form-title">Número de Licencias</h3>
         <div className="basic-info-form-grid1">
-          <div className="basic-info-form-group3">
-            <label>Módulo Comercial</label>
-            <div className="counter-group">
-              <div className="counter">
-                <p className="basic-subtittle">Servidores</p>
-                <input
-                  type="text"
-                  name="numSer"
-                  value={formValues.numSer}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="counter">
-                <p className="basic-subtittle">Clientes</p>
-                <input
-                  type="text"
-                  name="numCli"
-                  value={formValues.numCli}
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
-          </div>
+        <div className="basic-info-form-group3">
+  <label>Módulo Comercial</label>
+  <div className="counter-group">
+    <div className="counter">
+      <p className="basic-subtittle">Servidores</p>
+      <div className="counter-controls">
+        <button
+          type="button"
+            className="icon-button-desc-asc"
+          onClick={() =>
+            setFormValues((prevValues) => ({
+              ...prevValues,
+              numSer: prevValues.numSer > 0 ? prevValues.numSer - 1 : 0,
+            }))
+          }
+        >
+          <FontAwesomeIcon icon={faMinus} />
+        </button>
+        <input
+          type="text"
+          name="numSer"
+          value={formValues.numSer}
+          onChange={handleChange}
+        />
+        <button
+          type="button"
+           className="icon-button-desc-asc"
+          onClick={() =>
+            setFormValues((prevValues) => ({
+              ...prevValues,
+              numSer: prevValues.numSer + 1,
+            }))
+          }
+        >
+                    <FontAwesomeIcon icon={faPlus} />
+        </button>
+      </div>
+    </div>
+    <div className="counter">
+      <p className="basic-subtittle">Clientes</p>
+      <div className="counter-controls">
+        <button
+          type="button"
+          className="icon-button-desc-asc"
+          onClick={() =>
+            setFormValues((prevValues) => ({
+              ...prevValues,
+              numCli: prevValues.numCli > 0 ? prevValues.numCli - 1 : 0,
+            }))
+          }
+        >
+                    <FontAwesomeIcon icon={faMinus} />
+        </button>
+        <input
+          type="text"
+          name="numCli"
+          value={formValues.numCli}
+          onChange={handleChange}
+        />
+        <button
+          type="button"
+            className="icon-button-desc-asc"
+          onClick={() =>
+            setFormValues((prevValues) => ({
+              ...prevValues,
+              numCli: prevValues.numCli + 1,
+            }))
+          }
+        >
+                    <FontAwesomeIcon icon={faPlus} />
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
           {/*
           <div className="basic-info-form-group3">
             <label>Módulo de Activos</label>
@@ -309,6 +378,9 @@ useEffect(() => {
           */}
         </div>
         <div className="basic-form-footer">
+        <button type="submit" className="basic-custom-button" onClick={closeModal}>
+            <FontAwesomeIcon icon={faClose} className="basic-shortcut-icon" />Cerrar
+          </button>
           <button type="submit" className="basic-custom-button">
             <FontAwesomeIcon icon={faSync} className="basic-shortcut-icon" />Actualizar
           </button>

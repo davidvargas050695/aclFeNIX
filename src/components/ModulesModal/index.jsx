@@ -45,7 +45,9 @@ const ModulesModal = ({ isVisible, onClose, tipocontra, numContra, channel }) =>
     const handleRefresh = () => {
         fetchAllData();
     };
-
+     useEffect(() => {
+        fetchAllData();
+    }, []);
     const handleCheckboxChange = (moduleCode) => {
         setSelectedModules(prevSelected =>
             prevSelected.includes(moduleCode)

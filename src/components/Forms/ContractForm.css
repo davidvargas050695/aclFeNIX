@@ -118,6 +118,18 @@
     margin: 10px;
     align-items: flex-start;
   }
+  .basic-info-form-switch {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px; /* Aumenta el valor para moverlo más abajo */
+    align-items: flex-start;
+}
+    .basic-info-form-switch label {
+    font-size: 14px;
+    color: #6c757d;
+    margin-bottom: 5px;
+    text-align: left;
+  }
   
   .basic-info-form-group3 label {
     font-size: 14px;
@@ -135,4 +147,24 @@
     font-size: 14px;
     color: #495057;
     width: 50%;
+  }
+
+  .icon-button-desc-asc {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    border: 2px solid #0d47a1; /* Ajusta el color del borde */
+    border-radius: 50%; /* Bordes redondeados */
+    padding: 12px 12px; /* Espaciado interno */
+    color: #0d47a1; /* Color del icono */
+    font-size: 8px;
+    z-index: 100;
+    cursor: pointer;
+    width: 35px;
+    transition: background-color 0.3s ease;
+  }
+  .icon-button-desc-asc:hover {
+    background-color: #0d47a1; /* Cambio de color al hacer hover */
+    color: #ffffff; /* Color del icono al hacer hover */
   }

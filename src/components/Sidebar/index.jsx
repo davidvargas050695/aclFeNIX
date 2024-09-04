@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import imgFenix from '../../../src/static/fenix.png';
-import { faUser, faClipboard, faHome , faCubes, faFileContract} from '@fortawesome/free-solid-svg-icons'; // Importa los iconos
+import { faUser, faHome , faCubes} from '@fortawesome/free-solid-svg-icons'; // Importa los iconos
 import './sidebar.css'; // Importa los estilos
 
 const Sidebar = () => {
@@ -70,7 +70,7 @@ const Sidebar = () => {
               </div>
             </Link>
           </li>
-          <li>
+        { /*  <li>
             <Link to="/ContractAll" className="menu-item">
               <div 
                 className="icon-container"
@@ -81,7 +81,7 @@ const Sidebar = () => {
                 <span className="menu-text">Contratos</span>
               </div>
             </Link>
-          </li>
+          </li> */}
         </ul>
       </nav>
     </div>
