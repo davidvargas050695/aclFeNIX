@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { format } from "date-fns";
-import { es } from 'date-fns/locale';
+import { es } from "date-fns/locale";
 import "./ContractNew.css";
 import Header from "../../components/Header";
 import Section from "../../components/Section";
@@ -23,13 +23,14 @@ import apiClient from "../../axios";
 const ContractNew = ({ handleLogout }) => {
   const navigate = useNavigate();
   const { productId } = useParams();
+  const location = useLocation();
   const [distributors, setDistributors] = useState([]);
   const [typeProduct, setProduct] = useState([]);
   const [typeContract, setTypeContract] = useState([]);
   const [fechaFin, setFechaFin] = useState(null);
   const [codigo, setCodigo] = useState("");
-  const [numSerie, setSerie] = useState("");
-  const [cliente, setCliente] = useState("");
+  const [numSerie, setSerie] =  useState(String(location.state?.contract[0].numCont) || '');
+  const [cliente, setCliente] =  useState(location.state?.contract[0].cliente || '');
   const [distribuidor, setSucursal] = useState("");
   const [observacion, setObservacion] = useState("");
   const [servidor, setServidor] = useState("");
@@ -161,6 +162,11 @@ const ContractNew = ({ handleLogout }) => {
     setCliente(clientName);
   };
 
+  const oncloseNavigateSuccess = () => {
+    navigate(-1);
+    setIsInfoVisible();
+  };
+
   const handleSave = async () => {
     const validationErrors = validateFields();
     if (Object.keys(validationErrors).length > 0) {
@@ -240,7 +246,7 @@ const ContractNew = ({ handleLogout }) => {
             icon={faCircleArrowLeft}
             onClick={(e) => {
               e.stopPropagation();
-              navigate("/Contract");
+              navigate(-1);
             }}
           />
         </div>
@@ -392,21 +398,21 @@ const ContractNew = ({ handleLogout }) => {
               <p className="error-message">{errors.observacion}</p>
             )}
           </div>
-            {/* Otros elementos del componente */}
+          {/* Otros elementos del componente */}
 
-            {checkobservacion && (
-              <div className="basic-info-form-group">
-                <label>Bloqueo</label>
-                <input
-                  type="text"
-                  placeholder="Comentario"
-                  value={observacion2}
-                  onChange={(e) => setBloqueo(e.target.value)}
-                />
-              </div>
-            )}
+          {checkobservacion && (
+            <div className="basic-info-form-group">
+              <label>Bloqueo</label>
+              <input
+                type="text"
+                placeholder="Comentario"
+                value={observacion2}
+                onChange={(e) => setBloqueo(e.target.value)}
+              />
+            </div>
+          )}
 
-            {/* Otros elementos del componente */}
+          {/* Otros elementos del componente */}
           <div className="basic-info-form-group">
             <label style={{ color: errors.tipoContrato ? "red" : "inherit" }}>
               Tipo Contrato
@@ -473,7 +479,7 @@ const ContractNew = ({ handleLogout }) => {
             className="basic-custom-button"
             onClick={(e) => {
               e.stopPropagation();
-              navigate("/Module");
+              navigate(-1);
             }}
           >
             <FontAwesomeIcon icon={faXmark} className="basic-shortcut-icon" />
@@ -509,7 +515,7 @@ const ContractNew = ({ handleLogout }) => {
       />
       <ModulesModal
         isVisible={isInfoVisible}
-        onClose={() => setIsInfoVisible(false)}
+        onClose={() => oncloseNavigateSuccess()}
         tipocontra={moduleData}
         numContra={moduleNumContra}
         channel={moduleCanal}

@@ -1,12 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import './ModulesForm.css';
-import ModalStatus from '../../components/Notifications/ModuleStatus';
-import Section from '../../components/Section';
-import { faThLarge, faClipboard } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Header, ActionButton, Table, ContractForm } from '../../components';
-import { faEdit, faTrashAlt, faCircleCheck, faCircleXmark, faCircleArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import React, { useState, useEffect, useCallback } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import "./ModulesForm.css";
+import ModalStatus from "../../components/Notifications/ModuleStatus";
+import Section from "../../components/Section";
+import { faThLarge, faClipboard } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Header, ActionButton, Table, ContractForm } from "../../components";
+import {
+  faEdit,
+  faTrashAlt,
+  faCircleCheck,
+  faCircleXmark,
+  faCircleArrowLeft,
+} from "@fortawesome/free-solid-svg-icons";
 import { Tooltip } from "react-tooltip";
 import apiClient from "../../axios";
 
@@ -16,49 +22,76 @@ const ModulesForm = ({ handleLogout }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedRow, setSelectedRow] = useState(null);
   const navigate = useNavigate();
-  const [data, setData] = useState(modules || []); // Estado inicial con los datos
+  const [data, setData] = useState(modules.modules || []); // Estado inicial con los datos
+  const [dataInfo, setDataInfo] = useState(modules || []);
   const [status, setStatus] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [numContId, setnumContId] = useState(null);
+  const [totalItems, setTotalItems] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    handleRefresh(); // Cargar datos al montar el componente
+    handleSearch(); // Cargar datos al montar el componente
   }, []);
 
   const handleStatusClick = (item) => {
     setSelectedItem(item);
     setModalVisible(true);
-    handleRefresh(); 
+    // handleRefresh();
   };
 
   const handleCloseModal = () => {
     setModalVisible(false);
     setSelectedItem(null);
+    onRefreshThis()
   };
 
   const handleClick = () => {
     navigate(-1);
   };
 
+  const handleSearch = useCallback(async (page = 1) => {
+    try {
+      setLoading(true)
+      let endPoint = `contracts/${modules.numCont}?skipLogin=true`;
+      const response = await apiClient.get(endPoint);
+      console.log('response::: ', response);
+      if (Array.isArray(response.data.modules)) {
+        setData(response.data.modules);
+      } else {
+        setData([response.data.modules]);
+      }
+      setTotalItems(response.data.total || 1);
+      setLoading(false)
+    } catch (error) {
+      setLoading(false)
+      console.error("Error al obtener los datos del servicio", error);
+    }
+  }, [modules.numCont]);
+
+  const onRefreshThis = () => {
+    handleSearch(1)
+  };
+
   const handleDelete = async (id) => {
     try {
       const url = `/modules/${id}`;
       await apiClient.delete(url);
-      handleRefresh(); 
+      // handleRefresh();
     } catch (error) {
-      console.error('Error al eliminar el Módulo');
+      console.error("Error al eliminar el Módulo");
     }
   };
 
-  const handleRefresh = async () => {
+  /* const handleRefresh = async () => {
     try {
       const response = await apiClient.get('/modules');
       setData(response.data);
     } catch (error) {
       console.error('Error al actualizar los datos:', error);
     }
-  };
+  }; */
 
   const columns = [
     { title: "Descripción", key: "descripcion" },
@@ -66,11 +99,14 @@ const ModulesForm = ({ handleLogout }) => {
     { title: "Origen", key: "origen" },
     { title: "Contrato", key: "numContId" },
     { title: "Estado", key: "acciones" },
-    { title: "Acciones", key: "acciones" }
+    { title: "Acciones", key: "acciones" },
   ];
 
   const itemsPerPage = 50;
-  const paginatedData = data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const paginatedData = data.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   const renderRow = (item, index) => (
     <>
@@ -83,16 +119,22 @@ const ModulesForm = ({ handleLogout }) => {
           <button
             className="status_button"
             onClick={() => handleStatusClick(item)}
-            
           >
-            <FontAwesomeIcon icon={faCircleCheck} style={{ color: 'green', fontSize: '24px' }} />
+            <FontAwesomeIcon
+              icon={faCircleCheck}
+              style={{ color: "green", fontSize: "24px" }}
+            />
           </button>
         ) : (
           <button
             className="status_button"
             onClick={() => handleStatusClick(item)}
           >
-            <FontAwesomeIcon className="status_icon" icon={faCircleXmark} style={{ color: 'red', fontSize: '24px' }} />
+            <FontAwesomeIcon
+              className="status_icon"
+              icon={faCircleXmark}
+              style={{ color: "red", fontSize: "24px" }}
+            />
           </button>
         )}
       </td>
@@ -125,19 +167,19 @@ const ModulesForm = ({ handleLogout }) => {
   );
 
   const handleRowClick = (item) => {
-    console.log('item::: ', item);
+    console.log("item::: ", item);
     setSelectedRow(item);
   };
 
   return (
     <div className="home-container">
-      <Header onLogout={handleLogout} title='Módulos por Contrato' />
+      <Header onLogout={handleLogout} title="Módulos por Contrato" />
       <div className="home-content">
         <Section>
           <div className="button-return-container">
             <FontAwesomeIcon
               className="basic-shortcut-icon"
-              style={{ cursor: 'pointer' }}
+              style={{ cursor: "pointer" }}
               icon={faCircleArrowLeft}
               onClick={handleClick}
             />
@@ -147,16 +189,19 @@ const ModulesForm = ({ handleLogout }) => {
               className="basic-custom-button"
               onClick={(e) => {
                 e.stopPropagation();
-                navigate(`/ModuleContract?numContId=${numContId}`);
+                navigate('/ModuleContract', { state: { modules: modules } });
               }}
             >
-              <FontAwesomeIcon className="basic-shortcut-icon" icon={faClipboard} />
+              <FontAwesomeIcon
+                className="basic-shortcut-icon"
+                icon={faClipboard}
+              />
               Agregar Módulo
             </button>
           </div>
         </Section>
         <Table
-          title='Lista de módulos por contratos'
+          title={`Lista de módulos del contrato (${dataInfo.numCont}) del Cliente (${dataInfo?.razonSocial}) con identificación (${dataInfo?.cif})`}
           rows={paginatedData}
           columns={columns}
           icon={faThLarge}
@@ -167,13 +212,17 @@ const ModulesForm = ({ handleLogout }) => {
           onPageChange={(page) => setCurrentPage(page)}
           onRowClick={handleRowClick}
           selectedRow={selectedRow}
-          onRefresh={handleRefresh} // Pasar la función de actualización al componente Table
+          onRefresh={onRefreshThis}
+          loading={loading}
+          //   onRefresh={handleRefresh} // Pasar la función de actualización al componente Table
         />
         {selectedItem && (
           <ModalStatus
-            message={selectedItem.activo
-              ? 'Módulo Activo. ¿Desea Inactivarlo?'
-              : 'Módulo Inactivo. ¿Desea Activarlo?'}
+            message={
+              selectedItem.activo
+                ? "Módulo Activo. ¿Desea Inactivarlo?"
+                : "Módulo Inactivo. ¿Desea Activarlo?"
+            }
             isVisible={modalVisible}
             onClose={handleCloseModal}
             numContId={selectedItem.numContId}

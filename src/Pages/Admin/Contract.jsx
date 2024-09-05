@@ -15,7 +15,9 @@ const Contract = ({ handleLogout }) => {
   const location = useLocation();
   const [data, setData] = useState([]);
   const [search, setSearch] = useState(''); // Estado definitivo para la búsqueda
-  const [customer, setCustomer] = useState(location.state?.customer || ''); // Estado definitivo para la búsqueda
+  const [customer, setCustomer] = useState(location.state?.customer.code || ''); // Estado definitivo para la búsqueda
+  const [cif, cifCustomer] = useState(location.state?.customer.cif || ''); // Estado definitivo para la búsqueda
+  const [name, nameCustomer] = useState(location.state?.customer.socialReason || location.state?.customer.comercialName || ''); // Estado definitivo para la búsqueda
   const [totalItems, setTotalItems] = useState(0);
   const [tempSearch, setTempSearch] = useState(''); // Temporal para el input de contrato
   const [tempCustomers, setTempCustomers] = useState(''); // Temporal para el input de cliente
@@ -24,6 +26,7 @@ const Contract = ({ handleLogout }) => {
   const [isSuccessVisible, setIsSuccessVisible] = useState(false);
   const [isErrorVisible, setIsErrorVisible] = useState(false);
   const itemsPerPage = 10;
+  const [loading, setLoading] = useState(true);
   // Definición de la función handleRowClick
   const handleRowClick = (item) => {
     setSelectedRow(item);
@@ -32,8 +35,10 @@ const Contract = ({ handleLogout }) => {
 
   // Función de búsqueda
   const handleSearch = useCallback(async (page = 1) => {
+
     try {
       let endPoint = 'contracts';
+      setLoading(true)
       if (customer) {
         endPoint += `?customer=${customer}&page=${page}`;
       } else if (search) {
@@ -47,9 +52,10 @@ const Contract = ({ handleLogout }) => {
       } else {
         setData([response.data.results]);
       }
-      setTotalItems(response.data.total); 
+      setTotalItems(response.data.total);
+      setLoading(false)
     } catch (error) {
-      console.error("Error al obtener los datos del servicio", error);
+      setLoading(false)
     }
   }, [search, customer]);
 
@@ -68,14 +74,16 @@ const Contract = ({ handleLogout }) => {
       setSearch(''); // Limpia contrato si hay algo en cliente
     }
   };
-  
+  const onRefreshThis = () => {
+    handleSearch(1)
+  };
+
   const columns = [
     { title: "Número de contrato", key: "numCont" },
     { title: "Cliente", key: "cliente" },
     { title: "Cédula", key: "cif" },
     { title: "Acciones", key: "acciones" },
   ];
-
 
   const renderRow = (item, index) => (
     <>
@@ -171,7 +179,7 @@ const Contract = ({ handleLogout }) => {
             className="basic-contract-button"
             onClick={(e) => {
               e.stopPropagation();
-              navigate('/ContractNew');
+              navigate('/ContractNew', { state: { contract: data } });
             }}
           >
             <FontAwesomeIcon className="basic-shortcut-icon" icon={faFileCirclePlus} />
@@ -180,7 +188,7 @@ const Contract = ({ handleLogout }) => {
         </div>
       </Section>
       <Table
-            title='Lista de Contratos'
+            title={`Lista de Contratos del Cliente (${name}) con cédula (${cif})`}
             rows={data}
             columns={columns}
             icon={faFileContract}
@@ -190,6 +198,8 @@ const Contract = ({ handleLogout }) => {
             itemsPerPage={itemsPerPage}
             onPageChange={(page) => setCurrentPage(page)}
             selectedRow={selectedRow}
+            onRefresh={onRefreshThis}
+            loading={loading}
           />
       </div>
       <SuccessNotification

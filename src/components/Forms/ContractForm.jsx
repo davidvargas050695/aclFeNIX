@@ -8,14 +8,15 @@ import { faSync, faClose, faPlus , faMinus } from '@fortawesome/free-solid-svg-i
 import apiClient from '../../axios'; // Asegúrate de tener esta importación
 import SuccessNotification from '../../components/Notifications/SuccessNotification';
 import ErrorNotification from '../../components/Notifications/ErrorNotification';
+import Loader from "../Loader";
 
 const ContractForm = ({ selectedRow, closeModal }) => {
   const [selectedDate, setSelectedDate] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [productType, setProductType] = useState([]);
   const [typeContract, setTypeContract] = useState([]);
   const [isSuccessVisible, setIsSuccessVisible] = useState(false);
   const [isErrorVisible, setIsErrorVisible] = useState(false);
-  const [errors, setErrors] = useState({});
   const [formValues, setFormValues] = useState({
     numCont: '',
     numSerie: '',
@@ -118,6 +119,7 @@ useEffect(() => {
     e.preventDefault();
     try {
       // Crear una copia de formValues y eliminar las propiedades cliente y contEmpre
+      setLoading(true);
       const {  numCont,  fechaFin, cliente, reg1, reg2, ...formValuesWithoutClientAndContEmpre } = formValues;
       const formValuesWithProxPago = {
         ...formValuesWithoutClientAndContEmpre,
@@ -131,6 +133,8 @@ useEffect(() => {
     } catch (error) {
       setIsErrorVisible(true);
       console.error('Error al enviar el formulario:', error);
+    } finally {
+      setLoading(false);
     }
 };
 
@@ -398,6 +402,7 @@ useEffect(() => {
                     isVisible={isErrorVisible}
                     onClose={() => setIsErrorVisible(false)}
                 />
+      {loading && <Loader />}
     </div>
   );
 };
