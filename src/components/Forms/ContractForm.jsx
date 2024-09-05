@@ -154,11 +154,14 @@ useEffect(() => {
     }
 };
 
-  useEffect(() => {
-    if (formValues.proxPago) {
-      setSelectedDate(new Date(formValues.proxPago));
-    }
-  }, [formValues.proxPago]);
+useEffect(() => {
+  if (formValues.proxPago && formValues.proxPago !== "0000-00-00 00:00:00") {
+    setSelectedDate(new Date(formValues.proxPago));
+  } else {
+    setSelectedDate(null); // O alguna fecha por defecto, si es necesario
+  }
+}, [formValues.proxPago]);
+
 
   return (
     <div className="basic-info-form-container">

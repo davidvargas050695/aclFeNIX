@@ -75,9 +75,9 @@ const ContractEdition = ({ handleLogout }) => {
 
   const renderRow = (item, index) => (
     <>
-      <td onClick={() => handleRowClick(item)}>{item.numCont}</td>
-      <td onClick={() => handleRowClick(item)}>{item.cliente}</td>
-      <td onClick={() => handleRowClick(item)}>{item.cif}</td>
+      <td onClick={() => handleRowClick(item)}>{item?.numCont}</td>
+      <td onClick={() => handleRowClick(item)}>{item?.cliente}</td>
+      <td onClick={() => handleRowClick(item)}>{item?.cif}</td>
       <td>
         <div className="button-container">
           <Tooltip id="edit-tooltip" className="custom-tooltip" />

@@ -92,7 +92,6 @@ const ModulesForm = ({ handleLogout }) => {
       console.error('Error al actualizar los datos:', error);
     }
   }; */
-
   const columns = [
     { title: "Descripción", key: "descripcion" },
     { title: "Módulo", key: "modulo" },
@@ -110,10 +109,10 @@ const ModulesForm = ({ handleLogout }) => {
 
   const renderRow = (item, index) => (
     <>
-      <td>{item.descripcion}</td>
-      <td>{item.modulo}</td>
-      <td>{item.origen}</td>
-      <td>{item.numContId}</td>
+      <td>{item?.descripcion}</td>
+      <td>{item?.modulo}</td>
+      <td>{item?.origen}</td>
+      <td>{item?.numContId}</td>
       <td>
         {item.activo ? (
           <button
