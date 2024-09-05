@@ -73,25 +73,27 @@ const Customer = ({ handleLogout }) => {
     fetchAllData(currentPage);
   };
 
-  const handleSearch = useCallback(async () => {
+  const handleSearch = useCallback(async (page = 1) => {
     try {
       // Construir la URL con los query params
       const params = new URLSearchParams();
       if (search) params.append('search', search);
 
-      const response = await apiClient.get(`/clients?${params.toString()}`);
+      const response = await apiClient.get(`/clients?${params.toString()}&page=${page}`);
 
-      if (Array.isArray(response.data)) {
-        setData(response.data); // Si es un array, lo dejamos tal cual
+      if (Array.isArray(response.data.results)) {
+        setData(response.data.results); // Si es un array, lo dejamos tal cual
       } else {
-        setData([response.data]); // Si es un objeto, lo encapsulamos en un array
+        setData([response.data.results]); // Si es un objeto, lo encapsulamos en un array
       }
 
     } catch (error) {
       console.error("Error al obtener los datos del servicio", error);
     }
   }, [search]);
-
+  const handleFresh = async (code) => {
+    handleSearch(1)
+  };
   const handleDelete = async (code) => {
     try {
       const url = `/clients/${code}`;
@@ -181,7 +183,7 @@ const Customer = ({ handleLogout }) => {
                placeholder="Cliente"
             />
           </div>
-            <button className="search-button-customer" onClick={handleSearch}>
+            <button className="search-button-customer" onClick={handleFresh}>
               <FontAwesomeIcon icon={faSearch} className="search-icon" />
               Buscar
             </button>

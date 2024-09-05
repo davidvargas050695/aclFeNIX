@@ -27,7 +27,7 @@ const ContractNew = ({ handleLogout }) => {
   const [distributors, setDistributors] = useState([]);
   const [typeProduct, setProduct] = useState([]);
   const [typeContract, setTypeContract] = useState([]);
-  const [fechaFin, setFechaFin] = useState(null);
+  const [proxPago, setProxPago] = useState(null);
   const [codigo, setCodigo] = useState("");
   const [numSerie, setSerie] =  useState(String(location.state?.contract[0].numCont) || '');
   const [cliente, setCliente] =  useState(location.state?.contract[0].cliente || '');
@@ -37,8 +37,8 @@ const ContractNew = ({ handleLogout }) => {
   const [observacion2, setBloqueo] = useState("");
   const [tipocontra, setTipoProducto] = useState("");
   const [tipoContrato, setTipoContrato] = useState("");
-  const [numSer, setNumSer] = useState(0);
-  const [numCli, setNumCli] = useState(0);
+  const [numSer, setNumSer] = useState(1);
+  const [numCli, setNumCli] = useState(1);
   const [aNumSer, setAnumSer] = useState(0);
   const [aNumCli, setAnumCli] = useState(0);
   const [isSuccessVisible, setIsSuccessVisible] = useState(false);
@@ -59,7 +59,7 @@ const ContractNew = ({ handleLogout }) => {
   const handleDateChange = (date) => {
     // Convierte la fecha seleccionada al formato YYYY-MM-DD HH:mm:ss
     const formattedDate = format(date, "yyyy-MM-dd HH:mm:ss");
-    setFechaFin(formattedDate);
+    setProxPago(formattedDate);
   };
   const toggleSwitch = () => {
     setIsCheckObservacion((prev) => !prev);
@@ -187,7 +187,7 @@ const ContractNew = ({ handleLogout }) => {
       numCli,
       aNumSer,
       aNumCli,
-      fechaFin,
+      proxPago,
     };
     const payloadUpdate = {
       distribuidor,
@@ -201,7 +201,7 @@ const ContractNew = ({ handleLogout }) => {
       numCli,
       aNumSer,
       aNumCli,
-      fechaFin,
+      proxPago,
     };
 
     try {
@@ -254,6 +254,20 @@ const ContractNew = ({ handleLogout }) => {
       <div className="moduleNew-form-container">
         <h3 className="basic-info-form-title">Información del Contrato</h3>
         <div className="basic-info-form-grid">
+        <div className="basic-info-form-group">
+            <label style={{ color: errors.servidor ? "red" : "inherit" }}>
+              Servidor
+            </label>
+            <input
+              type="text"
+              placeholder="Servidor"
+              value={servidor}
+              onChange={(e) => setServidor(e.target.value)}
+            />
+            {errors.servidor && (
+              <p className="error-message">{errors.servidor}</p>
+            )}
+          </div>
           <div className="basic-info-form-group">
             <label style={{ color: errors.numSerie ? "red" : "inherit" }}>
               Nro. Identificador
@@ -308,20 +322,6 @@ const ContractNew = ({ handleLogout }) => {
             )}
           </div>
           <div className="basic-info-form-group">
-            <label style={{ color: errors.servidor ? "red" : "inherit" }}>
-              Servidor
-            </label>
-            <input
-              type="text"
-              placeholder="Servidor"
-              value={servidor}
-              onChange={(e) => setServidor(e.target.value)}
-            />
-            {errors.servidor && (
-              <p className="error-message">{errors.servidor}</p>
-            )}
-          </div>
-          <div className="basic-info-form-group">
             <label style={{ color: errors.tipocontra ? "red" : "inherit" }}>
               Producto
             </label>
@@ -341,12 +341,12 @@ const ContractNew = ({ handleLogout }) => {
             )}
           </div>
           <div className="basic-info-form-group">
-            <label style={{ color: errors.fechaFin ? "red" : "inherit" }}>
+            <label style={{ color: errors.proxPago ? "red" : "inherit" }}>
               Cáduca{" "}
             </label>
             <div className="basic-info-date-picker">
               <DatePicker
-                selected={fechaFin ? new Date(fechaFin) : null}
+                selected={proxPago ? new Date(proxPago) : null}
                 onChange={handleDateChange}
                 showTimeSelect
                 locale={es}
@@ -379,8 +379,8 @@ const ContractNew = ({ handleLogout }) => {
                   </div>
                 </div>
               </div>
-              {errors.fechaFin && (
-                <p className="error-message">{errors.fechaFin}</p>
+              {errors.proxPago && (
+                <p className="error-message">{errors.proxPago}</p>
               )}
             </div>
           </div>

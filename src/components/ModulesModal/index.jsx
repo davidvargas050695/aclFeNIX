@@ -83,7 +83,7 @@ const ModulesModal = ({ isVisible, onClose, tipocontra, numContra, channel }) =>
                 user: "RCH", 
                 canal: channel, 
                 num_licencias: moduleData.numLicencias,
-                activo: moduleData.activo === 1, 
+                activo: true, 
                 motivo: "", 
                 is_pay: moduleData.isPay === 1, 
                 max_count: moduleData.maxCount,
