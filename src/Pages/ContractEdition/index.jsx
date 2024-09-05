@@ -22,6 +22,7 @@ const ContractEdition = ({ handleLogout }) => {
   const [isSuccessVisible, setIsSuccessVisible] = useState(false);
   const [isErrorVisible, setIsErrorVisible] = useState(false);
   const itemsPerPage = 10;
+  const [loading, setLoading] = useState(true);
 
   const handleRowClick = (item) => {
     setSelectedRow(item);
@@ -34,6 +35,7 @@ const ContractEdition = ({ handleLogout }) => {
 
   const handleSearch = useCallback(async (page = 1) => {
     try {
+      setLoading(true)
       let endPoint = `contracts/${customer}?skipLogin=true`;
       const response = await apiClient.get(endPoint);
       console.log('response::: ', response);
@@ -42,12 +44,16 @@ const ContractEdition = ({ handleLogout }) => {
       } else {
         setData([response.data]);
       }
-      setTotalItems(response.data.total); 
+      setTotalItems(response.data.total || 1);
+      setLoading(false)
     } catch (error) {
+      setLoading(false)
       console.error("Error al obtener los datos del servicio", error);
     }
   }, [customer]);
-
+  const onRefreshThis = () => {
+    handleSearch(1)
+  };
   useEffect(() => {
     handleSearch(currentPage);
   }, [handleSearch, currentPage]);
@@ -91,7 +97,7 @@ const ContractEdition = ({ handleLogout }) => {
             className="icon-button company-button"
             onClick={(e) => {
               e.stopPropagation();
-              navigate('/ModulesForm', { state: { modules: item.modules } });
+              navigate('/ModulesForm', { state: { modules: item } });
             }}
             data-tooltip-id="contract-tooltip"
             data-tooltip-content="Módulos"
@@ -118,7 +124,7 @@ const ContractEdition = ({ handleLogout }) => {
         </div>
         </Section>
         <Table
-          title='Detalle del Contrato'
+          title={`Detalle del Contrato (${data[0]?.numCont}) del Cliente (${data[0]?.razonSocial}) con identificación (${data[0]?.cif})`}
           rows={data}
           columns={columns}
           icon={faFileContract}
@@ -128,6 +134,8 @@ const ContractEdition = ({ handleLogout }) => {
           itemsPerPage={itemsPerPage}
           onPageChange={(page) => setCurrentPage(page)}
           selectedRow={selectedRow}
+          onRefresh={onRefreshThis}
+            loading={loading}
         />
       </div>
 

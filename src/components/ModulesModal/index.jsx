@@ -45,9 +45,16 @@ const ModulesModal = ({ isVisible, onClose, tipocontra, numContra, channel }) =>
     const handleRefresh = () => {
         fetchAllData();
     };
-     useEffect(() => {
-        fetchAllData();
-    }, []);
+
+    useEffect(() => {
+        if (isVisible) {
+            console.log('El modal se ha abierto, recargando datos...');
+            handleRefresh();
+        }
+    }, [isVisible]); // Incluye handleRefresh como dependencia
+     // Dependencia de isVisible
+    
+    
     const handleCheckboxChange = (moduleCode) => {
         setSelectedModules(prevSelected =>
             prevSelected.includes(moduleCode)
@@ -83,7 +90,6 @@ const ModulesModal = ({ isVisible, onClose, tipocontra, numContra, channel }) =>
             };
         });
         try {
-            console.log(payload);
             const response = await apiClient.post('/modules/bulk', payload);
             if (response.status === 200) {
                 setSuccessVisible(true);
@@ -91,10 +97,6 @@ const ModulesModal = ({ isVisible, onClose, tipocontra, numContra, channel }) =>
         } catch (error) {
             console.error('Error al guardar el modulo', error);
             setIsErrorVisible(true);
-            setSuccessVisible(false);
-            setTimeout(() => {
-                setIsErrorVisible(false);
-            }, 4000);
         }
     };
 

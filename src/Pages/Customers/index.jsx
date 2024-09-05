@@ -146,7 +146,7 @@ const Customer = ({ handleLogout }) => {
             className="icon-button company-button"
             onClick={(e) => {
               e.stopPropagation();
-              navigate('/Contract', { state: { customer: item.code } });
+              navigate('/Contract', { state: { customer: item } });
             }}
             data-tooltip-id="contract-tooltip"
             data-tooltip-content="Contratos"

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useLocation, useNavigate } from "react-router-dom";
 import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 import apiClient from "../../../axios";
 import SuccessProcess from '../SuccessProcess';
@@ -7,7 +8,7 @@ import SuccessProcess from '../SuccessProcess';
 const ModalStatus = ({ message, isVisible, onClose, numContId, modulo, activo }) => {
     const [successVisible, setSuccessVisible] = useState(false);
     const [message2, setMessage2] = useState('');
-  
+    const navigate = useNavigate();
     const handleConfirm = async () => {
       const payloadUpdate = {
         activo: !activo,

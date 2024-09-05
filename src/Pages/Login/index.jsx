@@ -27,6 +27,7 @@ function Login({ onLogin }) {
         // Si la autenticación es exitosa
         onLogin();
         navigate("/HomePage");
+        localStorage.setItem("code", code);
       } else {
         alert("Credenciales inválidas");
       }
