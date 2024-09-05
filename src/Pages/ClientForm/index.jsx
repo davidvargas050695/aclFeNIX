@@ -302,7 +302,7 @@ const ClientForm = ({ handleLogout }) => {
         }, 4000);
       } else {
         response = await apiClient.post("/clients", payload);
-        console.log(payload);
+        navigate("/Customers");
         if (response.data.message === "CLIENT_ARCHIVED") {
           setInfoPayload(payload);
           setIsInfoVisible(true);

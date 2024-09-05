@@ -15,19 +15,21 @@ const ContractForm = ({ selectedRow, closeModal }) => {
   const [loading, setLoading] = useState(false);
   const [productType, setProductType] = useState([]);
   const [typeContract, setTypeContract] = useState([]);
+  const [distributors, setDistributors] = useState([]);
   const [isSuccessVisible, setIsSuccessVisible] = useState(false);
   const [isErrorVisible, setIsErrorVisible] = useState(false);
   const [formValues, setFormValues] = useState({
     numCont: '',
     numSerie: '',
     cliente: '',
-    contEmpre: '',
+    contEmpre: 'a',
     servidor: '',
     observacion: '',
     tipocontra: '',
     tipoContrato: '',
     numSer: 0,
     numCli: 0,
+    distribuidor: '',
     aNumCli: 0,
     nReactiva: 0,
     reactiva: 0,
@@ -79,13 +81,14 @@ useEffect(() => {
         numCont: selectedRow.numCont || '',
         numSerie: selectedRow.numSerie || '',
         cliente: selectedRow.cliente || '',
-        contEmpre: selectedRow.contEmpre || '',
+        contEmpre: selectedRow.contEmpre || 'a',
         servidor: selectedRow.servidor || '',
         observacion: selectedRow.observacion || '',
         tipocontra: selectedRow.tipocontra || '',
         tipoContrato: selectedRow.tipoContrato || '',
         numSer: selectedRow.numSer || 0,
         numCli: selectedRow.numCli || 0,
+        distribuidor: selectedRow.distribuidor || '',
         aNumSer: selectedRow.aNumSer || 0,
         observacion2: selectedRow.observacion2 || '',
         checkobservacion: selectedRow.checkobservacion === 1 ? true : false || false,
@@ -114,6 +117,19 @@ useEffect(() => {
       checkobservacion: !prevValues.checkobservacion
     }));
   };
+
+  useEffect(() => {
+    const fetchDistributors = async () => {
+      try {
+        const response = await apiClient.get("/distributors");
+        setDistributors(response.data);
+      } catch (error) {
+        console.error("Error fetching distributors:", error);
+      }
+    };
+
+    fetchDistributors();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -159,15 +175,6 @@ useEffect(() => {
             />
           </div>
           <div className="basic-info-form-group">
-            <label>Nro de Identificador</label>
-            <input
-              type="text"
-              name="numSerie"
-              value={formValues.numSerie}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="basic-info-form-group">
             <label>Cliente</label>
             <input
               type="text"
@@ -178,11 +185,11 @@ useEffect(() => {
             />
           </div>
           <div className="basic-info-form-group">
-            <label>Sucursal</label>
+            <label>Nro de Identificador</label>
             <input
               type="text"
-              name="contEmpre"
-              value={formValues.contEmpre}
+              name="numSerie"
+              value={formValues.numSerie}
               onChange={handleChange}
             />
           </div>
@@ -194,6 +201,21 @@ useEffect(() => {
               value={formValues.servidor}
               onChange={handleChange}
             />
+          </div>
+          <div className="basic-info-form-group">
+            <label>Distribuidor</label>
+            <select
+              name="distribuidor"
+              value={formValues.distribuidor}
+              onChange={handleChange}
+            >
+              <option value="">Seleccione un Tipo Producto</option>
+              {distributors.map((distributor) => (
+                <option key={distributor.code} value={distributor.code}>
+                  {distributor.code}
+                </option>
+              ))}
+            </select>
           </div>
           <div className="basic-info-form-group">
             <label>Cáduca</label>
