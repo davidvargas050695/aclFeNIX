@@ -29,8 +29,8 @@ const ContractNew = ({ handleLogout }) => {
   const [typeContract, setTypeContract] = useState([]);
   const [proxPago, setProxPago] = useState(null);
   const [codigo, setCodigo] = useState("");
-  const [numSerie, setSerie] =  useState(String(location.state?.contract[0].numCont) || '');
-  const [cliente, setCliente] =  useState(location.state?.contract[0].cliente || '');
+  const [numSerie, setSerie] =  useState(location.state?.contract[0] ? String(location.state?.contract[0]?.numCont) : '' || '');
+  const [cliente, setCliente] =  useState(location.state?.contract[0] ?  location.state?.contract[0].cliente : '' || '');
   const [distribuidor, setSucursal] = useState("");
   const [observacion, setObservacion] = useState("");
   const [servidor, setServidor] = useState("");
@@ -212,7 +212,7 @@ const ContractNew = ({ handleLogout }) => {
         // Modo creación: usar POST
         console.log(payload);
         const response = await apiClient.post("/contracts", payload);
-        const newContractNumber = response.data.numCont;
+        const newContractNumber = response.data?.numCont;
         setContractNumber(newContractNumber);
         setIsSuccessVisible(true);
         setModuleData(tipocontra);
