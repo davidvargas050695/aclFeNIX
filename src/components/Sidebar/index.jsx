@@ -35,7 +35,7 @@ const Sidebar = () => {
               </div>
             </Link>
           </li>
-          <li 
+      {/*    <li 
             className="menu-item"
             onMouseEnter={() => handleMouseEnter('Módulos')}
             onMouseLeave={handleMouseLeave}
@@ -57,6 +57,18 @@ const Sidebar = () => {
                 </li>
               </ul>
             )}
+          </li> */}
+            <li>
+            <Link to="/Module" className="menu-item">
+              <div 
+                className="icon-container"
+              >
+                <FontAwesomeIcon icon={faCubes} className="icon" />
+              </div>
+              <div className="menu-text-arrow">
+                <span className="menu-text">Módulos</span>
+              </div>
+            </Link>
           </li>
           <li>
             <Link to="/Customers" className="menu-item">
