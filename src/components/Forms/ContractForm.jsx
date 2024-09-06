@@ -175,6 +175,7 @@ useEffect(() => {
               name="numCont"
               value={formValues.numCont}
               onChange={handleChange}
+              readOnly
             />
           </div>
           <div className="basic-info-form-group">

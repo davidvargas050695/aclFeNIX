@@ -392,6 +392,7 @@ const ClientForm = ({ handleLogout }) => {
               value={cif}
               onChange={handleCifChange}
               onKeyDown={handleDocumentSearch}
+              readOnly={!!customerCode}
             />
             {errors.cif && <p className="error-message">{errors.cif}</p>}
           </div>
