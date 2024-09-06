@@ -30,7 +30,8 @@ const ContractNew = ({ handleLogout }) => {
   const [proxPago, setProxPago] = useState(null);
   const [codigo, setCodigo] = useState("");
   const [numSerie, setSerie] =  useState(location.state?.contract[0] ? String(location.state?.contract[0]?.numCont) : '' || '');
-  const [cliente, setCliente] =  useState(location.state?.contract[0] ?  location.state?.contract[0].cliente : '' || '');
+  const [cliente, setCliente] =  useState(location.state?.contract[0] ?  location.state?.contract[0].cliente : location.state?.cif || '');
+  console.log('cliente::: ', cliente);
   const [distribuidor, setSucursal] = useState("");
   const [observacion, setObservacion] = useState("");
   const [servidor, setServidor] = useState("");
@@ -290,8 +291,9 @@ const ContractNew = ({ handleLogout }) => {
               type="text"
               placeholder="Cliente"
               value={cliente}
-              onClick={openModal} // Usa la función modificada
-              onChange={(e) => setCliente(e.target.value)}
+              readOnly // Hace el campo solo de lectura
+              // onClick={openModal} // Usa la función modificada
+              //onChange={(e) => setCliente(e.target.value)}
             />
             <CustomerModal
               isOpen={isModalOpen}
@@ -338,6 +340,25 @@ const ContractNew = ({ handleLogout }) => {
             </select>
             {errors.tipocontra && (
               <p className="error-message">{errors.tipocontra}</p>
+            )}
+          </div>
+          <div className="basic-info-form-group">
+            <label style={{ color: errors.tipoContrato ? "red" : "inherit" }}>
+              Tipo Contrato
+            </label>
+            <select
+              value={tipoContrato}
+              onChange={(e) => setTipoContrato(e.target.value)}
+            >
+              <option value="">Seleccione un Tipo Contrato</option>
+              {typeContract.map((contarct) => (
+                <option key={contarct.code} value={contarct.code}>
+                  {contarct.code}
+                </option>
+              ))}
+            </select>
+            {errors.tipoContrato && (
+              <p className="error-message">{errors.tipoContrato}</p>
             )}
           </div>
           <div className="basic-info-form-group">
@@ -413,25 +434,6 @@ const ContractNew = ({ handleLogout }) => {
           )}
 
           {/* Otros elementos del componente */}
-          <div className="basic-info-form-group">
-            <label style={{ color: errors.tipoContrato ? "red" : "inherit" }}>
-              Tipo Contrato
-            </label>
-            <select
-              value={tipoContrato}
-              onChange={(e) => setTipoContrato(e.target.value)}
-            >
-              <option value="">Seleccione un Tipo Contrato</option>
-              {typeContract.map((contarct) => (
-                <option key={contarct.code} value={contarct.code}>
-                  {contarct.code}
-                </option>
-              ))}
-            </select>
-            {errors.tipoContrato && (
-              <p className="error-message">{errors.tipoContrato}</p>
-            )}
-          </div>
         </div>
         <hr className="divider" />
         <h3 className="basic-info-form-title">Número de Licencias</h3>

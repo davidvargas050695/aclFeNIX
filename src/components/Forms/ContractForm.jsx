@@ -255,6 +255,21 @@ useEffect(() => {
             </select>
           </div>
           <div className="basic-info-form-group">
+            <label>Tipo de Contrato</label>
+            <select
+              name="tipoContrato"
+              value={formValues.tipoContrato}
+              onChange={handleChange}
+            >
+              <option value="">Seleccione un Tipo Contrato</option>
+              {typeContract.map((contract) => (
+                <option key={contract.code} value={contract.code}>
+                  {contract.code}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="basic-info-form-group">
             <label>Observación</label>
             <input
               type="text"
@@ -286,21 +301,6 @@ useEffect(() => {
               />
             </div>
           )}
-            <div className="basic-info-form-group">
-            <label>Tipo de Contrato</label>
-            <select
-              name="tipoContrato"
-              value={formValues.tipoContrato}
-              onChange={handleChange}
-            >
-              <option value="">Seleccione un Tipo Contrato</option>
-              {typeContract.map((contract) => (
-                <option key={contract.code} value={contract.code}>
-                  {contract.code}
-                </option>
-              ))}
-            </select>
-          </div>
         </div>
         <hr className="divider" />
         <h3 className="basic-info-form-title">Número de Licencias</h3>

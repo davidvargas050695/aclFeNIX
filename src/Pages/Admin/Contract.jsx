@@ -179,7 +179,7 @@ const Contract = ({ handleLogout }) => {
             className="basic-contract-button"
             onClick={(e) => {
               e.stopPropagation();
-              navigate('/ContractNew', { state: { contract: data } });
+              navigate('/ContractNew', { state: { contract: data, cif: cif } });
             }}
           >
             <FontAwesomeIcon className="basic-shortcut-icon" icon={faFileCirclePlus} />
