@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Header, Table, ContractForm } from '../../components';
 import Section from '../../components/Section';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBuilding, faEdit, faFileContract, faCircleArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faBuilding,faEye, faEdit, faFileContract, faCircleArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import apiClient from "../../axios";
 import { Tooltip } from "react-tooltip";
 import ErrorNotification from '../../components/Notifications/ErrorNotification';
@@ -21,11 +21,18 @@ const ContractEdition = ({ handleLogout }) => {
   const navigate = useNavigate();
   const [isSuccessVisible, setIsSuccessVisible] = useState(false);
   const [isErrorVisible, setIsErrorVisible] = useState(false);
+  const [isEdit, setIsEdit] = useState(true);
   const itemsPerPage = 10;
   const [loading, setLoading] = useState(true);
 
   const handleRowClick = (item) => {
     setSelectedRow(item);
+    setIsModalVisible(true); // Mostrar el modal cuando se selecciona una fila
+  };
+
+  const handleRowVisualityClick = (item) => {
+    setSelectedRow(item);
+    setIsEdit(false);
     setIsModalVisible(true); // Mostrar el modal cuando se selecciona una fila
   };
 
@@ -104,6 +111,18 @@ const ContractEdition = ({ handleLogout }) => {
           >
             <FontAwesomeIcon icon={faBuilding} />
           </button>
+          <Tooltip id="edit-tooltip" className="custom-tooltip" />
+          <button
+            data-tooltip-id="edit-tooltip"
+            className="icon-button edit-button"
+            data-tooltip-content="Detalles"
+            onClick={(e) => {
+              e.stopPropagation(); // Evita que el clic en el botón se propague al td
+              handleRowVisualityClick(item)
+            }}
+          >
+            <FontAwesomeIcon icon={faEye} />
+          </button>
         </div>
       </td>
     </>
@@ -143,7 +162,7 @@ const ContractEdition = ({ handleLogout }) => {
       {isModalVisible && (
         <div className="modal-overlay-edit">
           <div className="modal-content-edit">
-          <ContractForm selectedRow={selectedRow} closeModal={handleModalClose} />
+          <ContractForm selectedRow={selectedRow} isEdit={isEdit} closeModal={handleModalClose} />
           </div>
         </div>
       )}

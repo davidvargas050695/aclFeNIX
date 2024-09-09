@@ -4,13 +4,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DatePicker from 'react-datepicker';
 import { es } from 'date-fns/locale';
 import 'react-datepicker/dist/react-datepicker.css';
-import { faSync, faClose, faPlus , faMinus } from '@fortawesome/free-solid-svg-icons';
-import apiClient from '../../axios'; // Asegúrate de tener esta importación
+import { faSync, faClose, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
+import apiClient from '../../axios';
 import SuccessNotification from '../../components/Notifications/SuccessNotification';
 import ErrorNotification from '../../components/Notifications/ErrorNotification';
 import Loader from "../Loader";
 
-const ContractForm = ({ selectedRow, closeModal }) => {
+const ContractForm = ({ selectedRow, closeModal, isEdit }) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [loading, setLoading] = useState(false);
   const [productType, setProductType] = useState([]);
@@ -58,9 +58,9 @@ const ContractForm = ({ selectedRow, closeModal }) => {
     };
 
     fetchProducts();
-}, []);
+  }, []);
 
-useEffect(() => {
+  useEffect(() => {
     const fetchTipoContra = async () => {
         try {
             const response = await apiClient.get('/contract_type');
@@ -73,7 +73,7 @@ useEffect(() => {
     };
 
     fetchTipoContra();
-}, []);
+  }, []);
 
   useEffect(() => {
     if (selectedRow) {
@@ -95,7 +95,7 @@ useEffect(() => {
         nNumSer: selectedRow.nNumSer || 0,
         nNumCli: selectedRow.nNumCli || 0,
         reg1: selectedRow.reg1 || 0,
-        reg2:  selectedRow.reg2 || 0,
+        reg2: selectedRow.reg2 || 0,
         solicitado: selectedRow.solicitado || 1,
         aNumCli: selectedRow.aNumCli || 0,
         reactiva: selectedRow.reactiva || 0,
@@ -134,34 +134,30 @@ useEffect(() => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Crear una copia de formValues y eliminar las propiedades cliente y contEmpre
       setLoading(true);
       const {  numCont,  fechaFin, cliente, reg1, reg2, ...formValuesWithoutClientAndContEmpre } = formValues;
       const formValuesWithProxPago = {
         ...formValuesWithoutClientAndContEmpre,
-        proxPago: new Date(formValues.proxPago).toISOString(), // Asignamos fechaFin a proxPago
+        proxPago: new Date(formValues.proxPago).toISOString(),
       };
-      // Enviar la copia modificada de formValues al servidor
-      const response = await apiClient.patch( `contracts/${numCont}`, formValuesWithProxPago);
+      const response = await apiClient.patch(`contracts/${numCont}`, formValuesWithProxPago);
       setIsSuccessVisible(true);
-      closeModal()
-      // Aquí puedes manejar lo que ocurre después de la actualización
+      closeModal();
     } catch (error) {
       setIsErrorVisible(true);
       console.error('Error al enviar el formulario:', error);
     } finally {
       setLoading(false);
     }
-};
+  };
 
-useEffect(() => {
-  if (formValues.proxPago && formValues.proxPago !== "0000-00-00 00:00:00") {
-    setSelectedDate(new Date(formValues.proxPago));
-  } else {
-    setSelectedDate(null); // O alguna fecha por defecto, si es necesario
-  }
-}, [formValues.proxPago]);
-
+  useEffect(() => {
+    if (formValues.proxPago && formValues.proxPago !== "0000-00-00 00:00:00") {
+      setSelectedDate(new Date(formValues.proxPago));
+    } else {
+      setSelectedDate(null);
+    }
+  }, [formValues.proxPago]);
 
   return (
     <div className="basic-info-form-container">
@@ -175,7 +171,7 @@ useEffect(() => {
               name="numCont"
               value={formValues.numCont}
               onChange={handleChange}
-              readOnly
+              readOnly  // Solo editable si isEdit es true
             />
           </div>
           <div className="basic-info-form-group">
@@ -185,7 +181,7 @@ useEffect(() => {
               name="cliente"
               value={formValues.cliente}
               onChange={handleChange}
-              readOnly
+              readOnly  // Siempre en modo de solo lectura
             />
           </div>
           <div className="basic-info-form-group">
@@ -195,6 +191,7 @@ useEffect(() => {
               name="numSerie"
               value={formValues.numSerie}
               onChange={handleChange}
+              readOnly={!isEdit}  // Solo editable si isEdit es true
             />
           </div>
           <div className="basic-info-form-group">
@@ -204,6 +201,7 @@ useEffect(() => {
               name="servidor"
               value={formValues.servidor}
               onChange={handleChange}
+              readOnly={!isEdit}  // Solo editable si isEdit es true
             />
           </div>
           <div className="basic-info-form-group">
@@ -212,6 +210,7 @@ useEffect(() => {
               name="distribuidor"
               value={formValues.distribuidor}
               onChange={handleChange}
+              disabled={!isEdit}  // Deshabilitado si isEdit es false
             >
               <option value="">Seleccione un Tipo Producto</option>
               {distributors.map((distributor) => (
@@ -234,42 +233,47 @@ useEffect(() => {
                   }));
                 }}
                 locale={es}
-                      dateFormat="MMMM d, yyyy"
+                dateFormat="MMMM d, yyyy"
                 placeholderText="Selecciona la Fecha"
                 className="custom-date-picker"
+                disabled={!isEdit}  // Deshabilitado si isEdit es false
               />
             </div>
           </div>
-           <div className="basic-info-form-group">
-            <label>Producto</label>
-            <select
-              name="tipocontra"
-              value={formValues.tipocontra}
-              onChange={handleChange}
-            >
-              <option value="">Seleccione un Tipo Producto</option>
-              {productType.map((product) => (
-                <option key={product.code} value={product.code}>
-                  {product.code}
-                </option>
-              ))}
-            </select>
-          </div>
           <div className="basic-info-form-group">
-            <label>Tipo de Contrato</label>
-            <select
-              name="tipoContrato"
-              value={formValues.tipoContrato}
-              onChange={handleChange}
-            >
-              <option value="">Seleccione un Tipo Contrato</option>
-              {typeContract.map((contract) => (
-                <option key={contract.code} value={contract.code}>
-                  {contract.code}
-                </option>
-              ))}
-            </select>
-          </div>
+  <label>Producto</label>
+  <select
+    name="tipocontra"
+    value={formValues.tipocontra}
+    onChange={handleChange}
+    disabled={!isEdit}  // Deshabilitado si isEdit es false
+  >
+    <option value="">Seleccione un Tipo Producto</option>
+    {productType.map((product) => (
+      <option key={product.code} value={product.code}>
+        {product.description}  {/* Mostrar la descripción */}
+      </option>
+    ))}
+  </select>
+</div>
+
+<div className="basic-info-form-group">
+  <label>Tipo de Contrato</label>
+  <select
+    name="tipoContrato"
+    value={formValues.tipoContrato}
+    onChange={handleChange}
+    disabled={!isEdit}  // Deshabilitado si isEdit es false
+  >
+    <option value="">Seleccione un Tipo Contrato</option>
+    {typeContract.map((contract) => (
+      <option key={contract.code} value={contract.code}>
+        {contract.description}  {/* Mostrar la descripción */}
+      </option>
+    ))}
+  </select>
+</div>
+
           <div className="basic-info-form-group">
             <label>Observación</label>
             <input
@@ -277,10 +281,11 @@ useEffect(() => {
               name="observacion"
               value={formValues.observacion}
               onChange={handleChange}
+              readOnly={!isEdit}  // Solo editable si isEdit es true
             />
           </div>
           <div className="basic-info-form-switch">
-          <label>Estado</label>
+            <label>Estado</label>
             <div className="slider-container-contract" onClick={toggleSwitch}>
               <div className={`slider-option-contract ${formValues.checkobservacion ? 'active-contract' : 'inactive-contract'}`}>
                 Bloqueado
@@ -299,6 +304,7 @@ useEffect(() => {
                 placeholder="Comentario"
                 value={formValues.observacion2}
                 onChange={handleChange}
+                readOnly={!isEdit}  // Solo editable si isEdit es true
               />
             </div>
           )}
@@ -306,128 +312,109 @@ useEffect(() => {
         <hr className="divider" />
         <h3 className="basic-info-form-title">Número de Licencias</h3>
         <div className="basic-info-form-grid1">
-        <div className="basic-info-form-group3">
-  <label>Módulo Comercial</label>
-  <div className="counter-group">
-    <div className="counter">
-      <p className="basic-subtittle">Servidores</p>
-      <div className="counter-controls">
-        <button
-          type="button"
-            className="icon-button-desc-asc"
-          onClick={() =>
-            setFormValues((prevValues) => ({
-              ...prevValues,
-              numSer: prevValues.numSer > 0 ? prevValues.numSer - 1 : 0,
-            }))
-          }
-        >
-          <FontAwesomeIcon icon={faMinus} />
-        </button>
-        <input
-          type="text"
-          name="numSer"
-          value={formValues.numSer}
-          onChange={handleChange}
-        />
-        <button
-          type="button"
-           className="icon-button-desc-asc"
-          onClick={() =>
-            setFormValues((prevValues) => ({
-              ...prevValues,
-              numSer: prevValues.numSer + 1,
-            }))
-          }
-        >
-                    <FontAwesomeIcon icon={faPlus} />
-        </button>
-      </div>
-    </div>
-    <div className="counter">
-      <p className="basic-subtittle">Clientes</p>
-      <div className="counter-controls">
-        <button
-          type="button"
-          className="icon-button-desc-asc"
-          onClick={() =>
-            setFormValues((prevValues) => ({
-              ...prevValues,
-              numCli: prevValues.numCli > 0 ? prevValues.numCli - 1 : 0,
-            }))
-          }
-        >
-                    <FontAwesomeIcon icon={faMinus} />
-        </button>
-        <input
-          type="text"
-          name="numCli"
-          value={formValues.numCli}
-          onChange={handleChange}
-        />
-        <button
-          type="button"
-            className="icon-button-desc-asc"
-          onClick={() =>
-            setFormValues((prevValues) => ({
-              ...prevValues,
-              numCli: prevValues.numCli + 1,
-            }))
-          }
-        >
-                    <FontAwesomeIcon icon={faPlus} />
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-          {/*
           <div className="basic-info-form-group3">
-            <label>Módulo de Activos</label>
+            <label>Módulo Comercial</label>
             <div className="counter-group">
               <div className="counter">
                 <p className="basic-subtittle">Servidores</p>
-                <input
-                  type="text"
-                  name="aNumSer"
-                  value={formValues.aNumSer}
-                  onChange={handleChange}
-                />
+                <div className="counter-controls">
+                  <button
+                    type="button"
+                    className="icon-button-desc-asc"
+                    onClick={() =>
+                      setFormValues((prevValues) => ({
+                        ...prevValues,
+                        numSer: prevValues.numSer > 0 ? prevValues.numSer - 1 : 0,
+                      }))
+                    }
+                    disabled={!isEdit}  // Deshabilitado si isEdit es false
+                  >
+                    <FontAwesomeIcon icon={faMinus} />
+                  </button>
+                  <input
+                    type="text"
+                    name="numSer"
+                    value={formValues.numSer}
+                    onChange={handleChange}
+                    readOnly={!isEdit}  // Solo editable si isEdit es true
+                  />
+                  <button
+                    type="button"
+                    className="icon-button-desc-asc"
+                    onClick={() =>
+                      setFormValues((prevValues) => ({
+                        ...prevValues,
+                        numSer: prevValues.numSer + 1,
+                      }))
+                    }
+                    disabled={!isEdit}  // Deshabilitado si isEdit es false
+                  >
+                    <FontAwesomeIcon icon={faPlus} />
+                  </button>
+                </div>
               </div>
               <div className="counter">
                 <p className="basic-subtittle">Clientes</p>
-                <input
-                  type="text"
-                  name="aNumCli"
-                  value={formValues.aNumCli}
-                  onChange={handleChange}
-                />
+                <div className="counter-controls">
+                  <button
+                    type="button"
+                    className="icon-button-desc-asc"
+                    onClick={() =>
+                      setFormValues((prevValues) => ({
+                        ...prevValues,
+                        numCli: prevValues.numCli > 0 ? prevValues.numCli - 1 : 0,
+                      }))
+                    }
+                    disabled={!isEdit}  // Deshabilitado si isEdit es false
+                  >
+                    <FontAwesomeIcon icon={faMinus} />
+                  </button>
+                  <input
+                    type="text"
+                    name="numCli"
+                    value={formValues.numCli}
+                    onChange={handleChange}
+                    readOnly={!isEdit}  // Solo editable si isEdit es true
+                  />
+                  <button
+                    type="button"
+                    className="icon-button-desc-asc"
+                    onClick={() =>
+                      setFormValues((prevValues) => ({
+                        ...prevValues,
+                        numCli: prevValues.numCli + 1,
+                      }))
+                    }
+                    disabled={!isEdit}  // Deshabilitado si isEdit es false
+                  >
+                    <FontAwesomeIcon icon={faPlus} />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-          */}
         </div>
         <div className="basic-form-footer">
-        <button type="submit" className="basic-custom-button" onClick={closeModal}>
+          <button type="submit" className="basic-custom-button" onClick={closeModal}>
             <FontAwesomeIcon icon={faClose} className="basic-shortcut-icon" />Cerrar
           </button>
-          <button type="submit" className="basic-custom-button">
-            <FontAwesomeIcon icon={faSync} className="basic-shortcut-icon" />Actualizar
-          </button>
+          {isEdit && (
+            <button type="submit" className="basic-custom-button">
+              <FontAwesomeIcon icon={faSync} className="basic-shortcut-icon" />Actualizar
+            </button>
+          )}
         </div>
       </form>
       <SuccessNotification
-                    message={"Se ha cargado correctamente"}
-                    isVisible={isSuccessVisible}
-                    onClose={() => setIsSuccessVisible(false)}
-                />
-                <ErrorNotification
-                    message="Ups! Ocurrio un Problema"
-                    isVisible={isErrorVisible}
-                    onClose={() => setIsErrorVisible(false)}
-                />
+        message={"Se ha cargado correctamente"}
+        isVisible={isSuccessVisible}
+        onClose={() => setIsSuccessVisible(false)}
+      />
+      <ErrorNotification
+        message="Ups! Ocurrió un Problema"
+        isVisible={isErrorVisible}
+        onClose={() => setIsErrorVisible(false)}
+      />
       {loading && <Loader />}
     </div>
   );

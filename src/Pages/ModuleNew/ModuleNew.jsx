@@ -115,8 +115,8 @@ const ModuleNew = ({ handleLogout }) => {
               onChange={(e) => setOrigen(e.target.value)}
             >
               <option value="">Seleccione una opción</option>
-              <option value="WinDev">WD</option>
-              <option value="VFoxPro">VFP</option>
+              <option value="WinDev">WinDev</option>
+              <option value="VFoxPro">VFoxPro</option>
             </select>
           </div>
           <div className="basic-info-form-group">

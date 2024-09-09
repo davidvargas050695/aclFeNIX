@@ -28,7 +28,7 @@ const ModuleContract = ({ handleLogout }) => {
   const [numContId, setContId] =  useState(
     moduleId ? '' : location.state?.modules?.numCont || "");
   const [modulo, setCodigo] = useState("");
-  const [numLicencias, setNumLicencias] = useState("");
+  const [numLicencias, setNumLicencias] = useState(1);
   const [origen, setOrigen] = useState("");
   const [canal, setCanal] = useState("");
   const [fechaFin, setFechaFin] = useState(null);
@@ -108,7 +108,7 @@ const ModuleContract = ({ handleLogout }) => {
           setCanal(response.data.canal);
           setFechaFin(fechaFin);
           setSelectedDate(fechaFin);
-          setIsActive(response.data.activo === 1);
+          setIsActive(response.data.activo === 1 ? true : false);
           setMotivo(response.data.motivo);
           setIsPay(response.data.isPay === 1 ? "Pagado" : "Gratis");
           setMaxCount(response.data.maxCount);
@@ -142,10 +142,11 @@ const ModuleContract = ({ handleLogout }) => {
       is_pay: isPay === "Pagado" ? true : false,
       max_count: maxCount,
     };
+    console.log('activo::: ', activo);
     const payloadUpdate = {
       isPay: isPay === "Pagado" ? true : false,
       maxCount: maxCount,
-      activo: activo === "Activo" ? true : false,
+      activo: activo === false ? false : true,
       motivo,
       fechaFin,
       numLicencias: numLicencias,
@@ -210,7 +211,7 @@ const ModuleContract = ({ handleLogout }) => {
               onChange={handleModuleChange}
               options={data.map((module) => ({
                 value: module.codigo,
-                label: module.codigo,
+                label: module.descripcion,
               }))}
               placeholder="Seleccione un módulo"
               isClearable // Permite limpiar la selección
@@ -236,6 +237,16 @@ const ModuleContract = ({ handleLogout }) => {
                   fontFamily: "Poppins, sans-serif", // Cambiar la fuente del valor seleccionado
                   fontSize: "12px", // Cambiar el tamaño de la fuente del valor seleccionado
                 }),
+                menu: (provided) => ({
+                  ...provided,
+                  textAlign: "left", // Alinear el menú a la izquierda
+                }),
+                option: (provided, state) => ({
+                  ...provided,
+                  textAlign: "left", // Alinear las opciones a la izquierda
+                  backgroundColor: state.isSelected ? '#e0e0e0' : 'white', // Color de fondo si está seleccionada
+                  color: state.isSelected ? 'black' : 'black', // Color del texto
+                }),
               }}
             />
           </div>
@@ -251,12 +262,14 @@ const ModuleContract = ({ handleLogout }) => {
           </div>
           <div className="basic-info-form-group">
             <label>Origen</label>
-            <input
-              type="text"
-              placeholder="Origen"
+            <select
               value={origen}
               onChange={(e) => setOrigen(e.target.value)}
-            />
+            >
+              <option value="">Seleccione una opción</option>
+              <option value="WinDev">WinDev</option>
+              <option value="VFoxPro">VFoxPro</option>
+            </select>
           </div>
         </div>
         <div className="basic-info-form-grid-three">
@@ -297,10 +310,15 @@ const ModuleContract = ({ handleLogout }) => {
                   fontFamily: "Poppins, sans-serif", // Cambiar la fuente del placeholder
                   fontSize: "12px", // Cambiar el tamaño de la fuente del placeholder
                 }),
-                singleValue: (provided) => ({
+                menu: (provided) => ({
                   ...provided,
-                  fontFamily: "Poppins, sans-serif", // Cambiar la fuente del valor seleccionado
-                  fontSize: "12px", // Cambiar el tamaño de la fuente del valor seleccionado
+                  textAlign: "left", // Alinear el menú a la izquierda
+                }),
+                option: (provided, state) => ({
+                  ...provided,
+                  textAlign: "left", // Alinear las opciones a la izquierda
+                  backgroundColor: state.isSelected ? '#e0e0e0' : 'white', // Color de fondo si está seleccionada
+                  color: state.isSelected ? 'black' : 'black', // Color del texto
                 }),
               }}
             />
