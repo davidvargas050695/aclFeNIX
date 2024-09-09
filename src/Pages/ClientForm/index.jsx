@@ -206,23 +206,24 @@ const ClientForm = ({ handleLogout }) => {
   }, []);
 
   const validateEmail = (email) => {
+    // Expresión regular para validar el formato de email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email) && email.endsWith(".com");
+    return emailRegex.test(email); // Solo valida el formato del correo
   };
-
+  
   const handleChange = (e) => {
     const value = e.target.value;
     setEmail(value);
-
+  
     // Validar el email
     if (!validateEmail(value)) {
       setErrors({
-        email: 'Email inválido. Debe contener "@" y terminar en ".com"',
+        email: 'Email inválido. Debe contener "@" y un dominio válido.',
       });
     } else {
       setErrors({});
     }
-  };
+  };  
   const validateFields = () => {
     let validationErrors = {};
     if (!codcli) validationErrors.codcli = "El Campo es Obligatorio";
@@ -377,7 +378,7 @@ const ClientForm = ({ handleLogout }) => {
               placeholder="Código"
               value={codcli}
               onChange={(e) => setCodigo(e.target.value)}
-              readOnly={!!customerCode} // Si customerCode existe, el campo será read-only
+              readOnly// Si customerCode existe, el campo será read-only
             />
 
             {errors.codcli && <p className="error-message">{errors.codcli}</p>}

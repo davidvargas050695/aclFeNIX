@@ -324,43 +324,45 @@ const ContractNew = ({ handleLogout }) => {
             )}
           </div>
           <div className="basic-info-form-group">
-            <label style={{ color: errors.tipocontra ? "red" : "inherit" }}>
-              Producto
-            </label>
-            <select
-              value={tipocontra}
-              onChange={(e) => setTipoProducto(e.target.value)}
-            >
-              <option value="">Seleccione un Tipo Producto</option>
-              {typeProduct.map((product) => (
-                <option key={product.code} value={product.code}>
-                  {product.code}
-                </option>
-              ))}
-            </select>
-            {errors.tipocontra && (
-              <p className="error-message">{errors.tipocontra}</p>
-            )}
-          </div>
-          <div className="basic-info-form-group">
-            <label style={{ color: errors.tipoContrato ? "red" : "inherit" }}>
-              Tipo Contrato
-            </label>
-            <select
-              value={tipoContrato}
-              onChange={(e) => setTipoContrato(e.target.value)}
-            >
-              <option value="">Seleccione un Tipo Contrato</option>
-              {typeContract.map((contarct) => (
-                <option key={contarct.code} value={contarct.code}>
-                  {contarct.code}
-                </option>
-              ))}
-            </select>
-            {errors.tipoContrato && (
-              <p className="error-message">{errors.tipoContrato}</p>
-            )}
-          </div>
+  <label style={{ color: errors.tipocontra ? "red" : "inherit" }}>
+    Producto
+  </label>
+  <select
+    value={tipocontra}
+    onChange={(e) => setTipoProducto(e.target.value)}
+  >
+    <option value="">Seleccione un Tipo Producto</option>
+    {typeProduct.map((product) => (
+      <option key={product.code} value={product.code}>
+        {product.description} {/* Mostrar la descripción */}
+      </option>
+    ))}
+  </select>
+  {errors.tipocontra && (
+    <p className="error-message">{errors.tipocontra}</p>
+  )}
+</div>
+
+<div className="basic-info-form-group">
+  <label style={{ color: errors.tipoContrato ? "red" : "inherit" }}>
+    Tipo Contrato
+  </label>
+  <select
+    value={tipoContrato}
+    onChange={(e) => setTipoContrato(e.target.value)}
+  >
+    <option value="">Seleccione un Tipo Contrato</option>
+    {typeContract.map((contract) => (
+      <option key={contract.code} value={contract.code}>
+        {contract.description} {/* Mostrar la descripción */}
+      </option>
+    ))}
+  </select>
+  {errors.tipoContrato && (
+    <p className="error-message">{errors.tipoContrato}</p>
+  )}
+</div>
+
           <div className="basic-info-form-group">
             <label style={{ color: errors.proxPago ? "red" : "inherit" }}>
               Cáduca{" "}
